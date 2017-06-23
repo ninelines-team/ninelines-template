@@ -1,0 +1,34 @@
+$sprites: (
+{{#retina_groups}}
+	"{{name}}": (
+		{{#with normal}}
+		normal: (
+			x: {{x}},
+			y: {{y}},
+			width: {{width}},
+			height: {{height}},
+			image: "{{escaped_image}}",
+			total_width: {{total_width}},
+			total_height: {{total_height}},
+		),
+		{{/with}}
+		{{#with retina}}
+		retina: (
+			x: {{x}},
+			y: {{y}},
+			width: {{width}},
+			height: {{height}},
+			image: "{{escaped_image}}",
+			total_width: {{total_width}},
+			total_height: {{total_height}},
+		),
+		{{/with}}
+	),
+{{/retina_groups}}
+);
+
+@each $name in map-keys($sprites) {
+	.sprite-#{$name} {
+		@include sprite($name);
+	}
+}

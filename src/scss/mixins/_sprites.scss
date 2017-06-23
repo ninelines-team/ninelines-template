@@ -1,0 +1,37 @@
+@mixin sprite-width($name, $size: normal) {
+	width: sprite-width($name, $size) * 1px;
+}
+
+@mixin sprite-height($name, $size: normal) {
+	height: sprite-height($name, $size) * 1px;
+}
+
+@mixin sprite-background-image($name, $size: normal) {
+	background-image: url("../images/#{sprite-image($name, $size)}");
+}
+
+@mixin sprite-background-position($name, $size: normal) {
+	background-position: (sprite-x($name, $size) * -1px) (sprite-y($name, $size) * -1px);
+}
+
+@mixin sprite-background-size($name, $size: normal) {
+	background-size: (sprite-total-width($name, $size) * 1px) (sprite-total-height($name, $size) * 1px);
+}
+
+@mixin sprite-background($name, $size: normal) {
+	$image: url("../images/#{sprite-image($name, $size)}");
+	$position: (sprite-x($name, $size) * -1px) (sprite-y($name, $size) * -1px);
+	$size: (sprite-total-width($name, $size) * 1px) (sprite-total-height($name, $size) * 1px);
+
+	background: $image $position / $size no-repeat;
+}
+
+@mixin sprite($name) {
+	@include sprite-width($name, normal);
+	@include sprite-height($name, normal);
+	@include sprite-background($name, normal);
+
+	@include retina {
+		@include sprite-background-image($name, retina);
+	}
+}

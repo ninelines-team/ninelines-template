@@ -1,0 +1,31 @@
+@function sprite($name, $size: normal) {
+	@return map-get(map-get($sprites, $name), $size);
+}
+
+@function sprite-width($name, $size: normal) {
+	@return map-get(sprite($name, $size), "width");
+}
+
+@function sprite-height($name, $size: normal) {
+	@return map-get(sprite($name, $size), "height");
+}
+
+@function sprite-image($name, $size: normal) {
+	@return map-get(sprite($name, $size), "image");
+}
+
+@function sprite-x($name, $size: normal) {
+	@return map-get(sprite($name, $size), "x");
+}
+
+@function sprite-y($name, $size: normal) {
+	@return map-get(sprite($name, $size), "y");
+}
+
+@function sprite-total-width($name, $size: normal) {
+	@return map-get(sprite($name, $size), "total_width");
+}
+
+@function sprite-total-height($name, $size: normal) {
+	@return map-get(sprite($name, $size), "total_height");
+}

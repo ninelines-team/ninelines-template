@@ -1,0 +1,12 @@
+image: node:8.1.2
+
+pipelines:
+  branches:
+    master:
+      - step:
+          script:
+            - export CI=true
+            - npm install -g aerobatic-cli gulp-cli
+            - npm install
+            - gulp build
+            - aero deploy

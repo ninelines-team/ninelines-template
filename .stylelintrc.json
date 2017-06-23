@@ -1,0 +1,331 @@
+{
+	"extends": "stylelint-config-standard",
+	"plugins": [
+		"stylelint-scss",
+		"stylelint-order"
+	],
+	"rules": {
+		"at-rule-empty-line-before": [
+			"always",
+			{
+				"except": [
+					"blockless-after-same-name-blockless",
+					"first-nested"
+				],
+				"ignore": [
+					"after-comment"
+				],
+				"ignoreAtRules": [
+					"else"
+				]
+			}
+		],
+		"block-closing-brace-newline-after": [
+			"always",
+			{
+				"ignoreAtRules": [
+					"if",
+					"else"
+				]
+			}
+		],
+		"block-no-empty": null,
+		"color-named": "never",
+		"function-url-quotes": "always",
+		"indentation": "tab",
+		"no-empty-source": null,
+		"string-quotes": "double",
+		"scss/at-else-closing-brace-newline-after": "always-last-in-chain",
+		"scss/at-else-closing-brace-space-after": "always-intermediate",
+		"scss/at-if-closing-brace-newline-after": "always-last-in-chain",
+		"scss/at-if-closing-brace-space-after": "always-intermediate",
+		"scss/at-import-no-partial-leading-underscore": true,
+		"scss/at-mixin-argumentless-call-parentheses": "never",
+		"scss/dollar-variable-colon-space-after": "always-single-line",
+		"scss/dollar-variable-colon-space-before": "never",
+		"scss/dollar-variable-empty-line-before": [
+			"always",
+			{
+				"except": [
+					"after-comment",
+					"after-dollar-variable",
+					"first-nested"
+				]
+			}
+		],
+		"scss/double-slash-comment-empty-line-before": [
+			"always",
+			{
+				"except": [
+					"first-nested"
+				],
+				"ignore": [
+					"between-comments",
+					"stylelint-commands"
+				]
+			}
+		],
+		"scss/double-slash-comment-whitespace-inside": "always",
+		"scss/declaration-nested-properties": "never",
+		"scss/operator-no-unspaced": true,
+		"scss/selector-no-redundant-nesting-selector": true,
+		"order/order": [
+			"custom-properties",
+			"dollar-variables",
+			{
+				"type": "at-rule",
+				"name": "include",
+				"hasBlock": false
+			},
+			"declarations",
+			{
+				"type": "rule",
+				"selector": "&::before"
+			},
+			{
+				"type": "rule",
+				"selector": "&::after"
+			},
+			"rules",
+			{
+				"type": "rule",
+				"selector": "&-.+"
+			},
+			{
+				"type": "rule",
+				"selector": "&:link"
+			},
+			{
+				"type": "rule",
+				"selector": "&:visited"
+			},
+			{
+				"type": "rule",
+				"selector": "&:focus"
+			},
+			{
+				"type": "rule",
+				"selector": "&:hover"
+			},
+			{
+				"type": "rule",
+				"selector": "&:active"
+			},
+			{
+				"type": "rule",
+				"selector": "&:first-child"
+			},
+			{
+				"type": "rule",
+				"selector": "&:last-child"
+			},
+			{
+				"type": "rule",
+				"selector": "&:nth-child.+"
+			},
+			{
+				"type": "rule",
+				"selector": "&\\..+"
+			},
+			{
+				"type": "rule",
+				"selector": ".* &"
+			},
+			{
+				"type": "at-rule",
+				"name": "include",
+				"hasBlock": true
+			},
+			"at-rules"
+		],
+		"order/properties-order": [
+			[
+				"all",
+				"counter-increment",
+				"counter-reset",
+				"content",
+				"quotes",
+				"position",
+				"left",
+				"right",
+				"top",
+				"bottom",
+				"z-index",
+				"display",
+				"columns",
+				"column-width",
+				"column-count",
+				"column-fill",
+				"column-gap",
+				"column-rule",
+				"column-rule-style",
+				"column-rule-width",
+				"column-rule-color",
+				"column-span",
+				"align-content",
+				"align-items",
+				"align-self",
+				"flex",
+				"flex-grow",
+				"flex-shrink",
+				"flex-basis",
+				"flex-flow",
+				"flex-direction",
+				"flex-wrap",
+				"justify-content",
+				"order",
+				"float",
+				"clear",
+				"list-style",
+				"list-style-type",
+				"list-style-position",
+				"list-style-image",
+				"caption-side",
+				"empty-cells",
+				"table-layout",
+				"vertical-align",
+				"clip",
+				"overflow",
+				"overflow-x",
+				"overflow-y",
+				"margin",
+				"margin-top",
+				"margin-right",
+				"margin-bottom",
+				"margin-left",
+				"outline",
+				"outline-style",
+				"outline-width",
+				"outline-color",
+				"outline-offset",
+				"border",
+				"border-style",
+				"border-width",
+				"border-color",
+				"border-top",
+				"border-top-style",
+				"border-top-width",
+				"border-top-color",
+				"border-right",
+				"border-right-style",
+				"border-right-width",
+				"border-right-color",
+				"border-bottom",
+				"border-bottom-style",
+				"border-bottom-width",
+				"border-bottom-color",
+				"border-left",
+				"border-left-style",
+				"border-left-width",
+				"border-left-color",
+				"border-radius",
+				"border-top-left-radius",
+				"border-top-right-radius",
+				"border-bottom-left-radius",
+				"border-bottom-right-radius",
+				"border-collapse",
+				"border-spacing",
+				"border-image",
+				"padding",
+				"padding-top",
+				"padding-right",
+				"padding-bottom",
+				"padding-left",
+				"width",
+				"height",
+				"min-width",
+				"min-height",
+				"max-width",
+				"max-height",
+				"box-sizing",
+				"box-shadow",
+				"font",
+				"font-family",
+				"font-stretch",
+				"font-weight",
+				"font-style",
+				"font-kerning",
+				"font-variant",
+				"font-size",
+				"src",
+				"line-height",
+				"letter-spacing",
+				"word-spacing",
+				"word-break",
+				"word-wrap",
+				"white-space",
+				"hyphens",
+				"tab-size",
+				"text-align",
+				"text-align-last",
+				"text-decoration",
+				"text-decoration-style",
+				"text-decoration-color",
+				"text-decoration-line",
+				"text-indent",
+				"text-overflow",
+				"text-shadow",
+				"text-transform",
+				"direction",
+				"writing-mode",
+				"unicode-bidi",
+				"page-break-before",
+				"page-break-after",
+				"page-break-inside",
+				"orphans",
+				"widows",
+				"color",
+				"fill",
+				"stroke",
+				"stroke-dasharray",
+				"stroke-dashoffset",
+				"background",
+				"background-image",
+				"background-position",
+				"background-position-x",
+				"background-position-y",
+				"background-size",
+				"background-repeat",
+				"background-attachment",
+				"background-origin",
+				"background-clip",
+				"background-color",
+				"image-rendering",
+				"object-fit",
+				"object-position",
+				"opacity",
+				"visibility",
+				"cursor",
+				"pointer-events",
+				"touch-action",
+				"resize",
+				"user-select",
+				"zoom",
+				"filter",
+				"transform",
+				"transform-origin",
+				"transform-style",
+				"backface-visibility",
+				"perspective",
+				"perspective-origin",
+				"transition",
+				"transition-property",
+				"transition-delay",
+				"transition-duration",
+				"transition-timing-function",
+				"animation",
+				"animation-name",
+				"animation-duration",
+				"animation-delay",
+				"animation-timing-function",
+				"animation-iteration-count",
+				"animation-direction",
+				"animation-fill-mode",
+				"animation-play-state"
+			],
+			{
+				"unspecified": "bottomAlphabetical"
+			}
+		]
+	}
+}
