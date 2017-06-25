@@ -43,6 +43,7 @@ export function copy() {
 		allowEmpty: true,
 		base: 'src/resources',
 		dot: true,
+		since: gulp.lastRun('copy'),
 	})
 		.pipe($.if(argv.cache, $.newer('build')))
 		.pipe($.debug())
@@ -50,7 +51,9 @@ export function copy() {
 }
 
 export function images() {
-	return gulp.src('src/images/**/*.*')
+	return gulp.src('src/images/**/*.*', {
+		sins: gulp.lastRun('images'),
+	})
 		.pipe($.plumber({
 			errorHandler,
 		}))
@@ -150,7 +153,9 @@ export function jsMain() {
 }
 
 export function jsVendor() {
-	return gulp.src('src/js/vendor.js')
+	return gulp.src('src/js/vendor.js', {
+		since: gulp.lastRun('jsVendor'),
+	})
 		.pipe($.plumber({
 			errorHandler,
 		}))
