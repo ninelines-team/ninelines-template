@@ -10,11 +10,6 @@ let argv = yargs.default({
 	htmlExt: true,
 }).argv;
 
-const CACHE = argv.cache;
-const THROW_ERRORS = argv.throwErrors;
-const PRODUCTION = argv.production;
-const HTML_EXT = argv.htmlExt;
-
 let $ = gulpLoadPlugins({
 	overridePattern: false,
 	pattern: [
@@ -34,7 +29,7 @@ let $ = gulpLoadPlugins({
 	],
 });
 
-let errorHandler = THROW_ERRORS ? false : null;
+let errorHandler = argv.throwErrors ? false : null;
 
 let emittyPug = emittySetup('src', 'pug', {
 	makeVinylFile: true,
@@ -49,7 +44,7 @@ export function copy() {
 		base: 'src/resources',
 		dot: true,
 	})
-		.pipe($.if(CACHE, $.newer('build')))
+		.pipe($.if(argv.cache, $.newer('build')))
 		.pipe($.debug())
 		.pipe(gulp.dest('build'));
 }
@@ -59,7 +54,7 @@ export function images() {
 		.pipe($.plumber({
 			errorHandler,
 		}))
-		.pipe($.if(CACHE, $.newer('build/images')))
+		.pipe($.if(argv.cache, $.newer('build/images')))
 		.pipe($.debug())
 		.pipe($.imagemin([
 			$.imagemin.gifsicle({
@@ -110,7 +105,7 @@ export function svgSprites() {
 		}))
 		.pipe($.svgmin({
 			js2svg: {
-				pretty: !PRODUCTION,
+				pretty: !argv.production,
 			},
 			plugins: [
 				{
@@ -119,10 +114,10 @@ export function svgSprites() {
 			],
 		}))
 		.pipe($.svgstore())
-		.pipe($.if(!PRODUCTION, $.replace('?><!', '?>\n<!')))
-		.pipe($.if(!PRODUCTION, $.replace('><svg', '>\n<svg')))
-		.pipe($.if(!PRODUCTION, $.replace('><symbol', '>\n<symbol')))
-		.pipe($.if(!PRODUCTION, $.replace('></svg', '>\n</svg')))
+		.pipe($.if(!argv.production, $.replace('?><!', '?>\n<!')))
+		.pipe($.if(!argv.production, $.replace('><svg', '>\n<svg')))
+		.pipe($.if(!argv.production, $.replace('><symbol', '>\n<symbol')))
+		.pipe($.if(!argv.production, $.replace('></svg', '>\n</svg')))
 		.pipe($.rename('sprites.svg'))
 		.pipe(gulp.dest('build/images'));
 }
@@ -142,7 +137,7 @@ export function jsMain() {
 				'es2015',
 			],
 		}))
-		.pipe($.if(PRODUCTION, $.stripDebug()))
+		.pipe($.if(argv.production, $.stripDebug()))
 		.pipe($.jsbeautifier({
 			js: {
 				indent_with_tabs: true,
@@ -160,6 +155,7 @@ export function jsVendor() {
 			errorHandler,
 		}))
 		.pipe($.debug())
+		.pipe($.if(argv.cache, $.newer('build/js')))
 		.pipe($.sourcemaps.init())
 		.pipe($.fileInclude({
 			prefix: '// @',
@@ -170,7 +166,7 @@ export function jsVendor() {
 }
 
 export function pug() {
-	if (!CACHE) {
+	if (!argv.cache) {
 		return gulp.src('src/*.pug')
 			.pipe($.plumber({
 				errorHandler,
@@ -249,7 +245,7 @@ export function lintPug() {
 			errorHandler,
 		}))
 		.pipe($.pugLinter())
-		.pipe($.pugLinter.reporter(THROW_ERRORS ? 'fail' : null));
+		.pipe($.pugLinter.reporter(argv.throwErrors ? 'fail' : null));
 }
 
 export function lintScss() {
@@ -261,7 +257,7 @@ export function lintScss() {
 			$.stylelint(),
 			$.postcssReporter({
 				clearReportedMessages: true,
-				throwError: THROW_ERRORS,
+				throwError: argv.throwErrors,
 			}),
 		], {
 			parser: $.postcssScss,
@@ -318,7 +314,7 @@ export function serve() {
 			server: {
 				baseDir: './build',
 				serveStaticOptions: {
-					extensions: HTML_EXT ? [] : ['html'],
+					extensions: argv.htmlExt ? [] : ['html'],
 				},
 			},
 		});
