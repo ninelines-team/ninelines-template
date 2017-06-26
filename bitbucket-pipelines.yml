@@ -10,3 +10,12 @@ pipelines:
             - npm install
             - gulp build
             - aero deploy
+  custom:
+    build:
+      - step:
+          script:
+            - export CI=true
+            - npm install -g aerobatic-cli gulp-cli
+            - npm install
+            - gulp build
+            - aero deploy
