@@ -340,7 +340,7 @@ export function zip() {
 	let minutes = now.getMinutes();
 
 	month = month < 10 ? `0${month}` : month;
-	day = day < 10 ? `0${month}` : day;
+	day = day < 10 ? `0${day}` : day;
 	hours = hours < 10 ? `0${hours}` : hours;
 	minutes = minutes < 10 ? `0${minutes}` : minutes;
 
