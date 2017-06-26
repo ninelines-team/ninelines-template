@@ -5,9 +5,11 @@ import {setup as emittySetup} from 'emitty';
 
 let argv = yargs.default({
 	cache: true,
-	production: false,
-	throwErrors: false,
+	debug: true,
 	htmlExt: true,
+	production: false,
+	sourcemaps: true,
+	throwErrors: false,
 }).argv;
 
 let $ = gulpLoadPlugins({
@@ -46,7 +48,7 @@ export function copy() {
 		since: gulp.lastRun('copy'),
 	})
 		.pipe($.if(argv.cache, $.newer('build')))
-		.pipe($.debug())
+		.pipe($.if(argv.debug, $.debug()))
 		.pipe(gulp.dest('build'));
 }
 
@@ -58,7 +60,7 @@ export function images() {
 			errorHandler,
 		}))
 		.pipe($.if(argv.cache, $.newer('build/images')))
-		.pipe($.debug())
+		.pipe($.if(argv.debug, $.debug()))
 		.pipe($.imagemin([
 			$.imagemin.gifsicle({
 				interlaced: true,
@@ -79,6 +81,7 @@ export function pngSprites() {
 		.pipe($.plumber({
 			errorHandler,
 		}))
+		.pipe($.if(argv.debug, $.debug()))
 		.pipe($.spritesmith({
 			cssName: '_sprites.scss',
 			cssTemplate: 'src/scss/_sprites.hbs',
@@ -106,6 +109,7 @@ export function svgSprites() {
 		.pipe($.plumber({
 			errorHandler,
 		}))
+		.pipe($.if(argv.debug, $.debug()))
 		.pipe($.svgmin({
 			js2svg: {
 				pretty: !argv.production,
@@ -130,8 +134,8 @@ export function jsMain() {
 		.pipe($.plumber({
 			errorHandler,
 		}))
-		.pipe($.debug())
-		.pipe($.sourcemaps.init())
+		.pipe($.if(argv.debug, $.debug()))
+		.pipe($.if(argv.sourcemaps, $.sourcemaps.init()))
 		.pipe($.fileInclude({
 			prefix: '// @',
 		}))
@@ -148,7 +152,7 @@ export function jsMain() {
 				max_preserve_newlines: 2,
 			},
 		}))
-		.pipe($.sourcemaps.write('.'))
+		.pipe($.if(argv.sourcemaps, $.sourcemaps.write('.')))
 		.pipe(gulp.dest('build/js'));
 }
 
@@ -159,14 +163,14 @@ export function jsVendor() {
 		.pipe($.plumber({
 			errorHandler,
 		}))
-		.pipe($.debug())
+		.pipe($.if(argv.debug, $.debug()))
 		.pipe($.if(argv.cache, $.newer('build/js')))
-		.pipe($.sourcemaps.init())
+		.pipe($.if(argv.sourcemaps, $.sourcemaps.init()))
 		.pipe($.fileInclude({
 			prefix: '// @',
 		}))
 		.pipe($.uglify())
-		.pipe($.sourcemaps.write('.'))
+		.pipe($.if(argv.sourcemaps, $.sourcemaps.write('.')))
 		.pipe(gulp.dest('build/js'));
 }
 
@@ -176,7 +180,7 @@ export function pug() {
 			.pipe($.plumber({
 				errorHandler,
 			}))
-			.pipe($.debug())
+			.pipe($.if(argv.debug, $.debug()))
 			.pipe($.pug({
 				pretty: true,
 			}))
@@ -190,7 +194,7 @@ export function pug() {
 					errorHandler,
 				}))
 				.pipe(emittyPug.filter(global.emittyPugChangedFile))
-				.pipe($.debug())
+				.pipe($.if(argv.debug, $.debug()))
 				.pipe($.pug({
 					pretty: true,
 				}))
@@ -209,8 +213,8 @@ export function scss() {
 		.pipe($.plumber({
 			errorHandler,
 		}))
-		.pipe($.debug())
-		.pipe($.sourcemaps.init())
+		.pipe($.if(argv.debug, $.debug()))
+		.pipe($.if(argv.sourcemaps, $.sourcemaps.init()))
 		.pipe($.sass().on('error', $.sass.logError))
 		.pipe($.postcss([
 			$.cssnano({
@@ -225,7 +229,7 @@ export function scss() {
 				zindex: false,
 			}),
 		]))
-		.pipe($.sourcemaps.write('.'))
+		.pipe($.if(argv.sourcemaps, $.sourcemaps.write('.')))
 		.pipe(gulp.dest('build/css'));
 }
 
