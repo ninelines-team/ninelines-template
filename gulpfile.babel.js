@@ -135,7 +135,6 @@ export function jsMain() {
 			errorHandler,
 		}))
 		.pipe($.if(argv.debug, $.debug()))
-		.pipe($.if(argv.sourcemaps, $.sourcemaps.init()))
 		.pipe($.fileInclude({
 			prefix: '// @',
 		}))
@@ -152,7 +151,6 @@ export function jsMain() {
 				max_preserve_newlines: 2,
 			},
 		}))
-		.pipe($.if(argv.sourcemaps, $.sourcemaps.write('.')))
 		.pipe(gulp.dest('build/js'));
 }
 
@@ -165,12 +163,10 @@ export function jsVendor() {
 		}))
 		.pipe($.if(argv.debug, $.debug()))
 		.pipe($.if(argv.cache, $.newer('build/js')))
-		.pipe($.if(argv.sourcemaps, $.sourcemaps.init()))
 		.pipe($.fileInclude({
 			prefix: '// @',
 		}))
 		.pipe($.uglify())
-		.pipe($.if(argv.sourcemaps, $.sourcemaps.write('.')))
 		.pipe(gulp.dest('build/js'));
 }
 
