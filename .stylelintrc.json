@@ -279,6 +279,7 @@
 				"stroke",
 				"stroke-dasharray",
 				"stroke-dashoffset",
+				"stroke-width",
 				"background",
 				"background-image",
 				"background-position",
