@@ -46,6 +46,7 @@
 		"yargs": "8.0.2"
 	},
 	"dependencies": {
+		"babel-polyfill": "6.23.0",
 		"bowser": "1.7.1",
 		"jquery": "3.2.1",
 		"normalize-css": "2.3.1",
