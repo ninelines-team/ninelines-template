@@ -6,6 +6,7 @@ import {setup as emittySetup} from 'emitty';
 let argv = yargs.default({
 	cache: true,
 	debug: true,
+	fix: false,
 	htmlExt: true,
 	production: false,
 	sourcemaps: true,
@@ -166,7 +167,7 @@ export function jsVendor() {
 		.pipe($.fileInclude({
 			prefix: '// @',
 		}))
-		.pipe($.uglify())
+		.pipe($.if(argv.production, $.uglify()))
 		.pipe(gulp.dest('build/js'));
 }
 
@@ -233,12 +234,17 @@ export function lintJs() {
 	return gulp.src([
 		'gulpfile.babel.js',
 		'src/js/**/*.js',
-	])
+	], {
+		base: '.',
+	})
 		.pipe($.plumber({
 			errorHandler,
 		}))
-		.pipe($.eslint())
-		.pipe($.eslint.format());
+		.pipe($.eslint({
+			fix: argv.fix,
+		}))
+		.pipe($.eslint.format())
+		.pipe($.if((file) => file.eslint && file.eslint.fixed, gulp.dest('.')));
 }
 
 export function lintPug() {

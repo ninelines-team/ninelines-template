@@ -1,11 +1,14 @@
-// stylelint-disable at-rule-empty-line-before
+/* stylelint-disable at-rule-empty-line-before*/
 
 @import "variables";
 @import "functions";
 @import "mixins";
 @import "sprites";
 @import "fonts";
-
 @import "../../node_modules/normalize-css/normalize";
-
 @import "base";
+
+.x {
+	width: 100%;
+	height: 100%;
+}
