@@ -400,7 +400,8 @@
 		"object-curly-newline": [
 			"error",
 			{
-				"multiline": true
+				"consistent": true,
+				"minProperties": 0
 			}
 		],
 		"object-curly-spacing": [
