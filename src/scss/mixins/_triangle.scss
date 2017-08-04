@@ -1,0 +1,60 @@
+@mixin triangle($direction, $width, $height, $color) {
+	$top-width: 0;
+	$top-color: rgba(0, 0, 0, 0);
+	$right-width: 0;
+	$right-color: rgba(0, 0, 0, 0);
+	$bottom-width: 0;
+	$bottom-color: rgba(0, 0, 0, 0);
+	$left-width: 0;
+	$left-color: rgba(0, 0, 0, 0);
+
+	@if $direction == (to top) {
+		$left-width: $width / 2;
+		$right-width: $width / 2;
+		$bottom-width: $height;
+		$bottom-color: $color;
+	} @else if $direction == (to top right) or $direction == (to right top) {
+		$right-width: $width;
+		$right-color: $color;
+		$bottom-width: $height;
+	} @else if $direction == (to right) {
+		$top-width: $height / 2;
+		$bottom-width: $height / 2;
+		$left-width: $width;
+		$left-color: $color;
+	} @else if $direction == (to bottom right) or $direction == (to right bottom) {
+		$left-width: $width;
+		$bottom-width: $height;
+		$bottom-color: $color;
+	} @else if $direction == (to bottom) {
+		$top-width: $height;
+		$top-color: $color;
+		$left-width: $width / 2;
+		$right-width: $width / 2;
+	} @else if $direction == (to bottom left) or $direction == (to left bottom) {
+		$top-width: $height;
+		$left-width: $width;
+		$left-color: $color;
+	} @else if $direction == (to left) {
+		$top-width: $height / 2;
+		$bottom-width: $height / 2;
+		$right-width: $width;
+		$right-color: $color;
+	} @else if $direction == (to top left) or $direction == (to left top) {
+		$top-width: $height;
+		$top-color: $color;
+		$right-width: $width;
+	} @else {
+		$direction: false;
+
+		@warn "Incorrect triangle direction: #{inspect($direction)}";
+	}
+
+	@if $direction {
+		border-style: solid;
+		border-width: $top-width $right-width $bottom-width $left-width;
+		border-color: $top-color $right-color $bottom-color $left-color;
+		width: 0;
+		height: 0;
+	}
+}
