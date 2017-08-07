@@ -1,42 +1,101 @@
 include mixins/svg
 
 block vars
-	- var htmlClass = []
-	- var htmlAttrs = {}
-	- var lang = 'ru'
-	- var locale = 'ru_RU'
-	- var viewport = 'width=device-width'
-	- var url = ''
-	- var title = ''
-	- var description = ''
-	- var twitterTitle = ''
-	- var twitterDescription = ''
-	- var image = ''
+	-
+		var title = ''
+		var description = ''
+		var image = ''
+	-
+		var html = {
+			attrs: {
+				lang: 'ru'
+			},
+			classList: []
+		}
+	-
+		var body = {
+			attrs: {},
+			classList: []
+		}
+	-
+		var meta = {
+			charset: 'utf-8',
+			viewport: 'width=device-width',
+			description: description,
+			keywords: [],
+			subject: '',
+			ie: {
+				XUACompatible: 'IE=edge'
+			},
+			og: {
+				description: description,
+				image: image,
+				locale: 'ru_RU',
+				title: title,
+				type: 'website',
+				url: ''
+			},
+			twitter: {
+				card: 'summary_large_image',
+				site: '',
+				creator: '',
+				title: title,
+				description: description,
+				image: image
+			}
+		}
+	-
+		var link = {
+			imageSrc: image
+		}
 
 doctype html
-html(class=htmlClass.join(' ') lang=lang)&attributes(htmlAttrs)
+html(class=html.classList)&attributes(html.attrs)
 	head
 		block meta
-			meta(charset="utf-8")
-			meta(http-equiv="X-UA-Compatible" content="IE=edge")
-			meta(name="viewport" content=viewport)
-			meta(name="description" content=description)
-			meta(name="og:type" content="website")
-			meta(name="og:url" content=url)
-			meta(name="og:title" content=title)
-			meta(name="og:description" content=description)
-			meta(name="og:image" content=image)
-			meta(name="og:locale" content=locale)
-			meta(name="twitter:card" content="summary_large_image")
-			meta(name="twitter:title" content=twitterTitle || title)
-			meta(name="twitter:description" content=twitterDescription || description)
+			if meta.charset
+				meta(charset=meta.charset)
+			if meta.XUACompatible
+				meta(http-equiv="X-UA-Compatible" content=meta.XUACompatible)
+			if meta.viewport
+				meta(name="viewport" content=meta.viewport)
+			if meta.description
+				meta(name="description" content=meta.description)
+			if meta.keywords.length
+				meta(name="keywords" content=meta.keywords.join(', '))
+			if meta.subject
+				meta(name="subject" content=meta.subject)
+			if meta.og.type
+				meta(name="og:type" content=meta.og.type)
+			if meta.og.url
+				meta(name="og:url" content=meta.og.url)
+			if meta.og.title
+				meta(name="og:title" content=meta.og.title)
+			if meta.og.description
+				meta(name="og:description" content=meta.og.description)
+			if meta.og.image
+				meta(name="og:image" content=meta.og.image)
+			if meta.og.locale
+				meta(name="og:locale" content=meta.og.locale)
+			if meta.twitter.card
+				meta(name="twitter:card" content=meta.twitter.card)
+			if meta.twitter.site
+				meta(name="twitter:site" content=meta.twitter.site)
+			if meta.twitter.creator
+				meta(name="twitter:creator" content=meta.twitter.creator)
+			if meta.twitter.title
+				meta(name="twitter:title" content=meta.twitter.title)
+			if meta.twitter.description
+				meta(name="twitter:description" content=meta.twitter.description)
+			if meta.twitter.image
+				meta(name="twitter:image" content=meta.twitter.image)
 		title
-			block title
-				= title
+			= title
 		block links
-			link(rel="image_src" href=image || '')
+			if link.imageSrc
+				link(rel="image_src" href=link.imageSrc)
 			link(rel="stylesheet" href="css/main.css?v=" + Date.now())
-	body
+	body(class=body.classList)&attributes(body.attrs)
 		block content
 		block scripts
 			script(src="js/vendor.js?v=" + Date.now())
