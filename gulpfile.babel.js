@@ -4,14 +4,21 @@ import gulpLoadPlugins from 'gulp-load-plugins';
 import {setup as emittySetup} from 'emitty';
 
 let argv = yargs.default({
+	base: '.',
 	cache: true,
+	compress: true,
 	debug: true,
+	exclude: [],
 	fix: false,
 	htmlExt: true,
+	include: [],
 	notify: true,
+	only: [],
+	name: null,
 	production: false,
 	sourcemaps: true,
 	throwErrors: false,
+	time: true,
 }).argv;
 
 let $ = gulpLoadPlugins({
@@ -33,7 +40,13 @@ let $ = gulpLoadPlugins({
 	],
 });
 
-let errorHandler = argv.throwErrors ? false : (argv.notify ? $.notify.onError('<%= error.message %>') : null);
+let errorHandler;
+
+if (argv.throwErrors) {
+	errorHandler = false;
+} else {
+	errorHandler = argv.notify ? $.notify.onError('<%= error.message %>') : null;
+}
 
 let emittyPug = emittySetup('src', 'pug', {
 	makeVinylFile: true,
@@ -334,20 +347,25 @@ export function serve() {
 
 export function zip() {
 	// eslint-disable-next-line global-require
-	let name = require('./package.json').name;
-	let now = new Date();
-	let year = now.getFullYear();
-	let month = now.getMonth() + 1;
-	let day = now.getDate();
-	let hours = now.getHours();
-	let minutes = now.getMinutes();
+	let name = argv.name ? argv.name : require('./package.json').name;
 
-	month = month < 10 ? `0${month}` : month;
-	day = day < 10 ? `0${day}` : day;
-	hours = hours < 10 ? `0${hours}` : hours;
-	minutes = minutes < 10 ? `0${minutes}` : minutes;
+	if (argv.time) {
+		let now = new Date();
+		let year = now.getFullYear();
+		let month = now.getMonth() + 1;
+		let day = now.getDate();
+		let hours = now.getHours();
+		let minutes = now.getMinutes();
 
-	return gulp.src([
+		month = month < 10 ? `0${month}` : month;
+		day = day < 10 ? `0${day}` : day;
+		hours = hours < 10 ? `0${hours}` : hours;
+		minutes = minutes < 10 ? `0${minutes}` : minutes;
+
+		name += `_${year}-${month}-${day}_${hours}-${minutes}`;
+	}
+
+	let files = [
 		'build/**',
 		'src/**',
 		'.babelrc',
@@ -358,12 +376,40 @@ export function zip() {
 		'*.md',
 		'*.yml',
 		'!zip/**',
-	], {
+	];
+
+	let includeFiles = Array.isArray(argv.include) ? argv.include : argv.include.split(',');
+	let excludeFiles = Array.isArray(argv.exclude) ? argv.exclude : argv.exclude.split(',');
+	let onlyFiles = Array.isArray(argv.only) ? argv.only : argv.only.split(',');
+
+	if (argv.include.length) {
+		files = files.concat(includeFiles);
+	}
+
+	if (argv.exclude.length) {
+		excludeFiles = excludeFiles.map((excludedFile) => {
+			if (files.includes(excludedFile)) {
+				files = files.filter((file) => file !== excludedFile);
+			}
+
+			return `!${excludedFile}`;
+		});
+
+		files = files.concat(excludeFiles);
+	}
+
+	if (argv.only.length) {
+		files = onlyFiles;
+	}
+
+	return gulp.src(files, {
 		allowEmpty: true,
-		base: '.',
+		base: argv.base,
 		dot: true,
 	})
-		.pipe($.zip(`${name}_${year}-${month}-${day}_${hours}-${minutes}.zip`))
+		.pipe($.zip(`${name}.zip`, {
+			compress: argv.compress,
+		}))
 		.pipe(gulp.dest('zip'));
 }
 
