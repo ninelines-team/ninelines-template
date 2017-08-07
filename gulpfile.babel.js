@@ -2,9 +2,11 @@ import yargs from 'yargs';
 import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import {setup as emittySetup} from 'emitty';
+import {rewriteRules, routes} from './bs-routing';
 
 let argv = yargs.default({
 	base: '.',
+	browser: null,
 	cache: true,
 	compress: true,
 	debug: true,
@@ -15,11 +17,17 @@ let argv = yargs.default({
 	notify: true,
 	only: [],
 	name: null,
+	open: true,
+	port: 3000,
 	production: false,
 	sourcemaps: true,
 	throwErrors: false,
 	time: true,
 }).argv;
+
+function arg2array(arg, separator = ',') {
+	return Array.isArray(arg) ? arg : (arg || '').split(separator);
+}
 
 let $ = gulpLoadPlugins({
 	overridePattern: false,
@@ -246,7 +254,7 @@ export function scss() {
 
 export function lintJs() {
 	return gulp.src([
-		'gulpfile.babel.js',
+		'*.js',
 		'src/js/**/*.js',
 	], {
 		base: '.',
@@ -332,12 +340,17 @@ export function serve() {
 	$.browserSync
 		.create()
 		.init({
+			browser: arg2array(argv.browser),
+			notify: false,
+			open: argv.open,
+			port: argv.port,
+			rewriteRules,
 			files: [
 				'./build/**/*',
 			],
-			notify: false,
 			server: {
 				baseDir: './build',
+				routes,
 				serveStaticOptions: {
 					extensions: argv.htmlExt ? [] : ['html'],
 				},
@@ -378,9 +391,9 @@ export function zip() {
 		'!zip/**',
 	];
 
-	let includeFiles = Array.isArray(argv.include) ? argv.include : argv.include.split(',');
-	let excludeFiles = Array.isArray(argv.exclude) ? argv.exclude : argv.exclude.split(',');
-	let onlyFiles = Array.isArray(argv.only) ? argv.only : argv.only.split(',');
+	let includeFiles = arg2array(argv.include);
+	let excludeFiles = arg2array(argv.exclude);
+	let onlyFiles = arg2array(argv.only);
 
 	if (argv.include.length) {
 		files = files.concat(includeFiles);
