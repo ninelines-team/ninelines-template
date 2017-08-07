@@ -8,6 +8,7 @@ let argv = yargs.default({
 	debug: true,
 	fix: false,
 	htmlExt: true,
+	notify: true,
 	production: false,
 	sourcemaps: true,
 	throwErrors: false,
@@ -32,7 +33,7 @@ let $ = gulpLoadPlugins({
 	],
 });
 
-let errorHandler = argv.throwErrors ? false : null;
+let errorHandler = argv.throwErrors ? false : (argv.notify ? $.notify.onError('<%= error.message %>') : null);
 
 let emittyPug = emittySetup('src', 'pug', {
 	makeVinylFile: true,

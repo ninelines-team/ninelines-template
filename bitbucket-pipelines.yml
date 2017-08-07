@@ -5,17 +5,22 @@ pipelines:
     master:
       - step:
           script:
-            - export CI=true
             - npm install -g aerobatic-cli gulp-cli
             - npm install
-            - gulp build
+            - gulp build --no-cache --no-notify --throw-errors
             - aero deploy
   custom:
     build:
       - step:
           script:
-            - export CI=true
             - npm install -g aerobatic-cli gulp-cli
             - npm install
-            - gulp build
+            - gulp build --no-cache --no-notify --throw-errors
             - aero deploy
+  custom:
+    lint:
+      - step:
+          script:
+            - npm install -g gulp-cli
+            - npm install
+            - gulp lint --no-notify
