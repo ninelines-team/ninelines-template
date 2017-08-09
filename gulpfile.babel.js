@@ -256,6 +256,7 @@ export function lintJs() {
 	return gulp.src([
 		'*.js',
 		'src/js/**/*.js',
+		'!src/js/vendor/**/*.js',
 	], {
 		base: '.',
 	})
@@ -282,7 +283,10 @@ export function lintPug() {
 }
 
 export function lintScss() {
-	return gulp.src('src/scss/**/*.scss')
+	return gulp.src([
+		'src/scss/**/*.scss',
+		'!src/scss/vendor/**/*.scss',
+	])
 		.pipe($.plumber({
 			errorHandler,
 		}))
