@@ -2,7 +2,7 @@ import yargs from 'yargs';
 import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import {setup as emittySetup} from 'emitty';
-import {rewriteRules, routes} from './bs-routing';
+import routerConfig from './router-config';
 
 let argv = yargs.default({
 	base: '.',
@@ -20,6 +20,7 @@ let argv = yargs.default({
 	open: true,
 	port: 3000,
 	production: false,
+	spa: false,
 	sourcemaps: true,
 	throwErrors: false,
 	time: true,
@@ -33,6 +34,7 @@ let $ = gulpLoadPlugins({
 	overridePattern: false,
 	pattern: [
 		'browser-sync',
+		'connect-history-api-fallback',
 		'cssnano',
 		'merge-stream',
 		'postcss-reporter',
@@ -341,6 +343,12 @@ export function watch() {
 }
 
 export function serve() {
+	let middleware = [];
+
+	if (argv.spa) {
+		middleware.push($.connectHistoryApiFallback(routerConfig));
+	}
+
 	$.browserSync
 		.create()
 		.init({
@@ -348,13 +356,12 @@ export function serve() {
 			notify: false,
 			open: argv.open,
 			port: argv.port,
-			rewriteRules,
 			files: [
 				'./build/**/*',
 			],
 			server: {
 				baseDir: './build',
-				routes,
+				middleware,
 				serveStaticOptions: {
 					extensions: argv.htmlExt ? [] : ['html'],
 				},
