@@ -12,7 +12,7 @@
 		"cssnano": "3.10.0",
 		"emitty": "1.4.0",
 		"gulp": "github:gulpjs/gulp#4.0",
-		"gulp-babel": "6.1.2",
+		"gulp-babel": "7.0.0",
 		"gulp-debug": "3.1.0",
 		"gulp-eslint": "4.0.0",
 		"gulp-file-include": "1.1.0",
