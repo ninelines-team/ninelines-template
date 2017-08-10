@@ -39,8 +39,7 @@
 		'device',
 		[
 			'mobile',
-			['tablet', 'mobile'],
-			['tablet', 'tablet'],
+			'tablet',
 		]
 	);
 
