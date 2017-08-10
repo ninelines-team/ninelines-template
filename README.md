@@ -12,7 +12,7 @@ project-template
 │   ├── js
 │   │   ├── vendor
 │   │   │   └── .keep
-│   │   ├── bowser.js
+│   │   ├── detect.js
 │   │   ├── globals.js
 │   │   ├── main.js
 │   │   └── vendor.js
@@ -59,212 +59,202 @@ project-template
 
 ## `src`
 
-TODO
+В папке `src` хранятся исходные файлы проекта.
 
 ## `src/images`
 
-TODO
+Папка `images` предназначена для хранения изображений.
+При сборке файлы из данной папки попадают в `build/images`.
 
 ## `src/images/sprites`
 
-TODO
+Папка `src/images/sprites` предназначена для хранения векторных (SVG) и растровых (PNG) иконок.
 
 ## `src/images/sprites/png`
 
-TODO
-
-## `src/images/sprites/png/.keep`
-
-TODO
+Папка `src/images/sprites/png` предназначена для хранения растровых иконок.
+При сборке файлы из данной папки объединяются в два спрайта: `build/images/sprites.png` и `build/images/sprites@2x.png`.
 
 ## `src/images/sprites/svg`
 
-TODO
-
-## `src/images/sprites/svg/.keep`
-
-TODO
+Папка `src/images/sprites/svg` предназначена для хранения векторных иконок.
+При сборке файлы из данной папки объединяются в один спрайт: `build/images/sprites.svg`.
 
 ## `src/js`
 
-TODO
+Папка `src/js` предназначена для хранения скриптов.
 
 ## `src/js/vendor`
 
-TODO
+Папка `src/js/vendor` предназначена для хранения скриптов сторонних библиотек, которых нет в репозитории npm.
 
-## `src/js/vendor/.keep`
+## `src/js/detect.js`
 
-TODO
-
-## `src/js/bowser.js`
-
-TODO
+Файл `src/js/detect.js` предназначен для определения устройства, браузера и операционной системы пользователя.
 
 ## `src/js/globals.js`
 
-TODO
+Файл `src/js/globals.js` предназначен для хранения глобальных переменных.
 
 ## `src/js/main.js`
 
-TODO
+Файл `src/js/main.js` предназначен для хранения основной логики сайта.
+При сборке данный файл попадает в `build/js`.
 
 ## `src/js/vendor.js`
 
-TODO
+Файл `src/js/vendor.js` предназначен для подключения скриптов сторонних библиотек.
+При сборке данный файл попадет в `build/js`.
 
 ## `src/pug`
 
-TODO
+Папка `src/pug` предназначена для хранения шаблонов.
 
 ## `src/pug/mixins`
 
-TODO
+Папка `src/pug/mixins` предназначена для хранения Pug-миксинов.
 
 ## `src/pug/mixins/svg.pug`
 
-TODO
+В файле `src/pug/mixins/svg.pug` хранится Pug-миксин для подключения SVG-иконок.
 
 ## `src/pug/base.pug`
 
-TODO
+В файле `src/pug/base.pug` хранится базовый шаблон страниц сайта.
 
 ## `src/resources`
 
-TODO
+Папка `src/resources` предназначена для хранения различных файлов проекта.
+При сборке файлы из данной папки попадают в `build`.
 
 ## `src/resources/fonts`
 
-TODO
-
-## `src/resources/fonts/.keep`
-
-TODO
+Папка `src/resources/fonts` предназначена для хранения шрифтов.
+При сборке файлы из данной папки попадают в `build/fonts`.
 
 ## `src/scss`
 
-TODO
+Папка `src/scss` предназначена для хранения стилей.
 
 ## `src/scss/functions`
 
-TODO
+Папка `src/scss/functions` предназначена для хранения SCSS-функций.
 
 ## `src/scss/functions/_sprites.scss`
 
-TODO
+В файле `src/scss/functions/_sprites.scss` хранятся SCSS-функции для работы с PNG-спрайтами.
 
 ## `src/scss/mixins`
 
-TODO
+Папка `src/scss/mixins` предназначена для хранения SCSS-миксинов.
 
 ## `src/scss/mixins/_retina.scss`
 
-TODO
+В файле `src/scss/mixins/_retina.scss` хранится SCSS-миксин для работы с retina.
 
 ## `src/scss/mixins/_sprites.scss`
 
-TODO
+В файле `src/scss/mixins/_sprites.scss` хранятся SCSS-миксины для работы с PNG-спрайтами.
 
 ## `src/scss/mixins/_triangle.scss`
 
-TODO
+В файле `src/scss/mixins/_triangle.scss` хранится SCSS-миксин для создания CSS-треугольников.
 
 ## `src/scss/vendor`
 
-TODO
-
-## `src/scss/vendor/.keep`
-
-TODO
+Папка `src/scss/vendor` предназначена для хранения стилей сторонних библиотек, которых нет в репозитории npm.
 
 ## `src/scss/_base.scss`
 
-TODO
+Файл `src/scss/_base.scss` предназначен для хранения базовых стилей.
 
 ## `src/scss/_fonts.scss`
 
-TODO
+Файл `src/scss/_fonts.scss` предназначен для подключения шрифтов.
 
 ## `src/scss/_functions.scss`
 
-TODO
+Файл `src/scss/_functions.scss` предназначен для подключения функций из папки `src/scss/functions`.
 
 ## `src/scss/_mixins.scss`
 
-TODO
+Файл `src/scss/_mixins.scss` предназначен для подключения миксинов из папки `src/scss/mixins`.
 
 ## `src/scss/_sprites.hbs`
 
-TODO
+`src/scss/_sprites.hbs` — шаблон, на основе которого генерируется содержимое файла `src/scss/_sprites.scss`.
 
 ## `src/scss/_sprites.scss`
 
-TODO
+Файл `src/scss/_sprites.scss` предназначен для работы с PNG-спрайтами.
+Содержимое данного файла автоматически генерируется на основе шаблона `src/scss/_sprites.hbs` и иконок из папки `src/images/sprites/png`.
 
 ## `src/scss/_variables.scss`
 
-TODO
+Файл `src/scss/_variables.scss` предназначен для хранения SCSS-переменных.
 
 ## `src/scss/_vendors.scss`
 
-TODO
+Файл `src/scss/_vendors.scss` предназначен для подключения стилей сторонних библиотек.
 
 ## `src/scss/main.scss`
 
-TODO
+Файл `src/scss/main.scss` предназначен для хранения основных стилей сайта.
+При сборке данный файл преобразуется в CSS и сохраняется в `build/css` вместе с файлом `main.css.map`.
 
 ## `src/index.pug`
 
-TODO
+`src/index.pug` — шаблон главной страницы.
+При сборке все Pug-файлы из папки `src` преобразуются в HTML и сохраняются в `build`.
 
 ## `.babelrc`
 
-TODO
+`.babelrc` — файл настроек JavaScript-транспайлера Babel.
 
 ## `.editorconfig`
 
-TODO
+`.editorconfig` — файл настроек редактора.
 
 ## `.eslintignore`
 
-TODO
+`.eslintignore` — файл настроек ESLint для игнорирования файлов.
 
 ## `.eslintrc`
 
-TODO
+`.eslintrc` — файл настроек ESLint.
 
 ## `.gitignore`
 
-TODO
+`.gitignore` — файл настроек Git для игнорирования файлов.
 
 ## `.npmrc`
 
-TODO
+`.npmrc` — файл настроек npm.
 
 ## `.pug-lintrc.json`
 
-TODO
+`.pug-lintrc` — файл настроек pug-lint.
 
 ## `.stylelintrc`
 
-TODO
+`.stylelintrc` — файл настроек stylelint.
 
 ## `bitbucket-pipelines.yml`
 
-TODO
+`bitbucket-pipelines.yml` — файл настроек Bitbucket Pipelines.
 
 ## `gulpfile.babel.js`
 
-TODO
+`gulpfile.babel.js` — основной файл сборки, содержащий Gulp-задачи.
 
 ## `package.json`
 
-TODO
+`package.json` — файл, содержащий базовую информацию о проекте и список требуемых библиотек.
 
 ## `README.md`
 
-TODO
+`README.md` — документация.
 
 ## `router-config.js`
 
-TODO
+`router-config.js` — файл настроек роутинга Browsersync (только для одностраничных приложений).
