@@ -37,7 +37,7 @@ gulp
 
 `gulp default` (или просто `gulp`) — основная задача, запускает `build`, `watch` и `serve`.
 
-## build
+## `build`
 
 `gulp build` — сборка всех файлов, запускает задачи `copy`, `images`, `svgSprites`, `pngSprites`, `jsMain`, `jsVendor`, `pug`, `scss`.
 
