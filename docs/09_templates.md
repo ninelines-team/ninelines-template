@@ -29,6 +29,14 @@ project-template
 gulp pug
 ```
 
+После выполнения команды в папке `build` появятся HTML-файлы:
+
+```text
+project-template
+└── build
+    └── index.html
+```
+
 ## Базовый шаблон и создание страниц
 
 В качестве базового шаблона используется `src/pug/base.pug`.
