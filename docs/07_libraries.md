@@ -44,16 +44,17 @@ npm install --save-dev gulp
 4. Копирование изображений в `src/images`:
 
    ```text
-   src
-   ├── images
-   │   ├── blank.gif
-   │   ├── fancybox_loading.gif
-   │   ├── fancybox_loading@2x.gif
-   │   ├── fancybox_overlay.png
-   │   ├── fancybox_sprite.png
-   │   ├── fancybox_sprite@2x.png
-   │   └── ...
-   └── ...
+   project-template
+   └── src
+       ├── images
+       │   ├── blank.gif
+       │   ├── fancybox_loading.gif
+       │   ├── fancybox_loading@2x.gif
+       │   ├── fancybox_overlay.png
+       │   ├── fancybox_sprite.png
+       │   ├── fancybox_sprite@2x.png
+       │   └── ...
+       └── ...
    ```
 
 Если библиотека отсутствует в npm, либо её нужно модифицировать, то файлы следует скачать и закинуть в папки `src/js/vendor` и `src/scss/vendor`.
