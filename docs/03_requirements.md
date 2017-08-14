@@ -5,4 +5,4 @@
 * gulp >= 4.0.0-alpha.2
 * gulp-cli >= 1.4.0
 
-[Ссылка на инструкцию по переходу с gulp 3 на gulp 4](https://demisx.github.io/gulp4/2015/01/15/install-gulp4.html).
+<a href="https://demisx.github.io/gulp4/2015/01/15/install-gulp4.html" target="_blank">Ссылка на инструкцию по переходу с gulp 3 на gulp 4</a>.
