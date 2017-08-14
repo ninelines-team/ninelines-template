@@ -116,7 +116,7 @@
 
 ## `lintJs`
 
-`gulp lintJs` — проверяет JavaScript-файлы линтером <a href="http://eslint.org/" target="_blank">ESLint</a>.
+`gulp lintJs` — проверяет JavaScript-файлы линтером [ESLint](http://eslint.org/).
 
 Дополнительные параметры:
 
@@ -126,7 +126,7 @@
 
 ## `lintPug`
 
-`gulp lintPug` — проверяет Pug-файлы линтером <a href="https://github.com/pugjs/pug-lint" target="_blank">pug-lint</a>.
+`gulp lintPug` — проверяет Pug-файлы линтером [pug-lint](https://github.com/pugjs/pug-lint).
 
 Дополнительные параметры:
 
@@ -135,7 +135,7 @@
 
 ## `lintScss`
 
-`gulp lintScss` — проверяет SCSS-файлы линтером <a href="https://stylelint.io/" target="_blank">stylelint</a>.
+`gulp lintScss` — проверяет SCSS-файлы линтером [stylelint](https://stylelint.io/).
 
 Дополнительные параметры:
 

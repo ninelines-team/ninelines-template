@@ -26,8 +26,8 @@ project-template
 
 * Скопировать из `build/images`.
 * С помощью графического редактора.
-* С помощью онлайн-инструментов (<a href="https://compressor.io/)" target="_blank">tinypng.com](https://tinypng.com), [optimizilla.com](http://optimizilla.com/ru/), [compressor.io</a>.
-* С помощью консольных утилит (<a href="https://ruhighload.com/post/Jpegoptim)" target="_blank">optipng](http://optipng.sourceforge.net/), [jpegoptim</a>.
+* С помощью онлайн-инструментов ([tinypng.com](https://tinypng.com), [optimizilla.com](http://optimizilla.com/ru/), [compressor.io](https://compressor.io/)).
+* С помощью консольных утилит ([optipng](http://optipng.sourceforge.net/), [jpegoptim](https://ruhighload.com/post/Jpegoptim)).
 
 После переноса файлов в `src/resources/images` неоптимизированные версии изображений из папки `src/images` можно удалить.
 

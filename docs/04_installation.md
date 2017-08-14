@@ -1,6 +1,6 @@
 # Начало работы
 
-Для начала работы над проектом необходимо <a href="https://github.com/beliarh/project-template/archive/master.zip" target="_blank">скачать архив</a> или клонировать текущий репозиторий:
+Для начала работы над проектом необходимо [скачать архив](https://github.com/beliarh/project-template/archive/master.zip) или клонировать текущий репозиторий:
 
 ```bash
 git clone https://github.com/beliarh/project-template.git

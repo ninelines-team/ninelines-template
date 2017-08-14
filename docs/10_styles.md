@@ -1,6 +1,6 @@
 # Работа со стилями
 
-В сборке используется препроцессор <a href="https://autoprefixer.github.io/ru/" target="_blank">SCSS](http://sass-lang.com/) и PostCSS-плагин [Autoprefixer</a>.
+В сборке используется препроцессор [SCSS](http://sass-lang.com/) и PostCSS-плагин [Autoprefixer](https://autoprefixer.github.io/ru/).
 
 Стили размещаются в папке `src/scss`:
 
@@ -47,7 +47,7 @@ project-template
 
 ### БЭМ
 
-Для именования классов рекомендуется использовать <a href="https://ru.bem.info/methodology/naming-convention/" target="_blank">БЭМ-нотацию</a>.
+Для именования классов рекомендуется использовать [БЭМ-нотацию](https://ru.bem.info/methodology/naming-convention/).
 
 ```scss
 .block {
@@ -109,7 +109,7 @@ gulp lintScss
   $color-white: #fff;
   ```
 
-  Для именования цветов можно пользоваться <a href="http://chir.ag/projects/name-that-color/" target="_blank">данным сервисом</a>.
+  Для именования цветов можно пользоваться [данным сервисом](http://chir.ag/projects/name-that-color/).
 
 Переменные, используемые лишь в одном блоке или компоненте следует записывать в том же файле, где они используются.
 
@@ -166,7 +166,7 @@ input {
 
 ## Использование линтера
 
-В сборку интегрирован линтер <a href="https://stylelint.io/" target="_blank">stylelint</a>.
+В сборку интегрирован линтер [stylelint](https://stylelint.io/).
 Файл настроек — `.stylelintrc`.
 Данный линтер позволяет поддерживать SCSS-код в соответствии с заданным регламентом.
 
