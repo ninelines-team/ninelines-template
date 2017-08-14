@@ -1,6 +1,6 @@
 # Структура
 
-```textmate
+```text
 project-template
 ├── src
 │   ├── images
