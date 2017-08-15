@@ -12,7 +12,7 @@
 npm install --save foundation-sites
 ```
 
-После чего требуется подключить файлы:
+После чего требуется подключить файлы и инициализировать компоненты:
 
 `src/scss/_vendor.scss`:
 
@@ -20,6 +20,18 @@ npm install --save foundation-sites
 @import "../../node_modules/foundation-sites/scss/foundation";
 
 @include foundation-everything;
+```
+
+`src/js/vendor.js`:
+
+```js
+// @include('../../node_modules/foundation-sites/dist/js/foundation.js')
+```
+
+`src/js/main.js`:
+
+```js
+$(document).foundation();
 ```
 
 ## Настройка
