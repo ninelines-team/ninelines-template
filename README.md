@@ -2,23 +2,23 @@
 * [Минимальные требования](docs/02_requirements.md)
 * [Начало работы](docs/03_installation.md)
 * [Gulp-задачи](docs/04_tasks.md)
-	* `default`
-	* `build`
-	* `watch`
-	* `serve`
-	* `pug`
-	* `images`
-	* `pngSprites`
-	* `svgSprites`
-	* `scss`
-	* `jsMain`
-	* `jsVendor`
-	* `copy`
-	* `lint`
-	* `lintJs`
-	* `lintPug`
-	* `lintScss`
-	* `zip`
+	* [`default`](docs/04_tasks.md#default)
+	* [`build`](docs/04_tasks.md#build)
+	* [`watch`](docs/04_tasks.md#watch)
+	* [`serve`](docs/04_tasks.md#serve)
+	* [`pug`](docs/04_tasks.md#pug)
+	* [`images`](docs/04_tasks.md#images)
+	* [`pngSprites`](docs/04_tasks.md#pngSprites)
+	* [`svgSprites`](docs/04_tasks.md#svgSprites)
+	* [`scss`](docs/04_tasks.md#scss)
+	* [`jsMain`](docs/04_tasks.md#jsMain)
+	* [`jsVendor`](docs/04_tasks.md#jsVendor)
+	* [`copy`](docs/04_tasks.md#copy)
+	* [`lint`](docs/04_tasks.md#lint)
+	* [`lintJs`](docs/04_tasks.md#lintJs)
+	* [`lintPug`](docs/04_tasks.md#lintPug)
+	* [`lintScss`](docs/04_tasks.md#lintScss)
+	* [`zip`](docs/04_tasks.md#zip)
 * [Структура](docs/05_structure.md)
 	* `src`
 	* `src/images`
