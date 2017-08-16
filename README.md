@@ -104,3 +104,5 @@
 * [Работа с Foundation](docs/12_foundation.md)
   * [Установка](docs/12_foundation.md#Установка)
   * [Настройка](docs/12_foundation.md#Настройка)
+* [Pixel-perfect или верстка в соответствии с макетом](docs/13_pixel-perfect.md)
+  * [Инструменты для работы с pixel-perfect](docs/13_pixel-perfect.md#Инструменты-для-работы-с-pixel-perfect)
