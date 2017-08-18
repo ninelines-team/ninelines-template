@@ -276,8 +276,10 @@ XY Grid включена по умолчанию при подключении `
 
 ```jade
 .grid-x.grid-margin-x
-    .cell.small-6.small-order-2.medium-order-1
     .cell.small-6.small-order-1.medium-order-2
+        | Left column
+    .cell.small-6.small-order-2.medium-order-1
+        | Right column
 ```
 
 Результат:
