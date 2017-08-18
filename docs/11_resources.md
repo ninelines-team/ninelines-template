@@ -139,7 +139,7 @@ project-template
 }
 ```
 
-После подключения шрифта в файл `src/scss/_variables.scss` следует добавить переменную в формате `$font-family-{name}`.
+После подключения шрифта в файл `src/scss/_variables.scss` следует добавить переменную в формате `$font-family-[name]`.
 Пример:
 
 ```scss
