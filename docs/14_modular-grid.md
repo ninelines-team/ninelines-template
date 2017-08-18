@@ -4,7 +4,7 @@
 
 Пример ([960 Grid System](https://960.gs/demo.html)):
 
-![960 Grid System](images/960-grid-system.jpg)
+![960 Grid System](images/14/960-grid-system.jpg)
 
 Модульная сетка состоит из колонок и межколонников (расстояния между колонками).
 
