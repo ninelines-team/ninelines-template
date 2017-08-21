@@ -88,6 +88,10 @@ append vars
     - link.icon['32x32'] = 'favicon_32x32.png'
 ```
 
+### `head-start`
+
+Блок `head-start` является альтернативой `prepend meta`.
+
 ### `meta`
 
 В блоке `meta` подключаются метатеги.
@@ -96,7 +100,7 @@ append vars
 
 ```jade
 append meta
-    meta(name="date" content="mail@example.com")
+    meta(name="referrer" content="none")
 ```
 
 ### `links`
@@ -109,6 +113,14 @@ append meta
 append links
     link(rel="stylesheet" href="css/custom.css")
 ```
+
+### `head-end`
+
+Блок `head-end` является альтернативой `append links`.
+
+### `body-start`
+
+Блок `body-start` является альтернативой `prepend content`.
 
 ### `content`
 
@@ -132,6 +144,10 @@ block content
 append scripts
     script(src="js/custom.js")
 ```
+
+### `body-end`
+
+Блок `body-end` является альтернативой `append scripts`.
 
 ## Правила написания кода и использование линтера
 

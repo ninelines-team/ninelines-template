@@ -19,212 +19,192 @@ block vars
 		}
 	-
 		var meta = {
+			appleMobileWebAppCapable: '',
+			appleMobileWebAppStatusBarStyle: '',
+			appleMobileWebAppTitle: '',
+			appleTouchFullscreen: '',
+			applicationName: '',
 			charset: 'utf-8',
-			viewport: 'width=device-width',
 			description: description,
 			keywords: [],
-			subject: '',
-			apple: {
-				formatDetection: '',
-				mobileWebAppTitle: '',
-				mobileWebAppCapable: '',
-				mobileWebAppStatusBarStyle: '',
-				touchFullscreen: ''
-			},
-			ms: {
-				XUACompatible: 'IE=edge',
-				application: {
-					name: '',
-					tileColor: '',
-					tileImage: '',
-					notification: '',
-					icon: {
-						'70x70': '',
-						'150x150': '',
-						'310x150': '',
-						'310x310': ''
-					}
-				}
-			},
-			og: {
-				description: description,
-				image: image,
-				locale: 'ru_RU',
-				title: title,
-				type: 'website',
-				url: ''
-			},
-			twitter: {
-				card: 'summary_large_image',
-				site: '',
-				creator: '',
-				title: title,
-				description: description,
-				image: image
-			}
+			msapplicationTileColor: '',
+			msapplicationTileImage: '',
+			msapplicationNotification: '',
+			msapplicationSquare70x70logo: '',
+			msapplicationSquare150x150logo: '',
+			msapplicationSquare310x310logo: '',
+			msapplicationWide310x150logo: '',
+			ogDescription: description,
+			ogImage: image,
+			ogLocale: 'ru_RU',
+			ogTitle: title,
+			ogType: 'website',
+			ogUrl: '',
+			twitterCard: 'summary_large_image',
+			twitterSite: '',
+			twitterCreator: '',
+			twitterTitle: title,
+			twitterDescription: description,
+			twitterImage: image,
+			viewport: 'width=device-width',
+			XUACompatible: 'IE=edge'
 		}
 	-
 		var link = {
+			appleTouchIcon: '',
+			appleTouchIcon57x57: '',
+			appleTouchIcon60x60: '',
+			appleTouchIcon72x72: '',
+			appleTouchIcon76x76: '',
+			appleTouchIcon114x114: '',
+			appleTouchIcon120x120: '',
+			appleTouchIcon144x144: '',
+			appleTouchIcon152x152: '',
+			appleTouchIconPrecomposed: '',
+			appleTouchIconPrecomposed57x57: '',
+			appleTouchIconPrecomposed60x60: '',
+			appleTouchIconPrecomposed72x72: '',
+			appleTouchIconPrecomposed76x76: '',
+			appleTouchIconPrecomposed114x114: '',
+			appleTouchIconPrecomposed120x120: '',
+			appleTouchIconPrecomposed144x144: '',
+			appleTouchIconPrecomposed152x152: '',
+			icon: '',
+			icon16x16: '',
+			icon32x32: '',
+			icon96x96: '',
+			icon128x128: '',
+			icon196x196: '',
 			imageSrc: image,
 			manifest: false,
-			icon: {
-				'16x16': '',
-				'32x32': '',
-				'96x96': '',
-				'128x128': '',
-				'196x196': ''
-			},
-			apple: {
-				touchStartupImage: '',
-				touchIcon: {
-					'57x57': '',
-					'60x60': '',
-					'72x72': '',
-					'76x76': '',
-					'114x114': '',
-					'120x120': '',
-					'144x144': '',
-					'152x152': ''
-				},
-				touchIconPrecomposed: {
-					'57x57': '',
-					'60x60': '',
-					'72x72': '',
-					'76x76': '',
-					'114x114': '',
-					'120x120': '',
-					'144x144': '',
-					'152x152': ''
-				},
-				maskIcon: {
-					href: '',
-					color: ''
-				}
+			maskIcon: {
+				href: '',
+				color: ''
 			}
 		}
 
 doctype html
 html(class=html.classList)&attributes(html.attrs)
 	head
+		block head-start
 		block meta
 			if meta.charset
 				meta(charset=meta.charset)
+			if meta.XUACompatible
+				meta(http-equiv="X-UA-Compatible" content=meta.XUACompatible)
 			if meta.viewport
 				meta(name="viewport" content=meta.viewport)
 			if meta.description
 				meta(name="description" content=meta.description)
 			if meta.keywords.length
-				meta(name="keywords" content=meta.keywords.join(', '))
-			if meta.subject
-				meta(name="subject" content=meta.subject)
-			if meta.apple.formatDetection
-				meta(name="format-detection" content=meta.apple.formatDetection)
-			if meta.apple.mobileWebAppTitle
-				meta(name="apple-mobile-web-app-title" content=meta.apple.mobileWebAppTitle)
-			if meta.apple.mobileWebAppCapable
-				meta(name="apple-mobile-web-app-capable" content=meta.apple.mobileWebAppCapable)
-			if meta.apple.mobileWebAppStatusBarStyle
-				meta(name="apple-mobile-web-app-status-bar-style" content=meta.apple.mobileWebAppStatusBarStyle)
-			if meta.apple.touchFullscreen
-				meta(name="apple-touch-fullscreen" content=meta.apple.touchFullscreen)
-			if meta.ms.XUACompatible
-				meta(http-equiv="X-UA-Compatible" content=meta.ms.XUACompatible)
-			if meta.ms.application.name
-				meta(name="application-name" content=meta.ms.application.name)
-			if meta.ms.application.tileColor
-				meta(name="msapplication-TileColor" content=meta.ms.application.tileColor)
-			if meta.ms.application.tileImage
-				meta(name="msapplication-TileImage" content=meta.ms.application.tileImage)
-			if meta.ms.application.icon['70x70']
-				meta(name="msapplication-square70x70logo" content=meta.ms.application.icon['70x70'])
-			if meta.ms.application.icon['150x150']
-				meta(name="msapplication-square150x150logo" content=meta.ms.application.icon['150x150'])
-			if meta.ms.application.icon['310x150']
-				meta(name="msapplication-wide310x150logo" content=meta.ms.application.icon['310x150'])
-			if meta.ms.application.icon['310x310']
-				meta(name="msapplication-square310x310logo" content=meta.ms.application.icon['310x310'])
-			if meta.ms.application.notification
-				meta(name="msapplication-notification" content=meta.ms.application.notification)
-			if meta.og.type
-				meta(name="og:type" content=meta.og.type)
-			if meta.og.url
-				meta(name="og:url" content=meta.og.url)
-			if meta.og.title
-				meta(name="og:title" content=meta.og.title)
-			if meta.og.description
-				meta(name="og:description" content=meta.og.description)
-			if meta.og.image
-				meta(name="og:image" content=meta.og.image)
-			if meta.og.locale
-				meta(name="og:locale" content=meta.og.locale)
-			if meta.twitter.card
-				meta(name="twitter:card" content=meta.twitter.card)
-			if meta.twitter.site
-				meta(name="twitter:site" content=meta.twitter.site)
-			if meta.twitter.creator
-				meta(name="twitter:creator" content=meta.twitter.creator)
-			if meta.twitter.title
-				meta(name="twitter:title" content=meta.twitter.title)
-			if meta.twitter.description
-				meta(name="twitter:description" content=meta.twitter.description)
-			if meta.twitter.image
-				meta(name="twitter:image" content=meta.twitter.image)
+				meta(name="keywords" content=Array.isArray(meta.keywords) ? meta.keywords.join(', ') : meta.keywords)
+			if meta.ogType && (meta.ogUrl || meta.ogTitle || meta.ogDescription || meta.ogImage)
+				meta(name="og:type" content=meta.ogType)
+			if meta.ogUrl
+				meta(name="og:url" content=meta.ogUrl)
+			if meta.ogLocale && (meta.ogUrl || meta.ogTitle || meta.ogDescription || meta.ogImage)
+				meta(name="og:locale" content=meta.ogLocale)
+			if meta.ogTitle
+				meta(name="og:title" content=meta.ogTitle)
+			if meta.ogDescription
+				meta(name="og:description" content=meta.ogDescription)
+			if meta.ogImage
+				meta(name="og:image" content=meta.ogImage)
+			if meta.twitterCard && (meta.twitterSite || meta.twitterCreator || meta.twitterTitle || meta.twitterDescription || meta.twitterImage)
+				meta(name="twitter:card" content=meta.twitterCard)
+			if meta.twitterSite
+				meta(name="twitter:site" content=meta.twitterSite)
+			if meta.twitterCreator
+				meta(name="twitter:creator" content=meta.twitterCreator)
+			if meta.twitterTitle
+				meta(name="twitter:title" content=meta.twitterTitle)
+			if meta.twitterDescription
+				meta(name="twitter:description" content=meta.twitterDescription)
+			if meta.twitterImage
+				meta(name="twitter:image" content=meta.twitterImage)
+			if meta.appleMobileWebAppCapable
+				meta(name="apple-mobile-web-app-capable" content=meta.appleMobileWebAppCapable)
+			if meta.appleMobileWebAppStatusBarStyle
+				meta(name="apple-mobile-web-app-status-bar-style" content=meta.appleMobileWebAppStatusBarStyle)
+			if meta.appleMobileWebAppTitle
+				meta(name="apple-mobile-web-app-title" content=meta.appleMobileWebAppTitle)
+			if meta.applicationName
+				meta(name="application-name" content=meta.applicationName)
+			if meta.msapplicationTileColor
+				meta(name="msapplication-TileColor" content=meta.msapplicationTileColor)
+			if meta.msapplicationTileImage
+				meta(name="msapplication-TileImage" content=meta.msapplicationTileImage)
+			if meta.msapplicationSquare70x70logo
+				meta(name="msapplication-square70x70logo" content=meta.msapplicationSquare70x70logo)
+			if meta.msapplicationSquare150x150logo
+				meta(name="msapplication-square150x150logo" content=meta.msapplicationSquare150x150logo)
+			if meta.msapplicationWide310x150logo
+				meta(name="msapplication-wide310x150logo" content=meta.msapplicationWide310x150logo)
+			if meta.msapplicationSquare310x310logo
+				meta(name="msapplication-square310x310logo" content=meta.msapplicationSquare310x310logo)
+			if meta.msapplicationNotification
+				meta(name="msapplication-notification" content=meta.msapplicationNotification)
 		title
 			= title
 		block links
+			if link.appleTouchIconPrecomposed
+				link(rel="apple-touch-icon-precomposed" href=link.appleTouchIconPrecomposed)
+			if link.appleTouchIconPrecomposed57x57
+				link(rel="apple-touch-icon-precomposed" href=link.appleTouchIconPrecomposed57x57 sizes="57x57")
+			if link.appleTouchIconPrecomposed60x60
+				link(rel="apple-touch-icon-precomposed" href=link.appleTouchIconPrecomposed60x60 sizes="60x60")
+			if link.appleTouchIconPrecomposed72x72
+				link(rel="apple-touch-icon-precomposed" href=link.appleTouchIconPrecomposed72x72 sizes="72x72")
+			if link.appleTouchIconPrecomposed76x76
+				link(rel="apple-touch-icon-precomposed" href=link.appleTouchIconPrecomposed76x76 sizes="76x76")
+			if link.appleTouchIconPrecomposed114x114
+				link(rel="apple-touch-icon-precomposed" href=link.appleTouchIconPrecomposed114x114 sizes="114x114")
+			if link.appleTouchIconPrecomposed120x120
+				link(rel="apple-touch-icon-precomposed" href=link.appleTouchIconPrecomposed120x120 sizes="120x120")
+			if link.appleTouchIconPrecomposed144x144
+				link(rel="apple-touch-icon-precomposed" href=link.appleTouchIconPrecomposed144x144 sizes="144x144")
+			if link.appleTouchIconPrecomposed152x152
+				link(rel="apple-touch-icon-precomposed" href=link.appleTouchIconPrecomposed152x152 sizes="152x152")
+			if link.appleTouchIcon
+				link(rel="apple-touch-icon" href=link.appleTouchIcon)
+			if link.appleTouchIcon57x57
+				link(rel="apple-touch-icon" href=link.appleTouchIcon57x57 sizes="57x57")
+			if link.appleTouchIcon60x60
+				link(rel="apple-touch-icon" href=link.appleTouchIcon60x60 sizes="60x60")
+			if link.appleTouchIcon72x72
+				link(rel="apple-touch-icon" href=link.appleTouchIcon72x72 sizes="72x72")
+			if link.appleTouchIcon76x76
+				link(rel="apple-touch-icon" href=link.appleTouchIcon76x76 sizes="76x76")
+			if link.appleTouchIcon114x114
+				link(rel="apple-touch-icon" href=link.appleTouchIcon114x114 sizes="114x114")
+			if link.appleTouchIcon120x120
+				link(rel="apple-touch-icon" href=link.appleTouchIcon120x120 sizes="120x120")
+			if link.appleTouchIcon144x144
+				link(rel="apple-touch-icon" href=link.appleTouchIcon144x144 sizes="144x144")
+			if link.appleTouchIcon152x152
+				link(rel="apple-touch-icon" href=link.appleTouchIcon152x152 sizes="152x152")
+			if link.icon
+				link(rel="icon" href=link.icon)
+			if link.icon16x16
+				link(rel="icon" href=link.icon16x16 sizes="16x16")
+			if link.icon32x32
+				link(rel="icon" href=link.icon32x32 sizes="32x32")
+			if link.icon96x96
+				link(rel="icon" href=link.icon96x96 sizes="96x96")
+			if link.icon128x128
+				link(rel="icon" href=link.icon128x128 sizes="128x128")
+			if link.icon196x196
+				link(rel="icon" href=link.icon196x196 sizes="196x196")
 			if link.manifest
-				link(rel="manifest" href="/manifest.json")
-			if link.imageSrc
-				link(rel="image_src" href=link.imageSrc)
-			if link.icon['16x16']
-				link(rel="icon" href=link.icon['16x16'] sizes="16x16")
-			if link.icon['32x32']
-				link(rel="icon" href=link.icon['32x32'] sizes="32x32")
-			if link.icon['96x96']
-				link(rel="icon" href=link.icon['96x96'] sizes="96x96")
-			if link.icon['128x128']
-				link(rel="icon" href=link.icon['128x128'] sizes="128x128")
-			if link.icon['196x196']
-				link(rel="icon" href=link.icon['196x196'] sizes="196x196")
-			if link.apple.touchIconPrecomposed['57x57']
-				link(rel="apple-touch-icon-precomposed" href=link.apple.touchIconPrecomposed['57x57'] sizes="57x57")
-			if link.apple.touchIconPrecomposed['60x60']
-				link(rel="apple-touch-icon-precomposed" href=link.apple.touchIconPrecomposed['60x60'] sizes="60x60")
-			if link.apple.touchIconPrecomposed['72x72']
-				link(rel="apple-touch-icon-precomposed" href=link.apple.touchIconPrecomposed['72x72'] sizes="72x72")
-			if link.apple.touchIconPrecomposed['76x76']
-				link(rel="apple-touch-icon-precomposed" href=link.apple.touchIconPrecomposed['76x76'] sizes="76x76")
-			if link.apple.touchIconPrecomposed['114x114']
-				link(rel="apple-touch-icon-precomposed" href=link.apple.touchIconPrecomposed['114x114'] sizes="114x114")
-			if link.apple.touchIconPrecomposed['120x120']
-				link(rel="apple-touch-icon-precomposed" href=link.apple.touchIconPrecomposed['120x120'] sizes="120x120")
-			if link.apple.touchIconPrecomposed['144x144']
-				link(rel="apple-touch-icon-precomposed" href=link.apple.touchIconPrecomposed['144x144'] sizes="144x144")
-			if link.apple.touchIconPrecomposed['152x152']
-				link(rel="apple-touch-icon-precomposed" href=link.apple.touchIconPrecomposed['152x152'] sizes="152x152")
-			if link.apple.touchIcon['57x57']
-				link(rel="apple-touch-icon" href=link.apple.touchIcon['57x57'] sizes="57x57")
-			if link.apple.touchIcon['60x60']
-				link(rel="apple-touch-icon" href=link.apple.touchIcon['60x60'] sizes="60x60")
-			if link.apple.touchIcon['72x72']
-				link(rel="apple-touch-icon" href=link.apple.touchIcon['72x72'] sizes="72x72")
-			if link.apple.touchIcon['76x76']
-				link(rel="apple-touch-icon" href=link.apple.touchIcon['76x76'] sizes="76x76")
-			if link.apple.touchIcon['114x114']
-				link(rel="apple-touch-icon" href=link.apple.touchIcon['114x114'] sizes="114x114")
-			if link.apple.touchIcon['120x120']
-				link(rel="apple-touch-icon" href=link.apple.touchIcon['120x120'] sizes="120x120")
-			if link.apple.touchIcon['144x144']
-				link(rel="apple-touch-icon" href=link.apple.touchIcon['144x144'] sizes="144x144")
-			if link.apple.touchIcon['152x152']
-				link(rel="apple-touch-icon" href=link.apple.touchIcon['152x152'] sizes="152x152")
-			if link.apple.touchStartupImage
-				link(rel="apple-touch-startup-image" href=link.apple.touchStartupImage)
-			if link.apple.maskIcon.href
-				link(rel="mask-icon" href=link.apple.maskIcon.href color=link.apple.maskIcon.color)
+				link(rel="manifest" href=link.manifest)
+			if link.maskIcon.href
+				link(rel="mask-icon" href=link.maskIcon.href color=link.maskIcon.color)
 			link(rel="stylesheet" href="css/main.css?v=" + Date.now())
+		block head-end
 	body(class=body.classList)&attributes(body.attrs)
+		block body-start
 		block content
 		block scripts
 			script(src="js/vendor.js?v=" + Date.now())
 			script(src="js/main.js?v=" + Date.now())
+		block body-end
