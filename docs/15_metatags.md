@@ -174,14 +174,21 @@ append vars
 
 ```jade
 append vars
+    - link.appleTouchIcon40x40 = 'images/touch-icon-40x40.png'
     - link.appleTouchIcon57x57 = 'images/touch-icon-57x57.png'
+    - link.appleTouchIcon58x58 = 'images/touch-icon-58x58.png'
     - link.appleTouchIcon60x60 = 'images/touch-icon-60x60.png'
     - link.appleTouchIcon72x72 = 'images/touch-icon-72x72.png'
     - link.appleTouchIcon76x76 = 'images/touch-icon-76x76.png'
+    - link.appleTouchIcon80x80 = 'images/touch-icon-80x80.png'
+    - link.appleTouchIcon87x87 = 'images/touch-icon-87x87.png'
     - link.appleTouchIcon114x114 = 'images/touch-icon-114x114.png'
     - link.appleTouchIcon120x120 = 'images/touch-icon-120x120.png'
     - link.appleTouchIcon144x144 = 'images/touch-icon-144x144.png'
     - link.appleTouchIcon152x152 = 'images/touch-icon-152x152.png'
+    - link.appleTouchIcon167x167 = 'images/touch-icon-167x167.png'
+    - link.appleTouchIcon180x180 = 'images/touch-icon-180x180.png'
+    - link.appleTouchIcon1024x1024 = 'images/touch-icon-1024x1024.png'
 ```
 
 ### `apple-touch-icon-precomposed`
@@ -200,14 +207,21 @@ append vars
 
 ```jade
 append vars
+    - link.appleTouchIconPrecomposed40x40 = 'images/touch-icon-precomposed-40x40.png'
     - link.appleTouchIconPrecomposed57x57 = 'images/touch-icon-precomposed-57x57.png'
+    - link.appleTouchIconPrecomposed58x58 = 'images/touch-icon-precomposed-58x58.png'
     - link.appleTouchIconPrecomposed60x60 = 'images/touch-icon-precomposed-60x60.png'
     - link.appleTouchIconPrecomposed72x72 = 'images/touch-icon-precomposed-72x72.png'
     - link.appleTouchIconPrecomposed76x76 = 'images/touch-icon-precomposed-76x76.png'
+    - link.appleTouchIconPrecomposed80x80 = 'images/touch-icon-precomposed-80x80.png'
+    - link.appleTouchIconPrecomposed87x87 = 'images/touch-icon-precomposed-87x87.png'
     - link.appleTouchIconPrecomposed114x114 = 'images/touch-icon-precomposed-114x114.png'
     - link.appleTouchIconPrecomposed120x120 = 'images/touch-icon-precomposed-120x120.png'
     - link.appleTouchIconPrecomposed144x144 = 'images/touch-icon-precomposed-144x144.png'
     - link.appleTouchIconPrecomposed152x152 = 'images/touch-icon-precomposed-152x152.png'
+    - link.appleTouchIconPrecomposed167x167 = 'images/touch-icon-precomposed-167x167.png'
+    - link.appleTouchIconPrecomposed180x180 = 'images/touch-icon-precomposed-180x180.png'
+    - link.appleTouchIconPrecomposed1024x1024 = 'images/touch-icon-precomposed-1024x1024.png'
 ```
 
 ### `mask-icon`
