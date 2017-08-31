@@ -90,7 +90,7 @@
 			"rules",
 			{
 				"type": "rule",
-				"selector": "&-.+"
+				"selector": "&-[^-].*"
 			},
 			{
 				"type": "rule",
@@ -126,7 +126,15 @@
 			},
 			{
 				"type": "rule",
+				"selector": "&\\[[^\\[\\]]+\\]"
+			},
+			{
+				"type": "rule",
 				"selector": "&\\..+"
+			},
+			{
+				"type": "rule",
+				"selector": "&--.+"
 			},
 			{
 				"type": "rule",
