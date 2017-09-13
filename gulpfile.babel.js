@@ -168,6 +168,9 @@ export function jsMain() {
 				'es2015',
 			],
 		}))
+		.pipe($.replace(/\/\* global .+ \*\//g, ''))
+		.pipe($.replace(/\/[*|/] eslint-disable.+/g, ''))
+		.pipe($.replace(/\/\/ no default\n?/g, ''))
 		.pipe($.if(argv.production, $.stripDebug()))
 		.pipe($.jsbeautifier({
 			js: {
