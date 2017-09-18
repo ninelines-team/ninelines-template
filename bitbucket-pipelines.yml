@@ -17,7 +17,6 @@ pipelines:
             - npm install
             - gulp build --no-cache --no-notify --throw-errors
             - aero deploy
-  custom:
     lint:
       - step:
           script:
