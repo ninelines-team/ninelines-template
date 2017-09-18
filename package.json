@@ -45,7 +45,7 @@
 		"stylelint-order": "0.6.0",
 		"stylelint-scss": "2.1.0",
 		"vinyl-buffer": "1.0.0",
-		"yargs": "8.0.2"
+		"yargs": "9.0.1"
 	},
 	"dependencies": {
 		"babel-polyfill": "6.26.0",
