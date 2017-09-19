@@ -4,6 +4,8 @@ pipelines:
   branches:
     master:
       - step:
+          caches:
+            - node
           script:
             - npm install -g aerobatic-cli gulp-cli
             - npm install
@@ -12,6 +14,8 @@ pipelines:
   custom:
     build:
       - step:
+          caches:
+            - node
           script:
             - npm install -g aerobatic-cli gulp-cli
             - npm install
@@ -19,6 +23,8 @@ pipelines:
             - aero deploy
     lint:
       - step:
+          caches:
+            - node
           script:
             - npm install -g gulp-cli
             - npm install
