@@ -2,7 +2,6 @@ import yargs from 'yargs';
 import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import {setup as emittySetup} from 'emitty';
-import routerConfig from './router-config';
 
 let argv = yargs.default({
 	base: '.',
@@ -349,7 +348,7 @@ export function serve() {
 	let middleware = [];
 
 	if (argv.spa) {
-		middleware.push($.connectHistoryApiFallback(routerConfig));
+		middleware.push($.connectHistoryApiFallback());
 	}
 
 	$.browserSync
