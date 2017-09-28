@@ -393,10 +393,15 @@ export function zip() {
 
 	let files = [
 		'build/**',
+		'docs/**',
 		'src/**',
 		'.babelrc',
+		'.editorconfig',
+		'.eslintignore',
+		'.eslintrc',
 		'.gitignore',
 		'.npmrc',
+		'.stylelintrc',
 		'*.js',
 		'*.json',
 		'*.md',
