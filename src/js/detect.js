@@ -19,7 +19,7 @@
 	let check = (category, items) => {
 		iterate(items, (key, value) => {
 			if (bowser[key]) {
-				$(document.documentElement).addClass(`is-${category}-${value}`);
+				document.documentElement.classList.add(`is-${category}-${value}`);
 			}
 		});
 	};
