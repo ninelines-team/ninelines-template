@@ -1,4 +1,4 @@
-image: node:8.6.0
+image: node:8.7.0
 
 pipelines:
   branches:
