@@ -9,7 +9,7 @@
 		"babel-preset-es2015": "6.24.1",
 		"babel-register": "6.26.0",
 		"browser-sync": "2.18.13",
-		"connect-history-api-fallback": "1.3.0",
+		"connect-history-api-fallback": "1.4.0",
 		"cssnano": "3.10.0",
 		"emitty": "1.4.0",
 		"gulp": "github:gulpjs/gulp#4.0",
