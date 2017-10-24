@@ -14,7 +14,7 @@ git clone https://github.com/beliarh/project-template.git
 npm install
 ```
 
-По завершению можно запускать сборку и приступать к верстке:
+По завершении можно запускать сборку и приступать к верстке:
 
 ```bash
 gulp
