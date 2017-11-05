@@ -2,6 +2,7 @@ import yargs from 'yargs';
 import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import {setup as emittySetup} from 'emitty';
+import path from 'path';
 
 let argv = yargs.default({
 	base: '.',
@@ -61,10 +62,36 @@ let emittyPug = emittySetup('src', 'pug', {
 	makeVinylFile: true,
 });
 
+let svgoConfig = (file) => {
+	let filename = path.basename(file.relative, path.extname(file.relative));
+
+	return {
+		js2svg: {
+			pretty: !argv.production,
+			indent: '\t',
+		},
+		plugins: [
+			{
+				cleanupIDs: {
+					minify: true,
+					prefix: `${filename}-`,
+				},
+			},
+			{
+				removeTitle: true,
+			},
+			{
+				sortAttrs: true,
+			},
+		],
+	};
+};
+
 export function copy() {
 	return gulp.src([
 		'src/resources/**/*.*',
 		'src/resources/**/.*',
+		'!src/resources/**/.keep',
 	], {
 		allowEmpty: true,
 		base: 'src/resources',
@@ -95,7 +122,7 @@ export function images() {
 			$.imagemin.optipng({
 				optimizationLevel: 3,
 			}),
-			$.imagemin.svgo(),
+			$.imagemin.svgo(svgoConfig),
 		]))
 		.pipe(gulp.dest('build/images'));
 }
@@ -134,23 +161,31 @@ export function svgSprites() {
 			errorHandler,
 		}))
 		.pipe($.if(argv.debug, $.debug()))
-		.pipe($.svgmin({
-			js2svg: {
-				pretty: !argv.production,
-			},
-			plugins: [
-				{
-					cleanupIDs: false,
-				},
-			],
-		}))
+		.pipe($.svgmin(svgoConfig))
 		.pipe($.svgstore())
+		.pipe($.if(!argv.production, $.replace(/^\t+$/gm, '')))
+		.pipe($.if(!argv.production, $.replace(/\n{2,}/g, '\n')))
 		.pipe($.if(!argv.production, $.replace('?><!', '?>\n<!')))
 		.pipe($.if(!argv.production, $.replace('><svg', '>\n<svg')))
+		.pipe($.if(!argv.production, $.replace('><defs', '>\n\t<defs')))
 		.pipe($.if(!argv.production, $.replace('><symbol', '>\n<symbol')))
 		.pipe($.if(!argv.production, $.replace('></svg', '>\n</svg')))
 		.pipe($.rename('sprites.svg'))
 		.pipe(gulp.dest('build/images'));
+}
+
+export function svgOptimize() {
+	return gulp.src('src/images/**/*.svg', {
+		allowEmpty: true,
+		base: 'src/images',
+		since: gulp.lastRun('svgOptimize'),
+	})
+		.pipe($.plumber({
+			errorHandler,
+		}))
+		.pipe($.if(argv.debug, $.debug()))
+		.pipe($.svgmin(svgoConfig))
+		.pipe(gulp.dest('src/images'));
 }
 
 export function jsMain() {
