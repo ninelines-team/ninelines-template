@@ -1,38 +1,26 @@
-import yargs from 'yargs';
 import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import {setup as emittySetup} from 'emitty';
 import path from 'path';
+import pkg from './package.json';
+import yargs from 'yargs';
 
 let argv = yargs.default({
-	base: '.',
-	browser: null,
 	cache: true,
-	compress: true,
 	debug: true,
-	exclude: [],
 	fix: false,
-	htmlExt: true,
-	include: [],
+	minify: true,
 	notify: true,
-	only: [],
-	name: null,
 	open: true,
 	port: 3000,
-	production: false,
 	spa: false,
-	sourcemaps: true,
 	throwErrors: false,
-	time: true,
 }).argv;
-
-function arg2array(arg, separator = ',') {
-	return Array.isArray(arg) ? arg : (arg || '').split(separator);
-}
 
 let $ = gulpLoadPlugins({
 	overridePattern: false,
 	pattern: [
+		'autoprefixer',
 		'browser-sync',
 		'connect-history-api-fallback',
 		'cssnano',
@@ -54,36 +42,40 @@ let errorHandler;
 
 if (argv.throwErrors) {
 	errorHandler = false;
+} else if (argv.notify) {
+	errorHandler = $.notify.onError('<%= error.message %>');
 } else {
-	errorHandler = argv.notify ? $.notify.onError('<%= error.message %>') : null;
+	errorHandler = null;
 }
 
 let emittyPug = emittySetup('src', 'pug', {
 	makeVinylFile: true,
 });
 
-let svgoConfig = (file) => {
-	let filename = path.basename(file.relative, path.extname(file.relative));
+let svgoConfig = (minify = argv.minify) => {
+	return (file) => {
+		let filename = path.basename(file.relative, path.extname(file.relative));
 
-	return {
-		js2svg: {
-			pretty: !argv.production,
-			indent: '\t',
-		},
-		plugins: [
-			{
-				cleanupIDs: {
-					minify: true,
-					prefix: `${filename}-`,
+		return {
+			js2svg: {
+				pretty: !minify,
+				indent: '\t',
+			},
+			plugins: [
+				{
+					cleanupIDs: {
+						minify: true,
+						prefix: `${filename}-`,
+					},
 				},
-			},
-			{
-				removeTitle: true,
-			},
-			{
-				sortAttrs: true,
-			},
-		],
+				{
+					removeTitle: true,
+				},
+				{
+					sortAttrs: true,
+				},
+			],
+		};
 	};
 };
 
@@ -93,10 +85,8 @@ export function copy() {
 		'src/resources/**/.*',
 		'!src/resources/**/.keep',
 	], {
-		allowEmpty: true,
 		base: 'src/resources',
 		dot: true,
-		since: gulp.lastRun('copy'),
 	})
 		.pipe($.if(argv.cache, $.newer('build')))
 		.pipe($.if(argv.debug, $.debug()))
@@ -104,9 +94,7 @@ export function copy() {
 }
 
 export function images() {
-	return gulp.src('src/images/**/*.*', {
-		sins: gulp.lastRun('images'),
-	})
+	return gulp.src('src/images/**/*.*')
 		.pipe($.plumber({
 			errorHandler,
 		}))
@@ -122,7 +110,7 @@ export function images() {
 			$.imagemin.optipng({
 				optimizationLevel: 3,
 			}),
-			$.imagemin.svgo(svgoConfig),
+			$.imagemin.svgo(svgoConfig()),
 		]))
 		.pipe(gulp.dest('build/images'));
 }
@@ -161,30 +149,28 @@ export function svgSprites() {
 			errorHandler,
 		}))
 		.pipe($.if(argv.debug, $.debug()))
-		.pipe($.svgmin(svgoConfig))
+		.pipe($.svgmin(svgoConfig()))
 		.pipe($.svgstore())
-		.pipe($.if(!argv.production, $.replace(/^\t+$/gm, '')))
-		.pipe($.if(!argv.production, $.replace(/\n{2,}/g, '\n')))
-		.pipe($.if(!argv.production, $.replace('?><!', '?>\n<!')))
-		.pipe($.if(!argv.production, $.replace('><svg', '>\n<svg')))
-		.pipe($.if(!argv.production, $.replace('><defs', '>\n\t<defs')))
-		.pipe($.if(!argv.production, $.replace('><symbol', '>\n<symbol')))
-		.pipe($.if(!argv.production, $.replace('></svg', '>\n</svg')))
+		.pipe($.if(!argv.minify, $.replace(/^\t+$/gm, '')))
+		.pipe($.if(!argv.minify, $.replace(/\n{2,}/g, '\n')))
+		.pipe($.if(!argv.minify, $.replace('?><!', '?>\n<!')))
+		.pipe($.if(!argv.minify, $.replace('><svg', '>\n<svg')))
+		.pipe($.if(!argv.minify, $.replace('><defs', '>\n\t<defs')))
+		.pipe($.if(!argv.minify, $.replace('><symbol', '>\n<symbol')))
+		.pipe($.if(!argv.minify, $.replace('></svg', '>\n</svg')))
 		.pipe($.rename('sprites.svg'))
 		.pipe(gulp.dest('build/images'));
 }
 
 export function svgOptimize() {
 	return gulp.src('src/images/**/*.svg', {
-		allowEmpty: true,
 		base: 'src/images',
-		since: gulp.lastRun('svgOptimize'),
 	})
 		.pipe($.plumber({
 			errorHandler,
 		}))
 		.pipe($.if(argv.debug, $.debug()))
-		.pipe($.svgmin(svgoConfig))
+		.pipe($.svgmin(svgoConfig(false)))
 		.pipe(gulp.dest('src/images'));
 }
 
@@ -202,24 +188,22 @@ export function jsMain() {
 				'es2015',
 			],
 		}))
-		.pipe($.replace(/\/\* global .+ \*\//g, ''))
-		.pipe($.replace(/\/[*|/] eslint-disable.+/g, ''))
-		.pipe($.replace(/\/\/ no default\n?/g, ''))
-		.pipe($.if(argv.production, $.stripDebug()))
-		.pipe($.jsbeautifier({
+		.pipe($.if(argv.minify, $.uglify()))
+		.pipe($.if(!argv.minify, $.replace(/\/\* global .+\n?/g, '')))
+		.pipe($.if(!argv.minify, $.replace(/\/[*|/] eslint-disable.+\n?/g, '')))
+		.pipe($.if(!argv.minify, $.replace(/\/\/ no default\n?/g, '')))
+		.pipe($.if(!argv.minify, $.jsbeautifier({
 			js: {
 				indent_with_tabs: true,
 				end_with_newline: true,
 				max_preserve_newlines: 2,
 			},
-		}))
+		})))
 		.pipe(gulp.dest('build/js'));
 }
 
 export function jsVendor() {
-	return gulp.src('src/js/vendor.js', {
-		since: gulp.lastRun('jsVendor'),
-	})
+	return gulp.src('src/js/vendor.js')
 		.pipe($.plumber({
 			errorHandler,
 		}))
@@ -228,7 +212,7 @@ export function jsVendor() {
 		.pipe($.fileInclude({
 			prefix: '// @',
 		}))
-		.pipe($.if(argv.production, $.uglify()))
+		.pipe($.if(argv.minify, $.uglify()))
 		.pipe(gulp.dest('build/js'));
 }
 
@@ -240,7 +224,7 @@ export function pug() {
 			}))
 			.pipe($.if(argv.debug, $.debug()))
 			.pipe($.pug({
-				pretty: true,
+				pretty: !argv.minify ? '\t': false,
 			}))
 			.pipe(gulp.dest('build'));
 	}
@@ -254,7 +238,7 @@ export function pug() {
 				.pipe(emittyPug.filter(global.emittyPugChangedFile))
 				.pipe($.if(argv.debug, $.debug()))
 				.pipe($.pug({
-					pretty: true,
+					pretty: !argv.minify ? '\t': false,
 				}))
 				.pipe(gulp.dest('build'))
 				.on('end', resolve)
@@ -272,22 +256,28 @@ export function scss() {
 			errorHandler,
 		}))
 		.pipe($.if(argv.debug, $.debug()))
-		.pipe($.if(argv.sourcemaps, $.sourcemaps.init()))
+		.pipe($.sourcemaps.init())
 		.pipe($.sass().on('error', $.sass.logError))
 		.pipe($.postcss([
-			$.cssnano({
-				autoprefixer: {
+			argv.minify ?
+				$.cssnano({
+					autoprefixer: {
+						add: true,
+						browsers: ['> 0%'],
+					},
+					calc: true,
+					discardComments: {
+						removeAll: true,
+					},
+					zindex: false,
+				})
+				:
+				$.autoprefixer({
 					add: true,
 					browsers: ['> 0%'],
-				},
-				calc: true,
-				discardComments: {
-					removeAll: true,
-				},
-				zindex: false,
-			}),
+				}),
 		]))
-		.pipe($.if(argv.sourcemaps, $.sourcemaps.write('.')))
+		.pipe($.sourcemaps.write('.'))
 		.pipe(gulp.dest('build/css'));
 }
 
@@ -389,7 +379,6 @@ export function serve() {
 	$.browserSync
 		.create()
 		.init({
-			browser: arg2array(argv.browser),
 			notify: false,
 			open: argv.open,
 			port: argv.port,
@@ -399,34 +388,20 @@ export function serve() {
 			server: {
 				baseDir: './build',
 				middleware,
-				serveStaticOptions: {
-					extensions: argv.htmlExt ? [] : ['html'],
-				},
 			},
 		});
 }
 
 export function zip() {
-	// eslint-disable-next-line global-require
-	let name = argv.name ? argv.name : require('./package.json').name;
+	let name = pkg.name;
+	let now = new Date();
+	let year = now.getFullYear().toString().padStart(2, '0');
+	let month = (now.getMonth() + 1).toString().padStart(2, '0');
+	let day = now.getDate().toString().padStart(2, '0');
+	let hours = now.getHours().toString().padStart(2, '0');
+	let minutes = now.getMinutes().toString().padStart(2, '0');
 
-	if (argv.time) {
-		let now = new Date();
-		let year = now.getFullYear();
-		let month = now.getMonth() + 1;
-		let day = now.getDate();
-		let hours = now.getHours();
-		let minutes = now.getMinutes();
-
-		month = month < 10 ? `0${month}` : month;
-		day = day < 10 ? `0${day}` : day;
-		hours = hours < 10 ? `0${hours}` : hours;
-		minutes = minutes < 10 ? `0${minutes}` : minutes;
-
-		name += `_${year}-${month}-${day}_${hours}-${minutes}`;
-	}
-
-	let files = [
+	return gulp.src([
 		'build/**',
 		'docs/**',
 		'src/**',
@@ -442,40 +417,11 @@ export function zip() {
 		'*.md',
 		'*.yml',
 		'!zip/**',
-	];
-
-	let includeFiles = arg2array(argv.include);
-	let excludeFiles = arg2array(argv.exclude);
-	let onlyFiles = arg2array(argv.only);
-
-	if (argv.include.length) {
-		files = files.concat(includeFiles);
-	}
-
-	if (argv.exclude.length) {
-		excludeFiles = excludeFiles.map((excludedFile) => {
-			if (files.includes(excludedFile)) {
-				files = files.filter((file) => file !== excludedFile);
-			}
-
-			return `!${excludedFile}`;
-		});
-
-		files = files.concat(excludeFiles);
-	}
-
-	if (argv.only.length) {
-		files = onlyFiles;
-	}
-
-	return gulp.src(files, {
-		allowEmpty: true,
-		base: argv.base,
+	], {
+		base: '.',
 		dot: true,
 	})
-		.pipe($.zip(`${name}.zip`, {
-			compress: argv.compress,
-		}))
+		.pipe($.zip(`${name}_${year}-${month}-${day}_${hours}-${minutes}.zip`))
 		.pipe(gulp.dest('zip'));
 }
 

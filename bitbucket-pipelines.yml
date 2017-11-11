@@ -9,7 +9,7 @@ pipelines:
           script:
             - npm install -g aerobatic-cli gulp-cli
             - npm install
-            - gulp build --no-cache --no-notify --throw-errors
+            - gulp build --no-cache --throw-errors
             - aero deploy
   custom:
     build:
@@ -19,7 +19,7 @@ pipelines:
           script:
             - npm install -g aerobatic-cli gulp-cli
             - npm install
-            - gulp build --no-cache --no-notify --throw-errors
+            - gulp build --no-cache --throw-errors
             - aero deploy
     lint:
       - step:
