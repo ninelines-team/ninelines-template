@@ -52,6 +52,7 @@ let emittyPug = emittySetup('src', 'pug', {
 	makeVinylFile: true,
 });
 
+// eslint-disable-next-line arrow-body-style
 let svgoConfig = (minify = argv.minify) => {
 	return (file) => {
 		let filename = path.basename(file.relative, path.extname(file.relative));
@@ -224,7 +225,7 @@ export function pug() {
 			}))
 			.pipe($.if(argv.debug, $.debug()))
 			.pipe($.pug({
-				pretty: !argv.minify ? '\t': false,
+				pretty: argv.minify ? false : '\t',
 			}))
 			.pipe(gulp.dest('build'));
 	}
@@ -238,7 +239,7 @@ export function pug() {
 				.pipe(emittyPug.filter(global.emittyPugChangedFile))
 				.pipe($.if(argv.debug, $.debug()))
 				.pipe($.pug({
-					pretty: !argv.minify ? '\t': false,
+					pretty: argv.minify ? false : '\t',
 				}))
 				.pipe(gulp.dest('build'))
 				.on('end', resolve)
