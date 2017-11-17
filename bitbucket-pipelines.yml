@@ -1,4 +1,4 @@
-image: node:9.1.0
+image: node:9.2.0
 
 pipelines:
   branches:
