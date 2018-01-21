@@ -2,16 +2,15 @@
 	"disallowAttributeInterpolation": true,
 	"disallowClassAttributeWithStaticValue": true,
 	"disallowDuplicateAttributes": true,
+	"disallowHtmlText": true,
 	"disallowIdAttributeWithStaticValue": true,
 	"disallowLegacyMixinCall": true,
 	"disallowMultipleLineBreaks": true,
 	"disallowSpacesInsideAttributeBrackets": true,
-	"disallowSpecificAttributes": [],
-	"disallowSpecificTags": [],
+	"disallowTrailingSpaces": true,
 	"requireClassLiteralsBeforeAttributes": true,
 	"requireClassLiteralsBeforeIdLiterals": true,
 	"requireIdLiteralsBeforeAttributes": true,
-	"requireLineFeedAtFileEnd": true,
 	"requireLowerCaseAttributes": true,
 	"requireLowerCaseTags": true,
 	"requireSpaceAfterCodeOperator": true,
@@ -28,5 +27,6 @@
 	"validateDivTags": true,
 	"validateIndentation": "\t",
 	"validateLineBreaks": "LF",
-	"validateSelfClosingTags": true
+	"validateSelfClosingTags": true,
+	"validateTemplateString": true
 }
