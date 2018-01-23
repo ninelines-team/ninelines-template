@@ -47,5 +47,5 @@ $(document).foundation();
 
 ```scss
 $global-width: 1024px;
-$grid-column-count: 8;
+$grid-column-count: 8; //по умолчанию "Xy Grid" - у нее $grid-columns:
 ```
