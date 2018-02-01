@@ -1,25 +1,3 @@
-# Оглавление
+# Документация
 
-* [Основные возможности и используемые технологии](docs/01_technologies.md)
-* [Минимальные требования](docs/02_requirements.md)
-* [Начало работы](docs/03_installation.md)
-* [Gulp-задачи](docs/04_tasks.md)
-* [Структура папок и файлов](docs/05_structure.md)
-* [Подключение сторонних библиотек](docs/06_libraries.md)
-* [Работа с изображениями](docs/07_images.md)
-  * [Работа с PNG-спрайтами](docs/07_images.md#Работа-с-png-спрайтами)
-  * [Работа с SVG-спрайтами](docs/07_images.md#Работа-с-svg-спрайтами)
-* [Работа с шаблонизатором Pug](docs/08_templates.md)
-* [Работа со стилями](docs/09_styles.md)
-* [Работа со скриптами](docs/10_scripts.md)
-* [Работа с дополнительными ресурсами](docs/11_resources.md)
-  * [Работа со шрифтами](docs/11_resources.md#Работа-со-шрифтами)
-* [Работа с Foundation](docs/12_foundation.md)
-* [Pixel-perfect или верстка в соответствии с макетом](docs/13_pixel-perfect.md)
-* [Работа с модульной сеткой](docs/14_modular-grid.md)
-* [Работа с метатегами](docs/15_metatags.md)
-  * [Базовые метатеги](docs/15_metatags.md#Базовые-метатеги)
-  * [Метатеги Apple](docs/15_metatags.md#Метатеги-apple)
-  * [Метатеги Microsoft](docs/15_metatags.md#Метатеги-microsoft)
-  * [Метатеги Open Graph](docs/15_metatags.md#метатеги-open-graph)
-  * [Метатеги Twitter](docs/15_metatags.md#Метатеги-twitter)
+Документация к данной сборке доступна по ссылке [https://github.com/ninelines-team/ninelines-docs](https://github.com/ninelines-team/ninelines-docs).
