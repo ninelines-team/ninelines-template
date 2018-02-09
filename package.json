@@ -43,13 +43,13 @@
 		"stylelint": "8.4.0",
 		"stylelint-declaration-block-no-ignored-properties": "1.0.2",
 		"stylelint-order": "0.8.0",
-		"stylelint-scss": "2.2.0",
+		"stylelint-scss": "2.3.0",
 		"vinyl-buffer": "1.0.1",
 		"yargs": "11.0.0"
 	},
 	"dependencies": {
 		"babel-polyfill": "6.26.0",
-		"bowser": "1.9.1",
+		"bowser": "1.9.2",
 		"jquery": "3.3.1",
 		"normalize-css": "2.3.1",
 		"svg4everybody": "2.1.9"
