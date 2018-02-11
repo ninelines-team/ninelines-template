@@ -511,13 +511,7 @@
 			"never"
 		],
 		"wrap-regex": "off",
-		"arrow-body-style": [
-			"error",
-			"as-needed",
-			{
-				"requireReturnForObjectLiteral": false
-			}
-		],
+		"arrow-body-style": "off",
 		"arrow-parens": [
 			"error",
 			"always"
