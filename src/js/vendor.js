@@ -1,4 +1,10 @@
-// @include('../../node_modules/babel-polyfill/dist/polyfill.js')
-// @include('../../node_modules/bowser/bowser.js')
-// @include('../../node_modules/svg4everybody/dist/svg4everybody.js')
-// @include('../../node_modules/jquery/dist/jquery.js')
+import 'babel-polyfill';
+import svg4everybody from 'svg4everybody';
+import $ from 'jquery';
+
+svg4everybody();
+
+window.$ = $;
+window.jQuery = $;
+
+import 'ninelines-ua-parser';

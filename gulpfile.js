@@ -1,15 +1,17 @@
-import gulp from 'gulp';
-import gulpLoadPlugins from 'gulp-load-plugins';
-import {setup as emittySetup} from 'emitty';
-import path from 'path';
-import pkg from './package.json';
-import yargs from 'yargs';
+let gulp = require('gulp');
+let gulpLoadPlugins = require('gulp-load-plugins');
+let yargs = require('yargs');
+
+let path;
+let nodeNotifier;
+let emittyPug;
+let errorHandler;
 
 let argv = yargs.default({
 	cache: true,
 	debug: true,
 	fix: false,
-	minify: true,
+	minify: false,
 	notify: true,
 	open: true,
 	port: 3000,
@@ -24,9 +26,15 @@ let $ = gulpLoadPlugins({
 		'browser-sync',
 		'connect-history-api-fallback',
 		'cssnano',
+		'emitty',
 		'merge-stream',
 		'postcss-reporter',
 		'postcss-scss',
+		'rollup',
+		'rollup-plugin-babel',
+		'rollup-plugin-commonjs',
+		'rollup-plugin-node-resolve',
+		'rollup-plugin-uglify',
 		'stylelint',
 		'vinyl-buffer',
 	],
@@ -38,8 +46,6 @@ let $ = gulpLoadPlugins({
 	],
 });
 
-let errorHandler;
-
 if (argv.throwErrors) {
 	errorHandler = false;
 } else if (argv.notify) {
@@ -48,13 +54,13 @@ if (argv.throwErrors) {
 	errorHandler = null;
 }
 
-let emittyPug = emittySetup('src', 'pug', {
-	makeVinylFile: true,
-});
-
-// eslint-disable-next-line arrow-body-style
-let svgoConfig = (minify = argv.minify) => {
+function svgoConfig(minify = argv.minify) {
 	return (file) => {
+		if (!path) {
+			// eslint-disable-next-line global-require
+			path = require('path');
+		}
+
 		let filename = path.basename(file.relative, path.extname(file.relative));
 
 		return {
@@ -78,9 +84,54 @@ let svgoConfig = (minify = argv.minify) => {
 			],
 		};
 	};
-};
+}
 
-export function copy() {
+function rollup(inputFile, outputFile) {
+	let rollupPromise = $.rollup.rollup({
+		input: inputFile,
+		plugins: [
+			$.rollupPluginNodeResolve({
+				jsnext: true,
+			}),
+			$.rollupPluginCommonjs({
+				include: 'node_modules/**',
+			}),
+			$.rollupPluginBabel({
+				exclude: 'node_modules/**',
+			}),
+			argv.minify && $.rollupPluginUglify(),
+		],
+	}).then((bundle) => bundle.write({
+		file: outputFile,
+		format: 'iife',
+		sourcemap: true,
+	}));
+
+	if (!argv.throwErrors) {
+		rollupPromise.catch((error) => {
+			if (argv.notify) {
+				if (!nodeNotifier) {
+					// eslint-disable-next-line global-require
+					nodeNotifier = require('./node_modules/node-notifier');
+				}
+
+				nodeNotifier.notify({
+					title: 'Error running Gulp',
+					message: error.message,
+					icon: './node_modules/gulp-notify/assets/gulp-error.png',
+					sound: 'Frog',
+				});
+			}
+
+			// eslint-disable-next-line no-console
+			console.error(error.stack);
+		});
+	}
+
+	return rollupPromise;
+}
+
+gulp.task('copy', () => {
 	return gulp.src([
 		'src/resources/**/*.*',
 		'src/resources/**/.*',
@@ -92,9 +143,9 @@ export function copy() {
 		.pipe($.if(argv.cache, $.newer('build')))
 		.pipe($.if(argv.debug, $.debug()))
 		.pipe(gulp.dest('build'));
-}
+});
 
-export function images() {
+gulp.task('images', () => {
 	return gulp.src('src/images/**/*.*')
 		.pipe($.plumber({
 			errorHandler,
@@ -114,9 +165,9 @@ export function images() {
 			$.imagemin.svgo(svgoConfig()),
 		]))
 		.pipe(gulp.dest('build/images'));
-}
+});
 
-export function pngSprites() {
+gulp.task('pngSprites', () => {
 	const spritesData = gulp.src('src/images/sprites/png/*.png')
 		.pipe($.plumber({
 			errorHandler,
@@ -142,9 +193,9 @@ export function pngSprites() {
 		spritesData.css
 			.pipe(gulp.dest('src/scss'))
 	);
-}
+});
 
-export function svgSprites() {
+gulp.task('svgSprites', () => {
 	return gulp.src('src/images/sprites/svg/*.svg')
 		.pipe($.plumber({
 			errorHandler,
@@ -161,9 +212,9 @@ export function svgSprites() {
 		.pipe($.if(!argv.minify, $.replace('></svg', '>\n</svg')))
 		.pipe($.rename('sprites.svg'))
 		.pipe(gulp.dest('build/images'));
-}
+});
 
-export function svgOptimize() {
+gulp.task('svgOptimize', () => {
 	return gulp.src('src/images/**/*.svg', {
 		base: 'src/images',
 	})
@@ -173,51 +224,15 @@ export function svgOptimize() {
 		.pipe($.if(argv.debug, $.debug()))
 		.pipe($.svgmin(svgoConfig(false)))
 		.pipe(gulp.dest('src/images'));
-}
+});
 
-export function jsMain() {
-	return gulp.src('src/js/main.js')
-		.pipe($.plumber({
-			errorHandler,
-		}))
-		.pipe($.if(argv.debug, $.debug()))
-		.pipe($.fileInclude({
-			prefix: '// @',
-		}))
-		.pipe($.babel({
-			presets: [
-				'es2015',
-			],
-		}))
-		.pipe($.if(argv.minify, $.uglify()))
-		.pipe($.if(!argv.minify, $.replace(/\/\* global .+\n?/g, '')))
-		.pipe($.if(!argv.minify, $.replace(/\/[*|/] eslint-disable.+\n?/g, '')))
-		.pipe($.if(!argv.minify, $.replace(/\/\/ no default\n?/g, '')))
-		.pipe($.if(!argv.minify, $.jsbeautifier({
-			js: {
-				indent_with_tabs: true,
-				end_with_newline: true,
-				max_preserve_newlines: 2,
-			},
-		})))
-		.pipe(gulp.dest('build/js'));
-}
+gulp.task('pug', () => {
+	if (!emittyPug) {
+		emittyPug = $.emitty.setup('src', 'pug', {
+			makeVinylFile: true,
+		});
+	}
 
-export function jsVendor() {
-	return gulp.src('src/js/vendor.js')
-		.pipe($.plumber({
-			errorHandler,
-		}))
-		.pipe($.if(argv.debug, $.debug()))
-		.pipe($.if(argv.cache, $.newer('build/js')))
-		.pipe($.fileInclude({
-			prefix: '// @',
-		}))
-		.pipe($.if(argv.minify, $.uglify()))
-		.pipe(gulp.dest('build/js'));
-}
-
-export function pug() {
 	if (!argv.cache) {
 		return gulp.src('src/*.pug')
 			.pipe($.plumber({
@@ -246,9 +261,9 @@ export function pug() {
 				.on('error', reject);
 		});
 	});
-}
+});
 
-export function scss() {
+gulp.task('scss', () => {
 	return gulp.src([
 		'src/scss/*.scss',
 		'!src/scss/_*.scss',
@@ -280,27 +295,17 @@ export function scss() {
 		]))
 		.pipe($.sourcemaps.write('.'))
 		.pipe(gulp.dest('build/css'));
-}
+});
 
-export function lintJs() {
-	return gulp.src([
-		'*.js',
-		'src/js/**/*.js',
-		'!src/js/vendor/**/*.js',
-	], {
-		base: '.',
-	})
-		.pipe($.plumber({
-			errorHandler,
-		}))
-		.pipe($.eslint({
-			fix: argv.fix,
-		}))
-		.pipe($.eslint.format())
-		.pipe($.if((file) => file.eslint && file.eslint.fixed, gulp.dest('.')));
-}
+gulp.task('jsMain', () => {
+	return rollup('src/js/main.js', 'build/js/main.js');
+});
 
-export function lintPug() {
+gulp.task('jsVendor', () => {
+	return rollup('src/js/vendor.js', 'build/js/vendor.js');
+});
+
+gulp.task('lintPug', () => {
 	return gulp.src([
 		'src/*.pug',
 		'src/pug/**/*.pug',
@@ -310,9 +315,9 @@ export function lintPug() {
 		}))
 		.pipe($.pugLinter())
 		.pipe($.pugLinter.reporter(argv.throwErrors ? 'fail' : null));
-}
+});
 
-export function lintScss() {
+gulp.task('lintScss', () => {
 	return gulp.src([
 		'src/scss/**/*.scss',
 		'!src/scss/vendor/**/*.scss',
@@ -329,36 +334,47 @@ export function lintScss() {
 		], {
 			parser: $.postcssScss,
 		}));
-}
+});
 
-export function watch() {
+gulp.task('lintJs', () => {
+	return gulp.src([
+		'*.js',
+		'src/js/**/*.js',
+		'!src/js/vendor/**/*.js',
+	], {
+		base: '.',
+	})
+		.pipe($.plumber({
+			errorHandler,
+		}))
+		.pipe($.eslint({
+			fix: argv.fix,
+		}))
+		.pipe($.eslint.format())
+		.pipe($.if((file) => file.eslint && file.eslint.fixed, gulp.dest('.')));
+});
+
+gulp.task('watch', () => {
 	gulp.watch([
 		'src/resources/**/*.*',
 		'src/resources/**/.*',
-	], copy);
+	], gulp.series('copy'));
 
-	gulp.watch('src/images/**/*.*', images);
-
-	gulp.watch('src/images/sprites/svg/*.svg', svgSprites);
+	gulp.watch('src/images/**/*.*', gulp.series('images'));
 
 	gulp.watch([
 		'src/images/sprites/png/*.png',
 		'src/scss/_sprites.hbs',
-	], pngSprites);
+	], gulp.series('pngSprites'));
 
-	gulp.watch([
-		'src/js/**/*.js',
-		'!src/js/vendor.js',
-	], jsMain);
-
-	gulp.watch('src/js/vendor.js', jsVendor);
+	gulp.watch('src/images/sprites/svg/*.svg', gulp.series('svgSprites'));
 
 	gulp.watch([
 		'src/*.pug',
 		'src/pug/**/*.pug',
 	], {
 		delay: 0,
-	}, pug)
+	}, gulp.series('pug'))
 		.on('all', (event, file) => {
 			if (event === 'unlink') {
 				global.emittyPugChangedFile = undefined;
@@ -367,10 +383,17 @@ export function watch() {
 			}
 		});
 
-	gulp.watch('src/scss/**/*.scss', scss);
-}
+	gulp.watch('src/scss/**/*.scss', gulp.series('scss'));
 
-export function serve() {
+	gulp.watch([
+		'src/js/**/*.js',
+		'!src/js/vendor.js',
+	], gulp.series('jsMain'));
+
+	gulp.watch('src/js/vendor.js', gulp.series('jsVendor'));
+});
+
+gulp.task('serve', () => {
 	let middleware = [];
 
 	if (argv.spa) {
@@ -391,10 +414,11 @@ export function serve() {
 				middleware,
 			},
 		});
-}
+});
 
-export function zip() {
-	let name = pkg.name;
+gulp.task('zip', () => {
+	// eslint-disable-next-line global-require
+	let name = require('./package').name;
 	let now = new Date();
 	let year = now.getFullYear().toString().padStart(2, '0');
 	let month = (now.getMonth() + 1).toString().padStart(2, '0');
@@ -424,29 +448,29 @@ export function zip() {
 	})
 		.pipe($.zip(`${name}_${year}-${month}-${day}_${hours}-${minutes}.zip`))
 		.pipe(gulp.dest('zip'));
-}
+});
 
-export const build = gulp.parallel(
-	copy,
-	images,
-	svgSprites,
-	pngSprites,
-	jsMain,
-	jsVendor,
-	pug,
-	scss
-);
+gulp.task('build', gulp.parallel(
+	'copy',
+	'images',
+	'pngSprites',
+	'svgSprites',
+	'pug',
+	'scss',
+	'jsMain',
+	'jsVendor'
+));
 
-export const lint = gulp.series(
-	lintJs,
-	lintPug,
-	lintScss
-);
+gulp.task('lint', gulp.series(
+	'lintPug',
+	'lintScss',
+	'lintJs'
+));
 
-export default gulp.series(
-	build,
+gulp.task('default', gulp.series(
+	'build',
 	gulp.parallel(
-		watch,
-		serve
+		'watch',
+		'serve'
 	)
-);
+));
