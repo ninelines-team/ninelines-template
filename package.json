@@ -14,7 +14,7 @@
 		"connect-history-api-fallback": "1.5.0",
 		"cssnano": "3.10.0",
 		"emitty": "1.4.0",
-		"gulp": "github:gulpjs/gulp#a4e8d48",
+		"gulp": "4.0.0",
 		"gulp-debug": "3.2.0",
 		"gulp-eslint": "4.0.2",
 		"gulp-if": "2.0.2",
