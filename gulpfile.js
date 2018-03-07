@@ -12,12 +12,26 @@ let argv = yargs.default({
 	debug: true,
 	fix: false,
 	minify: false,
+	minifyHtml: null,
+	minifyCss: null,
+	minifyJs: null,
+	minifyJsMain: null,
+	minifyJsVendor: null,
+	minifySvg: null,
 	notify: true,
 	open: true,
 	port: 3000,
 	spa: false,
 	throwErrors: false,
 }).argv;
+
+argv.minify = !!argv.minify;
+argv.minifyHtml = argv.minifyHtml !== null ? !!argv.minifyHtml : argv.minify;
+argv.minifyCss = argv.minifyCss !== null ? !!argv.minifyCss : argv.minify;
+argv.minifyJs = argv.minifyJs !== null ? !!argv.minifyJs : argv.minify;
+argv.minifyJsMain = argv.minifyJsMain !== null ? !!argv.minifyJsMain : argv.minifyJs;
+argv.minifyJsVendor = argv.minifyJsVendor !== null ? !!argv.minifyJsVendor : argv.minifyJs;
+argv.minifySvg = argv.minifySvg !== null ? !!argv.minifySvg : argv.minify;
 
 let $ = gulpLoadPlugins({
 	overridePattern: false,
@@ -54,7 +68,7 @@ if (argv.throwErrors) {
 	errorHandler = null;
 }
 
-function svgoConfig(minify = argv.minify) {
+function svgoConfig(minify = argv.minifySvg) {
 	return (file) => {
 		if (!path) {
 			// eslint-disable-next-line global-require
@@ -86,7 +100,7 @@ function svgoConfig(minify = argv.minify) {
 	};
 }
 
-function rollup(inputFile, outputFile) {
+function rollup(inputFile, outputFile, minify) {
 	let rollupPromise = $.rollup.rollup({
 		input: inputFile,
 		plugins: [
@@ -99,7 +113,7 @@ function rollup(inputFile, outputFile) {
 			$.rollupPluginBabel({
 				exclude: 'node_modules/**',
 			}),
-			argv.minify && $.rollupPluginUglify(),
+			minify && $.rollupPluginUglify(),
 		],
 	}).then((bundle) => bundle.write({
 		file: outputFile,
@@ -203,13 +217,13 @@ gulp.task('svgSprites', () => {
 		.pipe($.if(argv.debug, $.debug()))
 		.pipe($.svgmin(svgoConfig()))
 		.pipe($.svgstore())
-		.pipe($.if(!argv.minify, $.replace(/^\t+$/gm, '')))
-		.pipe($.if(!argv.minify, $.replace(/\n{2,}/g, '\n')))
-		.pipe($.if(!argv.minify, $.replace('?><!', '?>\n<!')))
-		.pipe($.if(!argv.minify, $.replace('><svg', '>\n<svg')))
-		.pipe($.if(!argv.minify, $.replace('><defs', '>\n\t<defs')))
-		.pipe($.if(!argv.minify, $.replace('><symbol', '>\n<symbol')))
-		.pipe($.if(!argv.minify, $.replace('></svg', '>\n</svg')))
+		.pipe($.if(!argv.minifySvg, $.replace(/^\t+$/gm, '')))
+		.pipe($.if(!argv.minifySvg, $.replace(/\n{2,}/g, '\n')))
+		.pipe($.if(!argv.minifySvg, $.replace('?><!', '?>\n<!')))
+		.pipe($.if(!argv.minifySvg, $.replace('><svg', '>\n<svg')))
+		.pipe($.if(!argv.minifySvg, $.replace('><defs', '>\n\t<defs')))
+		.pipe($.if(!argv.minifySvg, $.replace('><symbol', '>\n<symbol')))
+		.pipe($.if(!argv.minifySvg, $.replace('></svg', '>\n</svg')))
 		.pipe($.rename('sprites.svg'))
 		.pipe(gulp.dest('build/images'));
 });
@@ -240,7 +254,7 @@ gulp.task('pug', () => {
 			}))
 			.pipe($.if(argv.debug, $.debug()))
 			.pipe($.pug({
-				pretty: argv.minify ? false : '\t',
+				pretty: argv.minifyHtml ? false : '\t',
 			}))
 			.pipe(gulp.dest('build'));
 	}
@@ -254,7 +268,7 @@ gulp.task('pug', () => {
 				.pipe(emittyPug.filter(global.emittyPugChangedFile))
 				.pipe($.if(argv.debug, $.debug()))
 				.pipe($.pug({
-					pretty: argv.minify ? false : '\t',
+					pretty: argv.minifyHtml ? false : '\t',
 				}))
 				.pipe(gulp.dest('build'))
 				.on('end', resolve)
@@ -275,7 +289,7 @@ gulp.task('scss', () => {
 		.pipe($.sourcemaps.init())
 		.pipe($.sass().on('error', $.sass.logError))
 		.pipe($.postcss([
-			argv.minify ?
+			argv.minifyCss ?
 				$.cssnano({
 					autoprefixer: {
 						add: true,
@@ -298,11 +312,11 @@ gulp.task('scss', () => {
 });
 
 gulp.task('jsMain', () => {
-	return rollup('src/js/main.js', 'build/js/main.js');
+	return rollup('src/js/main.js', 'build/js/main.js', argv.minifyJsMain);
 });
 
 gulp.task('jsVendor', () => {
-	return rollup('src/js/vendor.js', 'build/js/vendor.js');
+	return rollup('src/js/vendor.js', 'build/js/vendor.js', argv.minifyJsVendor);
 });
 
 gulp.task('lintPug', () => {
