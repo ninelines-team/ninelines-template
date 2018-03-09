@@ -7,4 +7,4 @@ svg4everybody();
 window.$ = $;
 window.jQuery = $;
 
-import 'ninelines-ua-parser';
+require('ninelines-ua-parser');

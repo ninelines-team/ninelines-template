@@ -3,7 +3,6 @@ let gulpLoadPlugins = require('gulp-load-plugins');
 let yargs = require('yargs');
 
 let path;
-let nodeNotifier;
 let emittyPug;
 let errorHandler;
 
@@ -15,8 +14,6 @@ let argv = yargs.default({
 	minifyHtml: null,
 	minifyCss: null,
 	minifyJs: null,
-	minifyJsMain: null,
-	minifyJsVendor: null,
 	minifySvg: null,
 	notify: true,
 	open: true,
@@ -29,8 +26,6 @@ argv.minify = !!argv.minify;
 argv.minifyHtml = argv.minifyHtml !== null ? !!argv.minifyHtml : argv.minify;
 argv.minifyCss = argv.minifyCss !== null ? !!argv.minifyCss : argv.minify;
 argv.minifyJs = argv.minifyJs !== null ? !!argv.minifyJs : argv.minify;
-argv.minifyJsMain = argv.minifyJsMain !== null ? !!argv.minifyJsMain : argv.minifyJs;
-argv.minifyJsVendor = argv.minifyJsVendor !== null ? !!argv.minifyJsVendor : argv.minifyJs;
 argv.minifySvg = argv.minifySvg !== null ? !!argv.minifySvg : argv.minify;
 
 let $ = gulpLoadPlugins({
@@ -50,7 +45,10 @@ let $ = gulpLoadPlugins({
 		'rollup-plugin-node-resolve',
 		'rollup-plugin-uglify',
 		'stylelint',
+		'uglifyjs-webpack-plugin',
 		'vinyl-buffer',
+		'webpack',
+		'webpack-stream',
 	],
 	scope: [
 		'dependencies',
@@ -98,51 +96,6 @@ function svgoConfig(minify = argv.minifySvg) {
 			],
 		};
 	};
-}
-
-function rollup(inputFile, outputFile, minify) {
-	let rollupPromise = $.rollup.rollup({
-		input: inputFile,
-		plugins: [
-			$.rollupPluginNodeResolve({
-				jsnext: true,
-			}),
-			$.rollupPluginCommonjs({
-				include: 'node_modules/**',
-			}),
-			$.rollupPluginBabel({
-				exclude: 'node_modules/**',
-			}),
-			minify && $.rollupPluginUglify(),
-		],
-	}).then((bundle) => bundle.write({
-		file: outputFile,
-		format: 'iife',
-		sourcemap: true,
-	}));
-
-	if (!argv.throwErrors) {
-		rollupPromise.catch((error) => {
-			if (argv.notify) {
-				if (!nodeNotifier) {
-					// eslint-disable-next-line global-require
-					nodeNotifier = require('./node_modules/node-notifier');
-				}
-
-				nodeNotifier.notify({
-					title: 'Error running Gulp',
-					message: error.message,
-					icon: './node_modules/gulp-notify/assets/gulp-error.png',
-					sound: 'Frog',
-				});
-			}
-
-			// eslint-disable-next-line no-console
-			console.error(error.stack);
-		});
-	}
-
-	return rollupPromise;
 }
 
 gulp.task('copy', () => {
@@ -311,12 +264,56 @@ gulp.task('scss', () => {
 		.pipe(gulp.dest('build/css'));
 });
 
-gulp.task('jsMain', () => {
-	return rollup('src/js/main.js', 'build/js/main.js', argv.minifyJsMain);
-});
+gulp.task('js', () => {
+	let plugins = [
+		new $.webpackStream.webpack.optimize.CommonsChunkPlugin({
+			name: 'vendor',
+			minChunks(module) {
+				return module.context && module.context.includes('node_modules');
+			},
+		}),
+	];
 
-gulp.task('jsVendor', () => {
-	return rollup('src/js/vendor.js', 'build/js/vendor.js', argv.minifyJsVendor);
+	if (argv.minifyJs) {
+		// eslint-disable-next-line new-cap
+		plugins.push(new $.uglifyjsWebpackPlugin({
+			cache: true,
+			parallel: true,
+			sourceMap: true,
+		}));
+	}
+
+	return gulp.src('src/js/main.js')
+		.pipe($.plumber({
+			errorHandler,
+		}))
+		.pipe($.webpackStream({
+			devtool: 'source-map',
+			module: {
+				rules: [
+					{
+						test: /\.js$/,
+						exclude: /node_modules/,
+						use: {
+							loader: 'babel-loader',
+							options: {
+								presets: [
+									'babel-preset-env',
+								],
+								plugins: [
+									'babel-plugin-transform-runtime',
+								],
+							},
+						},
+					},
+				],
+			},
+			plugins,
+			output: {
+				filename: '[name].js',
+			},
+		}))
+		.pipe(gulp.dest('build/js'));
 });
 
 gulp.task('lintPug', () => {
@@ -402,9 +399,7 @@ gulp.task('watch', () => {
 	gulp.watch([
 		'src/js/**/*.js',
 		'!src/js/vendor.js',
-	], gulp.series('jsMain'));
-
-	gulp.watch('src/js/vendor.js', gulp.series('jsVendor'));
+	], gulp.series('js'));
 });
 
 gulp.task('serve', () => {
@@ -471,8 +466,7 @@ gulp.task('build', gulp.parallel(
 	'svgSprites',
 	'pug',
 	'scss',
-	'jsMain',
-	'jsVendor'
+	'js'
 ));
 
 gulp.task('lint', gulp.series(
