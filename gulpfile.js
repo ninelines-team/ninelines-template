@@ -391,10 +391,7 @@ gulp.task('watch', () => {
 
 	gulp.watch('src/scss/**/*.scss', gulp.series('scss'));
 
-	gulp.watch([
-		'src/js/**/*.js',
-		'!src/js/vendor.js',
-	], gulp.series('js'));
+	gulp.watch('src/js/**/*.js', gulp.series('js'));
 });
 
 gulp.task('serve', () => {
