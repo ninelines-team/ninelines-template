@@ -42,7 +42,7 @@
 		"stylelint-declaration-block-no-ignored-properties": "1.1.0",
 		"stylelint-order": "0.8.1",
 		"stylelint-scss": "2.5.0",
-		"uglifyjs-webpack-plugin": "1.2.2",
+		"uglifyjs-webpack-plugin": "1.2.3",
 		"vinyl-buffer": "1.0.1",
 		"webpack": "4.1.1",
 		"webpack-stream": "4.0.2",
@@ -51,7 +51,7 @@
 	"dependencies": {
 		"babel-polyfill": "6.26.0",
 		"jquery": "3.3.1",
-		"ninelines-ua-parser": "1.0.0",
+		"ninelines-ua-parser": "1.0.1",
 		"normalize-css": "2.3.1",
 		"svg4everybody": "2.1.9"
 	}
