@@ -26,6 +26,7 @@ block vars
 			applicationName: '',
 			charset: 'utf-8',
 			description: description,
+			formatDetection: '',
 			keywords: [],
 			msapplicationTileColor: '',
 			msapplicationTileImage: '',
@@ -40,6 +41,7 @@ block vars
 			ogTitle: title,
 			ogType: 'website',
 			ogUrl: '',
+			themeColor: '',
 			twitterCard: 'summary_large_image',
 			twitterSite: '',
 			twitterCreator: '',
@@ -158,6 +160,10 @@ html(class=html.classList)&attributes(html.attrs)
 				meta(name="msapplication-square310x310logo" content=meta.msapplicationSquare310x310logo)
 			if meta.msapplicationNotification
 				meta(name="msapplication-notification" content=meta.msapplicationNotification)
+			if meta.themeColor
+				meta(name="theme-color" content=meta.themeColor)
+			if meta.formatDetection
+				meta(name="format-detection" content=meta.formatDetection)
 		title
 			= title
 		block links
