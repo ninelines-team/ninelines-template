@@ -1,4 +1,4 @@
-image: node:10.0.0
+image: node:10.1.0
 
 pipelines:
   branches:
