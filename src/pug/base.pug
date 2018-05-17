@@ -39,6 +39,10 @@ block vars
 			msapplicationWide310x150logo: '',
 			ogDescription: description,
 			ogImage: image,
+			ogImageType: '',
+			ogImageWidth: '',
+			ogImageHeight: '',
+			ogImageAlt: '',
 			ogLocale: 'ru_RU',
 			ogTitle: title,
 			ogType: 'website',
@@ -94,7 +98,7 @@ block vars
 			icon128x128: '',
 			icon196x196: '',
 			imageSrc: image,
-			manifest: false,
+			manifest: '',
 			maskIcon: {
 				href: '',
 				color: ''
@@ -128,6 +132,14 @@ html(class=html.classList)&attributes(html.attrs)
 				meta(property="og:description" content=meta.ogDescription)
 			if meta.ogImage
 				meta(property="og:image" content=meta.ogImage)
+			if meta.ogImageType
+				meta(property="og:image:type" content=meta.ogImageType)
+			if meta.ogImageWidth
+				meta(property="og:image:width" content=meta.ogImageWidth)
+			if meta.ogImageHeight
+				meta(property="og:image:height" content=meta.ogImageHeight)
+			if meta.ogImageAlt
+				meta(property="og:image:alt" content=meta.ogImageAlt)
 			if meta.twitterCard && (meta.twitterSite || meta.twitterCreator || meta.twitterTitle || meta.twitterDescription || meta.twitterImage)
 				meta(name="twitter:card" content=meta.twitterCard)
 			if meta.twitterSite
