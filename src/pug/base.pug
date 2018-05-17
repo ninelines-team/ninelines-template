@@ -28,7 +28,12 @@ block vars
 			applicationName: '',
 			charset: 'utf-8',
 			description: description,
-			formatDetection: '',
+			formatDetection: {
+				address: true,
+				date: true,
+				email: true,
+				telephone: true
+			},
 			keywords: [],
 			msapplicationTileColor: '',
 			msapplicationTileImage: '',
@@ -176,8 +181,8 @@ html(class=html.classList)&attributes(html.attrs)
 				meta(name="msapplication-notification" content=meta.msapplicationNotification)
 			if meta.themeColor
 				meta(name="theme-color" content=meta.themeColor)
-			if meta.formatDetection
-				meta(name="format-detection" content=meta.formatDetection)
+			if meta.formatDetection && (typeof meta.formatDetection === 'string' || Object.values(meta.formatDetection).some(function (value) { return !value }))
+				meta(name="format-detection" content=(typeof meta.formatDetection === 'string' ? meta.formatDetection : Object.entries(meta.formatDetection).filter(function (entry) { return !entry[1] || entry[1] === 'no' }).map(function (entry) { return `${entry[0]}=no` }).join(',')))
 		title
 			= title
 		block links
