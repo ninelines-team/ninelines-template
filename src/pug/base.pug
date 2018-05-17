@@ -266,6 +266,7 @@ html(class=html.classList)&attributes(html.attrs)
 				link(rel="manifest" href=link.manifest)
 			if link.maskIcon.href
 				link(rel="mask-icon" href=link.maskIcon.href color=link.maskIcon.color)
+		block styles
 			link(rel="stylesheet" href=`${baseDir}css/main.css?v=${Date.now()}`)
 		block head-end
 	body(class=body.classList)&attributes(body.attrs)
