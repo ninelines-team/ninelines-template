@@ -124,7 +124,7 @@ html(class=html.classList)&attributes(html.attrs)
 			if meta.description
 				meta(name="description" content=meta.description)
 			if meta.keywords.length
-				meta(name="keywords" content=Array.isArray(meta.keywords) ? meta.keywords.join(', ') : meta.keywords)
+				meta(name="keywords" content=(Array.isArray(meta.keywords) ? meta.keywords.join(', ') : meta.keywords))
 			if meta.ogType && (meta.ogUrl || meta.ogTitle || meta.ogDescription || meta.ogImage)
 				meta(property="og:type" content=meta.ogType)
 			if meta.ogUrl
