@@ -6,7 +6,7 @@
 	"author": "Dmitry Artemov <d.artemov@9-lines.com>",
 	"license": "ISC",
 	"devDependencies": {
-		"autoprefixer": "8.4.1",
+		"autoprefixer": "8.5.0",
 		"babel-core": "6.26.3",
 		"babel-loader": "7.1.4",
 		"babel-plugin-transform-runtime": "6.23.0",
@@ -27,8 +27,8 @@
 		"gulp-postcss": "7.0.1",
 		"gulp-pug": "4.0.1",
 		"gulp-pug-linter": "0.5.1",
-		"gulp-rename": "1.2.2",
-		"gulp-replace": "0.6.1",
+		"gulp-rename": "1.2.3",
+		"gulp-replace": "1.0.0",
 		"gulp-sass": "4.0.1",
 		"gulp-sourcemaps": "2.6.4",
 		"gulp-svgmin": "1.2.4",
@@ -38,20 +38,20 @@
 		"merge-stream": "1.0.1",
 		"postcss-reporter": "5.0.0",
 		"postcss-scss": "1.0.5",
-		"stylelint": "9.2.0",
+		"stylelint": "9.2.1",
 		"stylelint-declaration-block-no-ignored-properties": "1.1.0",
 		"stylelint-order": "0.8.1",
 		"stylelint-scss": "3.1.0",
 		"uglifyjs-webpack-plugin": "1.2.5",
 		"vinyl-buffer": "1.0.1",
-		"webpack": "4.8.2",
+		"webpack": "4.8.3",
 		"webpack-stream": "4.0.3",
 		"yargs": "11.0.0"
 	},
 	"dependencies": {
 		"babel-polyfill": "6.26.0",
 		"jquery": "3.3.1",
-		"ninelines-ua-parser": "1.1.1",
+		"ninelines-ua-parser": "1.1.2",
 		"normalize-css": "2.3.1",
 		"svg4everybody": "2.1.9"
 	}
