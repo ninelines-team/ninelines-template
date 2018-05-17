@@ -8,6 +8,7 @@ let errorHandler;
 
 let argv = yargs.default({
 	cache: true,
+	ci: false,
 	debug: true,
 	fix: false,
 	minify: false,
@@ -27,6 +28,13 @@ argv.minifyHtml = argv.minifyHtml !== null ? !!argv.minifyHtml : argv.minify;
 argv.minifyCss = argv.minifyCss !== null ? !!argv.minifyCss : argv.minify;
 argv.minifyJs = argv.minifyJs !== null ? !!argv.minifyJs : argv.minify;
 argv.minifySvg = argv.minifySvg !== null ? !!argv.minifySvg : argv.minify;
+
+if (argv.ci) {
+	argv.cache = false;
+	argv.notify = false;
+	argv.open = false;
+	argv.throwErrors = true;
+}
 
 let $ = gulpLoadPlugins({
 	overridePattern: false,
