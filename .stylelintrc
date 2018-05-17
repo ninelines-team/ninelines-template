@@ -45,6 +45,10 @@
 			},
 			{
 				"type": "rule",
+				"selector": "&:disabled"
+			},
+			{
+				"type": "rule",
 				"selector": "&:first-child"
 			},
 			{
