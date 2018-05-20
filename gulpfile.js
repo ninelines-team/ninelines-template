@@ -272,7 +272,7 @@ gulp.task('js', () => {
 		new $.webpackStream.webpack.optimize.CommonsChunkPlugin({
 			name: 'vendor',
 			minChunks(module) {
-				return module.context && module.context.includes('node_modules');
+				return module.context && (module.context.includes('node_modules') || module.context.includes('bower_components'));
 			},
 		}),
 	];
@@ -296,7 +296,7 @@ gulp.task('js', () => {
 				rules: [
 					{
 						test: /\.js$/,
-						exclude: /node_modules/,
+						exclude: /node_modules|bower_components/,
 						use: {
 							loader: 'babel-loader',
 							options: {
