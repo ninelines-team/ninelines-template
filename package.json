@@ -6,7 +6,7 @@
 	"author": "Dmitry Artemov <d.artemov@9-lines.com>",
 	"license": "ISC",
 	"devDependencies": {
-		"autoprefixer": "8.5.0",
+		"autoprefixer": "8.6.2",
 		"babel-core": "6.26.3",
 		"babel-loader": "7.1.4",
 		"babel-plugin-transform-runtime": "6.23.0",
@@ -44,7 +44,7 @@
 		"stylelint-scss": "3.1.0",
 		"uglifyjs-webpack-plugin": "1.2.5",
 		"vinyl-buffer": "1.0.1",
-		"webpack": "4.8.3",
+		"webpack": "4.12.0",
 		"webpack-stream": "4.0.3",
 		"yargs": "11.0.0"
 	},
