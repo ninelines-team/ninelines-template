@@ -1,8 +1,8 @@
 let gulp = require('gulp');
 let gulpLoadPlugins = require('gulp-load-plugins');
 let yargs = require('yargs');
+let path = require('path');
 
-let path;
 let emittyPug;
 let errorHandler;
 
@@ -71,11 +71,6 @@ if (argv.throwErrors) {
 
 function svgoConfig(minify = argv.minifySvg) {
 	return (file) => {
-		if (!path) {
-			// eslint-disable-next-line global-require
-			path = require('path');
-		}
-
 		let filename = path.basename(file.relative, path.extname(file.relative));
 
 		return {
@@ -268,14 +263,7 @@ gulp.task('scss', () => {
 });
 
 gulp.task('js', () => {
-	let plugins = [
-		new $.webpackStream.webpack.optimize.CommonsChunkPlugin({
-			name: 'vendor',
-			minChunks(module) {
-				return module.context && (module.context.includes('node_modules') || module.context.includes('bower_components'));
-			},
-		}),
-	];
+	let plugins = [];
 
 	if (argv.minifyJs) {
 		// eslint-disable-next-line new-cap
@@ -291,6 +279,7 @@ gulp.task('js', () => {
 			errorHandler,
 		}))
 		.pipe($.webpackStream({
+			mode: 'production',
 			devtool: 'source-map',
 			module: {
 				rules: [
@@ -314,6 +303,18 @@ gulp.task('js', () => {
 			plugins,
 			output: {
 				filename: '[name].js',
+			},
+			optimization: {
+				splitChunks: {
+					cacheGroups: {
+						vendor: {
+							chunks: 'initial',
+							test: /node_modules|bower_components/,
+							name: 'vendor',
+							enforce: true,
+						},
+					},
+				},
 			},
 		}))
 		.pipe(gulp.dest('build/js'));
