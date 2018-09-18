@@ -263,23 +263,12 @@ gulp.task('scss', () => {
 });
 
 gulp.task('js', () => {
-	let plugins = [];
-
-	if (argv.minifyJs) {
-		// eslint-disable-next-line new-cap
-		plugins.push(new $.uglifyjsWebpackPlugin({
-			cache: true,
-			parallel: true,
-			sourceMap: true,
-		}));
-	}
-
 	return gulp.src('src/js/main.js')
 		.pipe($.plumber({
 			errorHandler,
 		}))
 		.pipe($.webpackStream({
-			mode: 'production',
+			mode: argv.minifyJs ? 'production' : 'development',
 			devtool: 'source-map',
 			module: {
 				rules: [
@@ -300,7 +289,6 @@ gulp.task('js', () => {
 					},
 				],
 			},
-			plugins,
 			output: {
 				filename: '[name].js',
 			},
