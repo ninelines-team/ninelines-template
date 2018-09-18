@@ -375,9 +375,9 @@ gulp.task('watch', () => {
 	gulp.watch([
 		'src/images/sprites/png/*.png',
 		'src/scss/_sprites.hbs',
-	], gulp.series('pngSprites'));
+	], gulp.series('sprites:png'));
 
-	gulp.watch('src/images/sprites/svg/*.svg', gulp.series('svgSprites'));
+	gulp.watch('src/images/sprites/svg/*.svg', gulp.series('sprites:svg'));
 
 	gulp.watch([
 		'src/*.pug',
