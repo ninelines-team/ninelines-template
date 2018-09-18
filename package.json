@@ -35,6 +35,7 @@
 		"gulp-svgstore": "7.0.0",
 		"gulp-zip": "4.2.0",
 		"gulp.spritesmith": "6.9.0",
+		"imagemin-mozjpeg": "7.0.0",
 		"merge-stream": "1.0.1",
 		"postcss-reporter": "6.0.0",
 		"postcss-scss": "2.0.0",

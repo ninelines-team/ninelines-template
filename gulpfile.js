@@ -44,6 +44,7 @@ let $ = gulpLoadPlugins({
 		'connect-history-api-fallback',
 		'cssnano',
 		'emitty',
+		'imagemin-mozjpeg',
 		'merge-stream',
 		'postcss-reporter',
 		'postcss-scss',
@@ -112,24 +113,30 @@ gulp.task('copy', () => {
 
 gulp.task('images', () => {
 	return gulp.src('src/images/**/*.*')
+		.pipe($.if(argv.cache, $.newer('build/images')))
+		.pipe($.if(argv.debug, $.debug()))
+		.pipe(gulp.dest('build/images'));
+});
+
+gulp.task('imagesOptimize', () => {
+	return gulp.src('src/images/**/*.*')
 		.pipe($.plumber({
 			errorHandler,
 		}))
-		.pipe($.if(argv.cache, $.newer('build/images')))
 		.pipe($.if(argv.debug, $.debug()))
 		.pipe($.imagemin([
 			$.imagemin.gifsicle({
 				interlaced: true,
 			}),
-			$.imagemin.jpegtran({
-				progressive: true,
-			}),
 			$.imagemin.optipng({
 				optimizationLevel: 3,
 			}),
-			$.imagemin.svgo(svgoConfig()),
+			$.imageminMozjpeg({
+				progressive: true,
+				quality: 80,
+			}),
 		]))
-		.pipe(gulp.dest('build/images'));
+		.pipe(gulp.dest('src/images'));
 });
 
 gulp.task('pngSprites', () => {
