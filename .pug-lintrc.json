@@ -2,7 +2,6 @@
 	"disallowAttributeInterpolation": true,
 	"disallowClassAttributeWithStaticValue": true,
 	"disallowDuplicateAttributes": true,
-	"disallowHtmlText": true,
 	"disallowIdAttributeWithStaticValue": true,
 	"disallowLegacyMixinCall": true,
 	"disallowMultipleLineBreaks": true,
@@ -23,7 +22,10 @@
 	],
 	"requireStrictEqualityOperators": true,
 	"validateAttributeQuoteMarks": "\"",
-	"validateAttributeSeparator": " ",
+	"validateAttributeSeparator": {
+		"separator": " ",
+		"multiLineSeparator": "\n\t"
+	},
 	"validateDivTags": true,
 	"validateIndentation": "\t",
 	"validateLineBreaks": "LF",
