@@ -90,6 +90,9 @@ function svgoConfig(minify = argv.minifySvg) {
 					removeTitle: true,
 				},
 				{
+					removeViewBox: false,
+				},
+				{
 					sortAttrs: true,
 				},
 			],
