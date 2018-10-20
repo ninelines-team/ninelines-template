@@ -2,6 +2,7 @@ let gulp = require('gulp');
 let gulpLoadPlugins = require('gulp-load-plugins');
 let yargs = require('yargs');
 let path = require('path');
+let webpackConfig = require('./webpack.config');
 
 let emittyPug;
 let errorHandler;
@@ -34,6 +35,12 @@ if (argv.ci) {
 	argv.notify = false;
 	argv.open = false;
 	argv.throwErrors = true;
+}
+
+if (argv.minifyJs) {
+	webpackConfig.mode = 'production';
+} else {
+	webpackConfig.mode = webpackConfig.mode || 'development';
 }
 
 let $ = gulpLoadPlugins({
@@ -240,49 +247,12 @@ gulp.task('scss', () => {
 });
 
 gulp.task('js', () => {
-	return gulp.src('src/js/main.js')
+	return gulp.src(webpackConfig.entry)
 		.pipe($.plumber({
 			errorHandler,
 		}))
-		.pipe($.webpackStream({
-			mode: argv.minifyJs ? 'production' : 'development',
-			devtool: 'source-map',
-			module: {
-				rules: [
-					{
-						test: /\.js$/,
-						exclude: /node_modules|bower_components/,
-						use: {
-							loader: 'babel-loader',
-							options: {
-								presets: [
-									'@babel/preset-env',
-								],
-								plugins: [
-									'@babel/plugin-transform-runtime',
-								],
-							},
-						},
-					},
-				],
-			},
-			output: {
-				filename: '[name].js',
-			},
-			optimization: {
-				splitChunks: {
-					cacheGroups: {
-						vendor: {
-							chunks: 'initial',
-							test: /node_modules|bower_components/,
-							name: 'vendor',
-							enforce: true,
-						},
-					},
-				},
-			},
-		}))
-		.pipe(gulp.dest('build/js'));
+		.pipe($.webpackStream(webpackConfig))
+		.pipe(gulp.dest(webpackConfig.output.path));
 });
 
 gulp.task('lint:pug', () => {
