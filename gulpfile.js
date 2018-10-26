@@ -406,8 +406,8 @@ gulp.task('zip', () => {
 
 	return gulp.src([
 		'build/**',
-		'docs/**',
 		'src/**',
+		'.babelrc',
 		'.editorconfig',
 		'.eslintignore',
 		'.eslintrc',
