@@ -419,6 +419,7 @@ gulp.task('zip', () => {
 		'*.json',
 		'*.md',
 		'*.yml',
+		'!package-lock.json',
 		'!zip/**',
 	], {
 		base: '.',
