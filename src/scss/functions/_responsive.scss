@@ -1,0 +1,11 @@
+@function vw($value, $base: 1440) {
+	@return $value / $base * 100vw;
+}
+
+@function vh($value, $base: 800) {
+	@return $value / $base * 100vh;
+}
+
+@function vmin($value, $base: 375) {
+	@return $value / $base * 100vmin;
+}
