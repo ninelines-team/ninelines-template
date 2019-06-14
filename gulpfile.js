@@ -223,21 +223,25 @@ gulp.task('scss', () => {
 		.pipe($.if(argv.debug, $.debug()))
 		.pipe($.sourcemaps.init())
 		.pipe($.sass().on('error', $.sass.logError))
-		.pipe($.postcss(
-			[
-				$.autoprefixer({
-					add: true,
-				}),
-				argv.minifyCss && $.cssnano({
-					autoprefixer: false,
+		.pipe($.postcss([
+			argv.minifyCss ?
+				$.cssnano({
+					autoprefixer: {
+						add: true,
+						browsers: ['> 0%'],
+					},
 					calc: true,
 					discardComments: {
 						removeAll: true,
 					},
 					zindex: false,
+				})
+				:
+				$.autoprefixer({
+					add: true,
+					browsers: ['> 0%'],
 				}),
-			].filter((x) => x)
-		))
+		]))
 		.pipe($.sourcemaps.write('.'))
 		.pipe(gulp.dest('build/css'));
 });
