@@ -2,6 +2,7 @@ let gulp = require('gulp');
 let gulpLoadPlugins = require('gulp-load-plugins');
 let yargs = require('yargs');
 let path = require('path');
+let del = require('del');
 let webpackConfig = require('./webpack.config');
 
 let emittyPug;
@@ -12,7 +13,6 @@ let argv = yargs.default({
 	ci: false,
 	debug: true,
 	fix: false,
-	minify: false,
 	minifyHtml: null,
 	minifyCss: null,
 	minifyJs: null,
@@ -60,6 +60,7 @@ let $ = gulpLoadPlugins({
 		'vinyl-buffer',
 		'webpack',
 		'webpack-stream',
+		'append-prepend',
 	],
 	scope: [
 		'dependencies',
@@ -430,20 +431,47 @@ gulp.task('zip', () => {
 		.pipe(gulp.dest('zip'));
 });
 
+gulp.task('share', () => {
+	if (webpackConfig.mode !== 'production' || !argv.spa) {
+		del([
+			'./build/index.php',
+			'./build/shareSettings.php',
+		]);
+	} else {
+		gulp.src('./build/index.html')
+			.pipe($.if(argv.debug, $.debug()))
+			.pipe($.appendPrepend.prependFile('./src/resources/shareSettings.php'))
+			.pipe($.rename('index.php'))
+			.pipe(gulp.dest('build'));
+		del([
+			'./build/index.html',
+			'./build/shareSettings.php',
+		]);
+	}
+
+	return gulp.src('./src/resources/share.php')
+		.pipe($.if(argv.debug, $.debug()))
+		.pipe($.appendPrepend.prependFile('./src/resources/shareSettings.php'))
+		.pipe(gulp.dest('build'));
+});
+
 gulp.task('lint', gulp.series(
 	'lint:pug',
 	'lint:scss',
 	'lint:js'
 ));
 
-gulp.task('build', gulp.parallel(
+gulp.task('build', gulp.series(
 	'copy',
-	'images',
-	'sprites:png',
-	'sprites:svg',
 	'pug',
-	'scss',
-	'js'
+	'share',
+	gulp.parallel(
+		'images',
+		'sprites:png',
+		'sprites:svg',
+		'scss',
+		'js'
+	)
 ));
 
 gulp.task('default', gulp.series(
