@@ -433,26 +433,22 @@ gulp.task('zip', () => {
 
 gulp.task('share', () => {
 	if (webpackConfig.mode !== 'production' || !argv.spa) {
-		del([
+		return del([
 			'./build/index.php',
-			'./build/shareSettings.php',
-		]);
-	} else {
-		gulp.src('./build/index.html')
-			.pipe($.if(argv.debug, $.debug()))
-			.pipe($.appendPrepend.prependFile('./src/resources/shareSettings.php'))
-			.pipe($.rename('index.php'))
-			.pipe(gulp.dest('build'));
-		del([
-			'./build/index.html',
 			'./build/shareSettings.php',
 		]);
 	}
 
-	return gulp.src('./src/resources/share.php')
+	gulp.src('./build/index.html')
 		.pipe($.if(argv.debug, $.debug()))
 		.pipe($.appendPrepend.prependFile('./src/resources/shareSettings.php'))
+		.pipe($.rename('index.php'))
 		.pipe(gulp.dest('build'));
+
+	return del([
+		'./build/index.html',
+		'./build/shareSettings.php',
+	]);
 });
 
 gulp.task('lint', gulp.series(
