@@ -122,7 +122,7 @@ html(class=html.classList)&attributes(html.attrs)
 			if meta.viewport !== null
 				meta(name="viewport" content=meta.viewport)
 			if meta.description !== null
-				meta(name="description" content=meta.description)
+				meta(name="description" content!=meta.description)
 			if meta.keywords !== null && !(Array.isArray(meta.keywords) && !meta.keywords.length)
 				meta(name="keywords" content=(Array.isArray(meta.keywords) ? meta.keywords.join(', ') : meta.keywords))
 			if meta.ogType !== null && (meta.ogUrl || meta.ogTitle || meta.ogDescription || meta.ogImage)
@@ -132,9 +132,9 @@ html(class=html.classList)&attributes(html.attrs)
 			if meta.ogLocale !== null && (meta.ogUrl || meta.ogTitle || meta.ogDescription || meta.ogImage)
 				meta(property="og:locale" content=meta.ogLocale)
 			if meta.ogTitle !== null
-				meta(property="og:title" content=meta.ogTitle)
+				meta(property="og:title" content!=meta.ogTitle)
 			if meta.ogDescription !== null
-				meta(property="og:description" content=meta.ogDescription)
+				meta(property="og:description" content!=meta.ogDescription)
 			if meta.ogImage !== null
 				meta(property="og:image" content=meta.ogImage)
 			if meta.ogImageType !== null
@@ -152,9 +152,9 @@ html(class=html.classList)&attributes(html.attrs)
 			if meta.twitterCreator !== null
 				meta(name="twitter:creator" content=meta.twitterCreator)
 			if meta.twitterTitle !== null
-				meta(name="twitter:title" content=meta.twitterTitle)
+				meta(name="twitter:title" content!=meta.twitterTitle)
 			if meta.twitterDescription !== null
-				meta(name="twitter:description" content=meta.twitterDescription)
+				meta(name="twitter:description" content!=meta.twitterDescription)
 			if meta.twitterImage !== null
 				meta(name="twitter:image" content=meta.twitterImage)
 			if meta.appleMobileWebAppCapable !== null
@@ -162,7 +162,7 @@ html(class=html.classList)&attributes(html.attrs)
 			if meta.appleMobileWebAppStatusBarStyle !== null
 				meta(name="apple-mobile-web-app-status-bar-style" content=meta.appleMobileWebAppStatusBarStyle)
 			if meta.appleMobileWebAppTitle !== null
-				meta(name="apple-mobile-web-app-title" content=meta.appleMobileWebAppTitle)
+				meta(name="apple-mobile-web-app-title" content!=meta.appleMobileWebAppTitle)
 			if meta.applicationName !== null
 				meta(name="application-name" content=meta.applicationName)
 			if meta.msapplicationTileColor !== null
@@ -184,7 +184,7 @@ html(class=html.classList)&attributes(html.attrs)
 			if meta.formatDetection !== null && (typeof meta.formatDetection === 'string' || Object.values(meta.formatDetection).some(function (value) { return !value }))
 				meta(name="format-detection" content=(typeof meta.formatDetection === 'string' ? meta.formatDetection : Object.entries(meta.formatDetection).filter(function (entry) { return !entry[1] || entry[1] === 'no' }).map(function (entry) { return `${entry[0]}=no` }).join(',')))
 		if title !== null
-			title= title
+			title!= title
 		block links
 			if link.appleTouchIconPrecomposed !== null
 				link(rel="apple-touch-icon-precomposed" href=link.appleTouchIconPrecomposed)
