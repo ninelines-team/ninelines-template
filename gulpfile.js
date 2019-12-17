@@ -436,6 +436,7 @@ gulp.task('share', () => {
 		return del([
 			'./build/index.php',
 			'./build/shareSettings.php',
+			'./build/.htaccess',
 		]);
 	}
 
