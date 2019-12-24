@@ -35,9 +35,7 @@ if (argv.ci) {
 	argv.notify = false;
 	argv.open = false;
 	argv.throwErrors = true;
-}
 
-if (argv.minifyJs) {
 	webpackConfig.mode = 'production';
 } else {
 	webpackConfig.mode = webpackConfig.mode || 'development';
