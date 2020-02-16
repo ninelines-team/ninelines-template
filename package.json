@@ -1,6 +1,6 @@
 {
 	"name": "ninelines-template",
-	"version": "2.7.6",
+	"version": "2.7.7",
 	"description": "Шаблон для разработки сайтов",
 	"scripts": {},
 	"author": "Dmitry Artemov <d.artemov@9-lines.com>",
@@ -19,6 +19,7 @@
 		"browser-sync": "2.26.3",
 		"connect-history-api-fallback": "1.6.0",
 		"cssnano": "4.1.10",
+		"cssnano-preset-advanced": "4.0.7",
 		"del": "5.1.0",
 		"emitty": "1.4.0",
 		"gulp": "4.0.1",

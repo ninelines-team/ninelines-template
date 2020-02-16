@@ -10,6 +10,7 @@ let errorHandler;
 
 let argv = yargs.default({
 	cache: true,
+	ci: false,
 	debug: true,
 	fix: false,
 	minifyHtml: null,
@@ -19,7 +20,7 @@ let argv = yargs.default({
 	notify: true,
 	open: true,
 	port: 3000,
-	spa: false,
+	spa: true,
 	throwErrors: false,
 }).argv;
 
@@ -34,7 +35,9 @@ if (argv.ci) {
 	argv.notify = false;
 	argv.open = false;
 	argv.throwErrors = true;
+}
 
+if (argv.minifyJs) {
 	webpackConfig.mode = 'production';
 } else {
 	webpackConfig.mode = webpackConfig.mode || 'development';
@@ -224,15 +227,20 @@ gulp.task('scss', () => {
 		.pipe($.postcss([
 			argv.minifyCss ?
 				$.cssnano({
-					autoprefixer: {
-						add: true,
-						browsers: ['> 0%'],
-					},
-					calc: true,
-					discardComments: {
-						removeAll: true,
-					},
-					zindex: false,
+					preset: [
+						'advanced',
+						{
+							autoprefixer: {
+								add: true,
+								browsers: ['> 0%'],
+							},
+							calc: true,
+							discardComments: {
+								removeAll: true,
+							},
+							zindex: false,
+						},
+					],
 				})
 				:
 				$.autoprefixer({
