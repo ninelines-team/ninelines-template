@@ -10,7 +10,6 @@ let errorHandler;
 
 let argv = yargs.default({
 	cache: true,
-	ci: false,
 	debug: true,
 	fix: false,
 	minifyHtml: null,
@@ -20,7 +19,7 @@ let argv = yargs.default({
 	notify: true,
 	open: true,
 	port: 3000,
-	spa: true,
+	spa: false,
 	throwErrors: false,
 }).argv;
 
