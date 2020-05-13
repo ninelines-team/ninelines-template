@@ -2,6 +2,10 @@
 	@return $value / $base * 100vw;
 }
 
+@function px($value, $base: 1440) {
+	@return $value * 1600px / $base;
+}
+
 @function vh($value, $base: 800) {
 	@return $value / $base * 100vh;
 }
