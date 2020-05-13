@@ -4,6 +4,26 @@
 	}
 }
 
+@mixin laptop {
+	// change the values for the situation
+	@media (min-width: (1025px)) and (max-width: (1599px)) {
+		@content;
+	}
+}
+
+@mixin desktop-xl {
+	// change the values for the situation
+	@media (min-width: (1600px)) {
+		@content;
+	}
+}
+
+@mixin laptop-h {
+	@media (min-width: (1025px)) and (max-height: (779px)) {
+		@content;
+	}
+}
+
 @mixin mobile {
 	@media (max-width: (1024px)) {
 		@content;

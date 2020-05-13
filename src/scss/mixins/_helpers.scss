@@ -1,0 +1,71 @@
+@function max($numbers...) {
+	@return m#{a}x(#{$numbers});
+}
+
+@function min($numbers...) {
+	@return m#{i}n(#{$numbers});
+}
+
+@mixin supports-safe-area-insets {
+	// stylelint-disable-next-line
+	@supports (padding: max(0px)) {
+		@content;
+	}
+}
+
+@mixin hover() {
+	.has-hover &:hover {
+		@content;
+	}
+}
+
+@mixin active-hover() {
+	.has-hover &.is-active:hover {
+		@content;
+	}
+}
+
+@mixin active() {
+	&.is-active {
+		@content;
+	}
+}
+
+@mixin disabled() {
+	&.is-disabled,
+	&:disabled {
+		@content;
+	}
+}
+
+@mixin text-border($color, $border, $ieColor, $width: 1px, $ieWidth: 1px) {
+	// stylelint-disable-next-line
+	text-shadow: ($ieWidth) ($ieWidth) $border, 0 0 $border, $width ($ieWidth) $border, 0 $width $border;
+	color: $ieColor;
+
+	@supports (-webkit-text-stroke: $width $border) {
+		text-shadow: none;
+		// stylelint-disable-next-line
+		-webkit-text-stroke: $width $border;
+		color: $color;
+	}
+}
+
+@mixin font-face($url, $font-family, $font-weight, $font-style) {
+	@font-face {
+		src:
+			url($url + ".woff2") format("woff2"),
+			url($url + ".woff") format("woff");
+		font-family: $font-family;
+		font-weight: $font-weight;
+		font-style: $font-style;
+		font-display: swap;
+	}
+}
+
+@mixin retina {
+	// stylelint-disable-next-line media-feature-name-no-vendor-prefix
+	@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+		@content;
+	}
+}
