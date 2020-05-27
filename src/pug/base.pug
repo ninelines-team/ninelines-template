@@ -42,6 +42,7 @@ block vars
 			msapplicationSquare150x150logo: null,
 			msapplicationSquare310x310logo: null,
 			msapplicationWide310x150logo: null,
+			msapplicationConfig: null,
 			ogDescription: description,
 			ogImage: image,
 			ogImageType: null,
@@ -101,6 +102,8 @@ block vars
 			icon32x32: null,
 			icon96x96: null,
 			icon128x128: null,
+			icon192x192: null,
+			icon194x194: null,
 			icon196x196: null,
 			imageSrc: image,
 			manifest: null,
@@ -179,6 +182,8 @@ html(class=html.classList)&attributes(html.attrs)
 				meta(name="msapplication-square310x310logo" content!=meta.msapplicationSquare310x310logo)
 			if meta.msapplicationNotification !== null
 				meta(name="msapplication-notification" content!=meta.msapplicationNotification)
+			if meta.msapplicationConfig !== null
+				meta(name="msapplication-config" content!=meta.msapplicationConfig)
 			if meta.themeColor !== null
 				meta(name="theme-color" content!=meta.themeColor)
 			if meta.formatDetection !== null && (typeof meta.formatDetection === 'string' || Object.values(meta.formatDetection).some(function (value) { return !value }))
@@ -260,6 +265,10 @@ html(class=html.classList)&attributes(html.attrs)
 				link(rel="icon" href!=link.icon96x96 sizes="96x96")
 			if link.icon128x128 !== null
 				link(rel="icon" href!=link.icon128x128 sizes="128x128")
+			if link.icon192x192 !== null
+				link(rel="icon" href!=link.icon192x192 sizes="192x192")
+			if link.icon194x194 !== null
+				link(rel="icon" href!=link.icon194x194 sizes="194x194")
 			if link.icon196x196 !== null
 				link(rel="icon" href!=link.icon196x196 sizes="196x196")
 			if link.manifest !== null

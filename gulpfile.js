@@ -150,7 +150,7 @@ gulp.task('sprites:png', () => {
 			.pipe($.imagemin())
 			.pipe(gulp.dest('build/images')),
 		spritesData.css
-			.pipe(gulp.dest('src/scss'))
+			.pipe(gulp.dest('src/scss')),
 	);
 });
 
@@ -211,6 +211,27 @@ gulp.task('pug', () => {
 });
 
 gulp.task('scss', () => {
+	const postcssPlugins = [
+		$.autoprefixer({
+			grid: 'autoplace',
+		}),
+	];
+
+	if (argv.minifyCss) {
+		postcssPlugins.push(
+			$.cssnano({
+				preset: [
+					'default',
+					{
+						discardComments: {
+							removeAll: true,
+						},
+					},
+				],
+			}),
+		);
+	}
+
 	return gulp.src([
 		'src/scss/*.scss',
 		'!src/scss/_*.scss',
@@ -221,30 +242,7 @@ gulp.task('scss', () => {
 		.pipe($.if(argv.debug, $.debug()))
 		.pipe($.sourcemaps.init())
 		.pipe($.sass().on('error', $.sass.logError))
-		.pipe($.postcss([
-			argv.minifyCss ?
-				$.cssnano({
-					preset: [
-						'advanced',
-						{
-							autoprefixer: {
-								add: true,
-								browsers: ['> 0%'],
-							},
-							calc: true,
-							discardComments: {
-								removeAll: true,
-							},
-							zindex: false,
-						},
-					],
-				})
-				:
-				$.autoprefixer({
-					add: true,
-					browsers: ['> 0%'],
-				}),
-		]))
+		.pipe($.postcss(postcssPlugins))
 		.pipe($.sourcemaps.write('.'))
 		.pipe(gulp.dest('build/css'));
 });
@@ -308,6 +306,14 @@ gulp.task('lint:js', () => {
 		.pipe($.if((file) => file.eslint && file.eslint.fixed, gulp.dest('.')));
 });
 
+gulp.task('validate:html', () => {
+	return gulp.src('build/**/*.html')
+		.pipe($.plumber({
+			errorHandler,
+		}))
+		.pipe($.w3cHtmlValidator());
+});
+
 gulp.task('optimize:images', () => {
 	return gulp.src('src/images/**/*.*')
 		.pipe($.plumber({
@@ -363,11 +369,7 @@ gulp.task('watch', () => {
 		delay: 0,
 	}, gulp.series('pug'))
 		.on('all', (event, file) => {
-			if (event === 'unlink') {
-				global.emittyPugChangedFile = undefined;
-			} else {
-				global.emittyPugChangedFile = file;
-			}
+			global.emittyPugChangedFile = event === 'unlink' ? undefined : file;
 		});
 
 	gulp.watch('src/scss/**/*.scss', gulp.series('scss'));
@@ -457,7 +459,7 @@ gulp.task('share', () => {
 gulp.task('lint', gulp.series(
 	'lint:pug',
 	'lint:scss',
-	'lint:js'
+	'lint:js',
 ));
 
 gulp.task('build', gulp.series(
@@ -469,14 +471,14 @@ gulp.task('build', gulp.series(
 		'sprites:png',
 		'sprites:svg',
 		'scss',
-		'js'
-	)
+		'js',
+	),
 ));
 
 gulp.task('default', gulp.series(
 	'build',
 	gulp.parallel(
 		'watch',
-		'serve'
-	)
+		'serve',
+	),
 ));
