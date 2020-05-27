@@ -1,6 +1,6 @@
 {
 	"name": "ninelines-template",
-	"version": "2.7.7",
+	"version": "2.7.8",
 	"description": "Шаблон для разработки сайтов",
 	"scripts": {},
 	"author": "Dmitry Artemov <d.artemov@9-lines.com>",
@@ -43,7 +43,9 @@
 		"gulp-svgstore": "7.0.1",
 		"gulp-zip": "4.2.0",
 		"gulp.spritesmith": "6.9.0",
+		"husky": "4.2.5",
 		"imagemin-mozjpeg": "8.0.0",
+		"lint-staged": "10.2.2",
 		"merge-stream": "1.0.1",
 		"node-sass": "4.12.0",
 		"postcss-reporter": "6.0.1",
@@ -63,5 +65,15 @@
 		"ninelines-ua-parser": "1.1.6",
 		"normalize.css": "8.0.1",
 		"svg4everybody": "2.1.9"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"*.js": "eslint --color --fix",
+		"*.{css,scss}": "stylelint --color",
+		"*.pug": "pug-lint"
 	}
 }
