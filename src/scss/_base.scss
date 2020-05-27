@@ -6,4 +6,33 @@
 
 html {
 	box-sizing: border-box;
+	scroll-behavior: smooth;
+}
+
+html,
+body {
+	min-height: 100vh;
+}
+
+body {
+	/* Делает подчеркивание с помощью underline необрывистым (там где это работает). */
+	text-decoration-skip: objects;
+	/* Определяет как браузеру оптимизировать рендеринг текста.
+	** качественное отображение важнее скорости, разрешает кернинг и лигатуры. */
+	text-rendering: optimizeLegibility;
+	/* запретить корректировку размера шрифта после изменения ориентации в iOS. */
+	// stylelint-disable-next-line
+	-webkit-text-size-adjust: 100%;
+	/* делает текст более тонким в Сафари на Маках,
+	** начертание сглаженное и четкое одновременно, приятно читать. */
+	// stylelint-disable-next-line
+	-webkit-font-smoothing: antialiased;
+	/* убирает синее подсвечивание при клике на девайсах. */
+	// stylelint-disable-next-line
+	-webkit-tap-highlight-color: transparent;
+}
+
+button:not([disabled]),
+a[role="button"]:not([disabled]) {
+	cursor: pointer;
 }
