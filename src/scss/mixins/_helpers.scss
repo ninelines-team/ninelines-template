@@ -13,25 +13,25 @@
 	}
 }
 
-@mixin hover() {
+@mixin hover {
 	.has-hover &:hover {
 		@content;
 	}
 }
 
-@mixin active-hover() {
+@mixin active-hover {
 	.has-hover &.is-active:hover {
 		@content;
 	}
 }
 
-@mixin active() {
+@mixin active {
 	&.is-active {
 		@content;
 	}
 }
 
-@mixin disabled() {
+@mixin disabled {
 	&.is-disabled,
 	&:disabled {
 		@content;
