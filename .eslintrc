@@ -67,7 +67,10 @@
 		"TimelineMax": false,
 		"TweenLite": false,
 		"TweenMax": false,
-		"TweenPlugin": false
+		"TweenPlugin": false,
+		"gsap": false,
+		"objectFitImages": false,
+		"objectFitVideos": false
 	},
 	"parser": "babel-eslint",
 	"parserOptions": {
