@@ -265,7 +265,8 @@ gulp.task('lint:pug', () => {
 			errorHandler,
 		}))
 		.pipe($.pugLinter({
-			failAfterError: !!argv.throwErrors,
+			reporter: 'default',
+			failAfterError: argv.throwErrors,
 		}));
 });
 
