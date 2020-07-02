@@ -1,11 +1,22 @@
-// stylelint-disable scss/dollar-variable-empty-line-before
+@charset "utf-8";
 
 // COLORS
 
 $color-black: #000;
 $color-white: #fff;
+$color-red: #F93129;
+$color-gray: #b5b5b5;
+
+$color-bg: #E5E5E5;
+$color-border: #E8EAE9;
+$color-gradient-purple: radial-gradient(138.07% 138.07% at 50% 43.94%, #5331DC 0%, #361D9C 100%);
 
 // FONTS
+
+// TITLE
+
+$title-color: $color-white;
+$subtitle-color: #181A19;
 
 // EASING TRANSITIONS
 $duration-normal: 0.4s;
@@ -13,3 +24,15 @@ $easing-back-out: cubic-bezier(0.25, 0.74, 0.22, 1.1); // http://cubic-bezier.co
 $easing-back-in: cubic-bezier(0.47, -0.1, 0.5, -0.06); // http://cubic-bezier.com/#.47,-0.1,.5,-.06
 $easing-out: ease-out;
 $easing-in: ease-in;
+
+@import "../../node_modules/bulma/sass/utilities/_all.sass";
+@import "../../node_modules/bulma/sass/base/_all.sass";
+@import "../../node_modules/bulma/sass/elements/button.sass";
+@import "../../node_modules/bulma/sass/elements/container.sass";
+@import "../../node_modules/bulma/sass/elements/title.sass";
+@import "../../node_modules/bulma/sass/form/_all.sass";
+@import "../../node_modules/bulma/sass/components/navbar.sass";
+@import "../../node_modules/bulma/sass/layout/hero.sass";
+@import "../../node_modules/bulma/sass/layout/section.sass";
+@import "../../node_modules/bulma/sass/grid/columns.sass";
+@import "../../node_modules/bulma-carousel/src/sass/index.sass";

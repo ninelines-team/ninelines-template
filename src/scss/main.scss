@@ -8,3 +8,106 @@
 @import "vendor";
 @import "base";
 @import "helpers";
+
+.header {
+	&__top{
+		height: 60px;
+		background: $color-gray;
+	}
+
+	&__bottom{
+
+		min-height: 250px;
+
+		background: url('../images/bg.png') no-repeat center center;
+		background-size: cover;
+		background-color: $color-gradient-purple;
+	}
+
+	&__wrapper{
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+
+	&__input{
+		flex: 0 0 calc(100% - 250px);
+	}
+
+	&__button {
+		flex: 0 0 200px;
+	}
+}
+
+main{
+	padding: 15px 0;
+}
+
+
+.slider{
+	outline: 0;
+
+	&__item{
+		max-width: 320px;
+		height: 100px;
+		border-radius: 10px;
+		background: $color-gradient-purple;
+
+		margin-right: 15px;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		color: $color-white;
+	}
+}
+
+.offer{
+	&__item{
+		display: flex;
+		flex-wrap: wrap;
+
+		background: $color-white;
+		border: 1px solid $color-border;
+		border-radius: 10px;
+
+		&:hover{
+			box-shadow: 0px 2px 10px rgba(155, 160, 158, 0.2);
+		}
+	}
+
+	&__img{
+		flex: 0 0 100%;
+
+		text-align: center;
+	}
+
+	&__coupon{
+		height: 1px;
+		flex: 0 0 100%;
+		background: $color-border;
+		position: relative;
+
+		color: $color-white;
+
+		span{
+			position: absolute;
+			right: 20px;
+
+			transform: translate(0, -50%);
+
+			font-size: 12px;
+			line-height: 16px;
+
+			padding: 6px 8px;
+			border-radius: 30px;
+			background-color: $color-red;
+		}
+	}
+}
+
+footer{
+	min-height: 250px;
+	background: $color-gray;
+}

@@ -43,11 +43,11 @@
 		"gulp-w3c-html-validator": "2.0.1",
 		"gulp-zip": "5.0.2",
 		"gulp.spritesmith": "6.11.0",
+		"husky": "4.2.5",
 		"imagemin-mozjpeg": "9.0.0",
+		"lint-staged": "10.2.11",
 		"merge-stream": "2.0.0",
 		"node-sass": "4.14.1",
-		"husky": "4.2.5",
-		"lint-staged": "10.2.11",
 		"postcss-reporter": "6.0.1",
 		"postcss-scss": "2.1.1",
 		"stylelint": "13.6.1",
@@ -61,19 +61,11 @@
 	},
 	"dependencies": {
 		"@babel/polyfill": "7.10.4",
+		"bulma": "0.9.0",
+		"bulma-carousel": "4.0.4",
 		"jquery": "3.5.1",
 		"ninelines-ua-parser": "1.1.6",
 		"normalize.css": "8.0.1",
 		"svg4everybody": "2.1.9"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "lint-staged"
-		}
-	},
-	"lint-staged": {
-		"*.js": "eslint --color --fix",
-		"*.{css,scss}": "stylelint --color",
-		"*.pug": "pug-lint"
 	}
 }

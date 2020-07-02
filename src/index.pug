@@ -7,4 +7,29 @@ append vars
 	//-
 
 block content
-	//-
+	header.header
+		.header__top
+			.container
+		.header__bottom
+			.container
+				.columns.is-centered
+					.column.is-half
+						h1.title Промокоды и акции в одном месте
+						.field
+							.control
+								input.input.header__input(placeholder= Поиск магазинов)
+						.buttons
+							span.button.is-primary.header__button Фильтры
+	main
+		.container
+			.slider__top.is-centered
+				h2.subtitle Популярные категории
+				include pug/components/slider
+			.offers
+				h2.subtitle Только у нас
+				.columns
+					include pug/components/offers
+			.slider__bottom.is-centered
+				h2.subtitle Популярные категории
+				include pug/components/slider
+	footer

@@ -15,9 +15,14 @@ body {
 	text-rendering: optimizeLegibility;
 	text-size-adjust: 100%;
 	-webkit-tap-highlight-color: transparent;
+	background-color: $color-bg;
 }
 
 button:not([disabled]),
 a[role="button"]:not([disabled]) {
 	cursor: pointer;
+}
+
+.container{
+	overflow: hidden;
 }
