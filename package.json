@@ -4,6 +4,7 @@
 	"description": "Шаблон для разработки сайтов",
 	"repository": "ninelines-team/ninelines-template",
 	"scripts": {
+		"postinstall": "husky install",
 		"pre-commit": "lint-staged"
 	},
 	"author": "Ninelines Agency <info@ninelines.agency>",
