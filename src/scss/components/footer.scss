@@ -1,0 +1,17 @@
+.footer {
+	display: flex;
+	margin-top: auto;
+	padding: 20px 30px;
+	width: 100%;
+
+	&__developer {
+		margin-left: auto;
+		font-size: 12px;
+		line-height: 16px;
+	}
+
+	&__copy {
+		font-size: 12px;
+		line-height: 16px;
+	}
+}

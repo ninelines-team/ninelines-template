@@ -1,11 +1,13 @@
 // stylelint-disable scss/dollar-variable-empty-line-before
 
 // COLORS
-
 $color-black: #000;
 $color-white: #fff;
+$color-gray: #eee;
 
 // FONTS
+// stylelint-disable-next-line
+$font-primary: -apple-system, blinkmacsystemfont, "Segoe UI", roboto, oxygen, ubuntu, cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 
 // EASING TRANSITIONS
 $duration-normal: 0.4s;
@@ -13,3 +15,11 @@ $easing-back-out: cubic-bezier(0.25, 0.74, 0.22, 1.1); // http://cubic-bezier.co
 $easing-back-in: cubic-bezier(0.47, -0.1, 0.5, -0.06); // http://cubic-bezier.com/#.47,-0.1,.5,-.06
 $easing-out: ease-out;
 $easing-in: ease-in;
+
+// Settings
+$desktop: 1025;
+$desktop-xl: 1800;
+$laptop: 1440;
+$tablet: 768;
+$mobile: 320;
+$desktop-vh: 750;

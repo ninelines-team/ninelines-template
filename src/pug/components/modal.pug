@@ -1,0 +1,17 @@
+.modal.is-hidden(role="dialog" aria-hidden="true" aria-label="Информационный попап" data-page="modal")
+	.modal__bg.js-modal-close(role="button")
+
+	.modal__scroller
+		.modal__wrapper
+			article.modal__content
+				button.modal__close.js-modal-close.btn(type="button")
+					span.for-devices!= data.modal.close
+					+svg('close')
+
+				.modal__body
+
+	nav.modal__navigate.for-devices
+		button.modal__arrow.js-modal-arrow-prev.btn(type="button")
+			+svg('arrow-long-mobile')
+		button.modal__arrow.js-modal-arrow-next.btn(type="button")
+			+svg('arrow-long-mobile')

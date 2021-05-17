@@ -1,0 +1,16 @@
+/**
+* Качество рендеринга изображений
+* В Chrome качество фонового изображения не самое лучшее при использовании background-size
+*/
+
+@mixin image-rendering($mode) {
+	@if $mode == crisp-edges {
+		/* stylelint-disable */
+		image-rendering: -moz-crisp-edges;
+		image-rendering: -webkit-optimize-contrast;
+		image-rendering: crisp-edges;
+		/* stylelint-enable */
+	} @else {
+		image-rendering: $mode;
+	}
+}

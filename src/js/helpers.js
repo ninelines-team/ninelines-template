@@ -1,69 +1,146 @@
+import * as bodyScrollLock from 'body-scroll-lock';
+
 let vars = {};
-export let lastPageYOffset = null;
 
 vars.$document = $(document);
 vars.$window = $(window);
 vars.$body = $(document.body);
 vars.$html = $(document.documentElement);
-vars.$siteContainer = $('.site-container');
-vars.$preloader = $('.preloader');
-vars.$header = $('.header');
 vars.isMobile = () => innerWidth <= 1024;
 vars.isIE = () => vars.$html.hasClass('is-browser-ie');
+vars.isIOS = () => vars.$html.hasClass('is-os-ios');
 vars.winWidth = window.innerWidth;
 
-const debounced = [];
-const cancelFunc = (timeout) => () => {
-	clearTimeout(timeout);
+/**
+* Очистить текст от спецсимволов
+* @param {string} text Обязательное, строка для очистки
+* @returns {string} Очищенная строка
+*/
+vars.clearText = (text) => {
+	return text.trim().replace(/\s+/g, ' ');
 };
 
-vars.debounce = (fn, wait, ...args) => {
-	let d = debounced.find(({funcString}) => funcString === fn.toString());
+/**
+* Создать куки запись
+* @param {string} name Обязательное, название записи
+* @param {string} value Обязательное, значение записи
+* @param {string} days Обязательное, время для жизни
+*/
+vars.setCookie = (name, value, days) => {
+	let expires = '';
 
-	if (d) {
-		d.cancel();
+	if (days) {
+		let date = new Date();
+		date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+		expires = `; expires=${date.toUTCString()}`;
+	}
+
+	document.cookie = `${name}=${value || ''}${expires}; path=/`;
+};
+
+/**
+* Получить куки запись
+* @param {string} name Обязательное, название записи
+*/
+vars.getCookie = (name) => {
+	let nameEQ = `${name}=`;
+	let ca = document.cookie.split(';');
+
+	for (let i = 0; i < ca.length; i++) {
+		let c = ca[i];
+
+		while (c.charAt(0) === ' ') {
+			c = c.substring(1, c.length);
+		}
+
+		if (c.indexOf(nameEQ) === 0) {
+			return c.substring(nameEQ.length, c.length);
+		}
+	}
+
+	return null;
+};
+
+/**
+* Удалить куки запись
+* @param {string} name Обязательное, название записи
+*/
+vars.eraseCookie = (name) => {
+	document.cookie = `${name}=; Max-Age=-99999999;`;
+};
+
+let dataScrollLocks;
+/**
+* Блокирует скролл страницы
+* Необходим для использования модальных окон
+* @param {boolean} state Обязательное
+* @param {string} element Обязательное, элемент которому нужно разрешить скролл
+* @param {string} name Необязательное, ключ,
+* чтобы была возможность открывать окно поверх другого окна
+*/
+vars.lockScroll = (state, $element, name) => {
+	const element = $element.get(0) ? $element.get(0) : $element;
+
+	if (typeof dataScrollLocks === 'undefined') {
+		dataScrollLocks = new Set();
+	}
+
+	let scrollLocks = dataScrollLocks;
+
+	if (state) {
+		if (typeof name === 'string') {
+			scrollLocks.add(name);
+		}
+
+		bodyScrollLock.disableBodyScroll(element, {
+			reserveScrollBarGap: true,
+		});
+
+		setImmediate(() => {
+			vars.$html.addClass('is-lock-scroll');
+		});
 	} else {
-		d = {};
-		debounced.push(d);
-	}
+		if (typeof name === 'string') {
+			scrollLocks.delete(name);
+		}
 
-	d.func = fn;
-	d.funcString = fn.toString();
-	d.timeout = setTimeout(fn, wait, ...args);
-	d.cancel = cancelFunc(d.timeout);
-};
+		bodyScrollLock.enableBodyScroll(element);
 
-vars.saveScrollPosition = () => {
-	vars.$html.css('scroll-behavior', 'initial');
-	lastPageYOffset = window.pageYOffset || document.documentElement.scrollTop;
-};
+		if (!scrollLocks.size) {
+			bodyScrollLock.clearAllBodyScrollLocks();
 
-vars.restoreScrollPosition = () => {
-	if (lastPageYOffset !== null) {
-		window.scrollTo(window.pageXOffset, lastPageYOffset);
-		lastPageYOffset = null;
-		vars.$html.css('scroll-behavior', '');
+			vars.$html.removeClass('is-lock-scroll');
+		}
 	}
 };
 
-// smooth scrolling
+/**
+* Скролл до элемента
+* @param {string} $container Обязательное, элемент к которому нужно скроллить
+* @param {string|number} time Необязательное, время скролла
+* @param {string|number} offset Необязательное, смещение скролла может быть + или -
+*/
 vars.scrollTo = ($container, time = 500, offset = 0) => {
 	vars.$html.css('scroll-behavior', 'initial');
-	$('html, body').animate({
-		scrollTop: `${$container.offset().top + offset}`,
-	}, time);
+	$('html, body').stop().animate({
+		scrollTop: `${$container.offset().top + parseInt(offset, 10)}`,
+	}, parseInt(time, 10));
 
 	setTimeout(() => {
 		vars.$html.css('scroll-behavior', '');
-	}, time + 100);
+	}, parseInt(time, 10) + 100);
 };
 
 let scrollDiv;
 
+/**
+* Получить размер скроллбара если он есть
+* @returns {number} размер скроллбара
+*/
 vars.getScrollbarWidth = () => {
-	const width = window.innerWidth - vars.$html.clientWidth;
+	const width = window.innerWidth - vars.$html.get(0).clientWidth;
 
-	if (width) {
+	if (width || document.documentElement.clientHeight >= document.documentElement.offsetHeight) {
 		return width;
 	}
 
@@ -77,6 +154,10 @@ vars.getScrollbarWidth = () => {
 	return scrollDiv.offsetWidth - scrollDiv.clientWidth;
 };
 
+/**
+* Узнать есть доступен ли ховер
+* @returns {boolean}
+*/
 function hasHoverSupport() {
 	let hoverSupport;
 
@@ -102,8 +183,11 @@ if (!hasHoverSupport()) {
 	vars.$html.removeClass('no-hover').addClass('has-hover');
 }
 
+/**
+* Переопределение доступности ховера
+*/
 function resize() {
-	vars.debounce(() => {
+	setTimeout(() => {
 		if (vars.winWidth !== window.innerWidth) {
 			if (!hasHoverSupport()) {
 				vars.$html.removeClass('has-hover').addClass('no-hover');

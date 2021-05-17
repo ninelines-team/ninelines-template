@@ -1,0 +1,15 @@
+/**
+* Remove keys from the map
+*
+* @param {Map} $map - Map from which to remove items
+* @param {List} $keys - List of keys which to remove
+* @return {Map} - Map without the specified keys
+*/
+
+@function omit($map, $keys) {
+	@each $key in $keys {
+		$map: map-remove($map, $key);
+	}
+
+	@return $map;
+}
