@@ -1,0 +1,18 @@
+/**
+* Converts SVG into data url so that this SVG could be used as a
+* background image
+*
+* @example
+*	background-image: svgtodataurl("<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">...</svg>");
+*/
+
+@function svgtodataurl($code) {
+	$escaped: str-replace($code, "\\r", "");
+	$escaped: str-replace($escaped, "\\n", "");
+	$escaped: str-replace($escaped, "'", "'");
+	$escaped: str-replace($escaped, "<", "%3C");
+	$escaped: str-replace($escaped, ">", "%3E");
+	$escaped: str-replace($escaped, "#", "%23");
+
+	@return url("data:image/svg+xml;charset=utf-8,#{$escaped}");
+}

@@ -1,0 +1,64 @@
+/**
+* In each $list pair of $breakpoint: $value replaces all values with 'inherit'
+* except for one in $index position
+*
+* 'inherit' value when used with 'margins' or 'paddings' mixin will not produce any output
+*
+* @example
+*	$spacer: (xs: 10px 11px 12px 13px, md: 20px 0);
+*
+*	$spacer-top-only: breakpointPickCssNth($spacer, 1);
+* => (xs: 10px inherit inherit inherit, md: 20px inherit inherit inherit)
+*	@include margins($spacer-top-only);
+*
+*	$spacer-bottom-only: breakpointPickCssNth($spacer, 3);
+* => (xs: inherit inherit 12px inherit, md: inherit inherit 20px inherit)
+*	@include paddings($spacer-bottom-only);
+*/
+
+@function breakpointPickCssNth($list, $index, $default: inherit) {
+	@each $breakpoint, $value in $list {
+		$value: set-nth($default $default $default $default, $index, css-nth($value, $index));
+		$list: map-merge($list, ($breakpoint: $value));
+	}
+
+	@return $list;
+}
+
+/**
+* In each $list pair of $breakpoint: $value replaces all values with 'inherit'
+* except for top (first) and bottom (third) properties
+*
+* @example
+*	$spacer: (xs: 10px 11px 12px 13px, md: 20px 0);
+*
+*	$spacer-top-bottom: breakpoint-pick-top-bottom($spacer);
+* => (xs: 10px inherit 12px inherit, md: 20px inherit 20px inherit)
+*	@include margins($spacer-top-bottom);
+*/
+
+@function breakpoint-pick-top-bottom($list, $default: inherit) {
+	@return breakpointMapMerge(
+		breakpointPickCssNth($list, 1),
+		breakpointPickCssNth($list, 3)
+	);
+}
+
+/**
+* In each $list pair of $breakpoint: $value replaces all values with 'inherit'
+* except for right (second) and left (fourth) properties
+*
+* @example
+*	$spacer: (xs: 10px 11px 12px 13px, md: 20px 0);
+*
+*	$spacer-left-right: breakpoint-pick-top-bottom($spacer);
+* => (xs: inherit 11px inherit 13px, md: inherit 0 inherit 0)
+*	@include margins($spacer-left-right);
+*/
+
+@function breakpoint-pick-left-right($list, $default: inherit) {
+	@return breakpointMapMerge(
+		breakpointPickCssNth($list, 2),
+		breakpointPickCssNth($list, 4)
+	);
+}

@@ -3,7 +3,24 @@
 	display: none !important;
 }
 
+.is-hide {
+	// stylelint-disable-next-line declaration-no-important
+	opacity: 0;
+}
+
 .for-desktop {
+	@include devices {
+		// stylelint-disable-next-line declaration-no-important
+		display: none !important;
+	}
+}
+
+.for-tablet {
+	@include desktop {
+		// stylelint-disable-next-line declaration-no-important
+		display: none !important;
+	}
+
 	@include mobile {
 		// stylelint-disable-next-line declaration-no-important
 		display: none !important;
@@ -11,6 +28,18 @@
 }
 
 .for-mobile {
+	@include desktop {
+		// stylelint-disable-next-line declaration-no-important
+		display: none !important;
+	}
+
+	@include tablet {
+		// stylelint-disable-next-line declaration-no-important
+		display: none !important;
+	}
+}
+
+.for-devices {
 	@include desktop {
 		// stylelint-disable-next-line declaration-no-important
 		display: none !important;
@@ -35,3 +64,17 @@
 	height: 1px;
 	clip: rect(0 0 0 0);
 }
+
+/* stylelint-disable */
+.dont-break-out {
+	// Технически это одно и то же, но используйте и то, и другое
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	// Это самое опасное в WebKit, так как оно ломает вещи везде, где бы они ни были
+	word-break: break-all;
+	// Вместо этого используйте этот нестандартный:
+	word-break: break-word;
+	// Добавляет дефис там, где слово ломается, если поддерживается
+	hyphens: auto;
+}
+/* stylelint-enable */

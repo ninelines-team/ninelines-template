@@ -1,0 +1,41 @@
+/**
+* In each $list pair of $breakpoint: $value merges all values skipping 'inherit'
+*
+* @example
+*	$list-a: (xs: 10px inherit 20px inherit, md: 30px inherit);
+*	$list-b: (xs: 40px inherit inherit inherit, md: inherit 50px);
+*
+*	$list-result: breakpointMapMerge($list-a, $list-b);
+*	// (xs: 40px inherit 20px inherit, md: 30px 50px);
+*/
+
+@function breakpointMapMerge($list-a, $list-b, $placeholder: inherit) {
+	$list-result: $list-a;
+
+	@each $breakpoint, $value-b in $list-b {
+		@if map-has-key($list-a, $breakpoint) {
+			$value-a: map-get($list-a, $breakpoint);
+			$value-result: $placeholder $placeholder $placeholder $placeholder;
+
+			@for $index from 1 through 4 {
+				$item: css-nth($value-b, $index);
+
+				@if $item == $placeholder {
+					$item: css-nth($value-a, $index);
+				}
+
+				@if $item != $placeholder {
+					$value-result: set-nth($value-result, $index, $item);
+				}
+			}
+
+			// stylelint-disable-next-line
+			$list-result: map-merge($list-result, ($breakpoint: $value-result));
+		} @else {
+			// stylelint-disable-next-line
+			$list-result: map-merge($list-result, ($breakpoint: $value-b));
+		}
+	}
+
+	@return $list-result;
+}

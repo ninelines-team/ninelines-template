@@ -1,0 +1,27 @@
+header.header
+	a.header__logo(href=data.header.links.logo)
+		svg(xmlns="http://www.w3.org/2000/svg" viewbox="0 0 554 71")
+			g(clip-path="M49.75 70.93H0v-57.2h49.75z")
+				path(d="M15 53a453 453 0 0 0 4-31h14v31zm-5 9h30v9h10V53h-6V14H9L8 41c0 7-2 11-5 12H0v18h10z")
+			path(d="M122 55V41h7c6 0 8 2 8 6v1c0 4-2 7-8 7zm0-21V21h6c5 0 8 2 8 6 0 5-2 7-8 7zm-11 28h20c11 0 17-5 17-13v-1c0-6-4-10-10-11 6-2 8-5 8-10v-1c0-8-5-12-16-12h-19zm69-40v14h-6c-5 0-8-2-8-7s3-7 8-7zm-5 22h5v18h11V14h-17c-11 0-19 4-19 15 0 7 4 11 10 13l-13 20h12zm36-22h-13v-8h37v8h-13v40h-11zm42 32V39h6c5 0 8 2 8 7v1c0 5-3 7-8 7zm-10 8h16c12 0 19-5 19-15v-1c0-10-7-15-18-15h-7V14h-10zm63 1l-3-1v-9h1c4 0 6-4 6-11l1-28h34v48h-11V22h-13l-1 22c-1 11-4 19-14 19m50-1V14h11v34l20-34h11v48h-11V28l-20 34zm52-48h11v20h19V14h11v48h-11V42h-19v20h-11zm51 48V14h11v34l20-34h11v48h-11V28l-20 34zm63-61c0 6 4 10 10 10s10-4 11-10h-7c-1 2-2 4-4 4s-3-2-3-4zm0 61l20-34v34h11V14h-11l-20 34V14h-11v48z")
+			g(clip-path="M0 70.92h553.42V1H0z")
+				path(d="M58 62h43v-9H58z")
+			g(clip-path="M0 70.92h553.42V1H0z")
+				path(d="M58 23h43v-9H58z")
+			g(clip-path="M0 70.92h553.42V1H0z")
+				path(d="M58 43h26V33H58z")
+			g(clip-path="M0 70.92h553.42V1H0z")
+				path(fill="#00d741" d="M92 43h10V33H92z")
+
+	button.header__burger.btn.js-burger(type="button")
+		span
+		span
+
+	nav.header__menu
+		.header__list
+			each object, key in data.header.menu
+				a.header__link.js-to-anchor(
+					href=object.url
+					data-link=key
+				)
+					!= object.name

@@ -1,0 +1,65 @@
+script.
+	var userAgent = navigator.userAgent.toLowerCase();
+	var InternetExplorer = false;
+
+	if((/mozilla/.test(userAgent) && !/firefox/.test(userAgent) && !/chrome/.test(userAgent) && !/safari/.test(userAgent) && !/opera/.test(userAgent)) || /msie/.test(userAgent)) {
+		InternetExplorer = true;
+	}
+
+	(function (i, s, o, g, r, a, m) {
+		i['GoogleAnalyticsObject'] = r;
+		i[r] = i[r] || function () {
+			(i[r].q = i[r].q || []).push(arguments)
+		}, i[r].l = 1 * new Date();
+		a = s.createElement(o),
+			m = s.getElementsByTagName(o)[0];
+		a.async = 1;
+		a.src = g;
+		m.parentNode.insertBefore(a, m)
+	})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+	//- UA-... почти никогда не меняется при rbc проектах
+	ga('create', 'UA-90428516-32', 'auto', 'rbcspec');
+	ga('rbcspec.send', 'pageview');
+	//- NUMBERID нужно менять для каждого проекта
+	ga('create', 'NUMBERID', 'auto');
+	ga('send', 'pageview', {'page': location.pathname + location.search + location.hash});
+
+	(function (d, w, c) {
+		(w[c] = w[c] || []).push(function () {
+			try {
+				//- NUMBERID нужно менять для каждого проекта, так же используется в JS
+				w.yaCounterNUMBERID = new Ya.Metrika2({
+					id: NUMBERID,
+					clickmap: true,
+					trackLinks: true,
+					accurateTrackBounce: true,
+					webvisor: true
+				});
+			} catch (e) {
+			}
+		});
+		if (!InternetExplorer) {
+			var n = d.getElementsByTagName("script")[0],
+				s = d.createElement("script"),
+				f = function () {
+					n.parentNode.insertBefore(s, n);
+				};
+			s.type = "text/javascript";
+			s.async = true;
+			s.src = "https://mc.yandex.ru/metrika/tag.js";
+
+			if (w.opera == "[object Opera]") {
+				d.addEventListener("DOMContentLoaded", f, false);
+			} else {
+				f();
+			}
+		}
+	})(document, window, "yandex_metrika_callbacks2");
+
+noscript
+	div
+		//- NUMBERID нужно менять для каждого проекта
+		img(src="https://mc.yandex.ru/watch/NUMBERID" style="position:absolute; left:-9999px;" alt="")
+
+img.visually-hidden(src="//www.tns-counter.ru/V13a****rbc_ru/ru/UTF-8/tmsec=rbc_total/" style="position: absolute; left: -9999px; display: none;" alt="")

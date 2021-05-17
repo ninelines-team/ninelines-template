@@ -1,0 +1,78 @@
+//- @demo +lazyImage({
+		src: `${baseDir}images/path.type`,
+		srcset: `${baseDir}images/path@2x.type 2x`,
+		alt: '',
+		appear: false,
+	}).class(attrs)
+mixin lazyImage(data)
+	img.image.js-lazy(
+		draggable="false"
+		src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAQAAAAnOwc2AAAAD0lEQVR42mNkwAIYh7IgAAVVAAuInjI5AAAAAElFTkSuQmCC"
+		data-src=data.src
+		data-srcset=data.srcset
+		data-placeholder-background=data.placeholder
+		alt=data.alt
+	)&attributes(attributes)
+
+	if data.appear
+		noscript
+			img(src=data.src alt=data.alt)
+
+//- @demo +lazyPicture({
+			src: 'photo.jpg',
+			alt: '',
+			appear: false,
+		}, [
+				{
+					srcset: `${baseDir}images/path.type 1x, ${baseDir}images/path@2x.type 2x`,
+					media: '(min-width: 320px)',
+				}
+			]
+		).class(attrs)
+mixin lazyPicture(data, source)
+	picture.lozad.js-lazy(
+		data-iesrc=data.src
+		data-alt=data.alt
+	)&attributes(attributes)
+		if source
+			each object in source
+				source(
+					srcset=object.srcset
+					media=object && object.media ? object.media : null
+					type=object && object.media ? object.type : null
+				)
+
+		//- fallback для работы всего элемента picture в связке с lozad
+		source(srcset=data.src)
+
+		if data.appear
+			noscript
+				img(src=data.src alt=data.alt)
+
+//- @demo +lazyBackground('url(`${baseDir}images/path.type`) 1x, url(`${baseDir}images/path@2x.type 2x`) 2x').class(attrs)
+mixin lazyBackground(url)
+	.js-lazy(
+		data-background-image=url
+	)&attributes(attributes)
+
+//- @demo +lazyVideo({
+		poster: '',
+		source: [
+			{
+				srcset: `${baseDir}path.type`,
+				type: 'video/{type}',
+			}
+		]
+	}).class(attrs)
+mixin lazyVideo(data)
+	video.js-lazy(data-poster=data.poster)&attributes(attributes)
+		each src in data.source
+			source(
+				data-src=src.srcset
+				media=src && src.media ? src.media : null
+				type=src && src.media ? src.type : null
+			)
+
+//- @demo +lazyIframe(src).class(attrs)
+mixin lazyIframe(src)
+	iframe.js-lazy(data-src=src)&attributes(attributes)

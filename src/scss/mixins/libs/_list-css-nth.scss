@@ -1,0 +1,20 @@
+/**
+* Returns nth property from css property list
+*
+* @property {map} $list List
+* @property {number} $index Item index
+*
+* @example
+*	$bottom-margin: css-nth(10px 20px 30px 40px, 3); // 30px
+*	$bottom-margin: css-nth(10px 20px, 3); // 10px
+*/
+
+@function css-nth($list, $index) {
+	$size: length($list);
+
+	@while $index > $size {
+		$index: max(1, $index - 2);
+	}
+
+	@return nth($list, $index);
+}

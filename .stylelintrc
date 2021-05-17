@@ -455,7 +455,7 @@
 				"unspecified": "bottomAlphabetical"
 			}
 		],
-		"at-rule-blacklist": [
+		"at-rule-disallowed-list": [
 			"extend"
 		],
 		"at-rule-empty-line-before": [
@@ -694,7 +694,7 @@
 		"string-no-newline": true,
 		"string-quotes": "double",
 		"time-min-milliseconds": 10,
-		"unit-blacklist": [
+		"unit-disallowed-list": [
 			"ch",
 			"cm",
 			"ex",

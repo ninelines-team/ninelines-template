@@ -1,0 +1,44 @@
+.home {
+	padding: 80px 20px;
+
+	&__picture {
+		display: block;
+		margin: 0 auto 40px;
+		max-width: 500px;
+		opacity: 0;
+		transition: $duration-normal;
+
+		&[data-loaded="true"] {
+			opacity: 1;
+		}
+
+		&--2 {
+			margin-top: 40px;
+			margin-bottom: 0;
+		}
+	}
+
+	&__text {
+		margin: 0 auto;
+		max-width: 500px;
+		font-size: 20px;
+		line-height: 26px;
+
+		a {
+			text-decoration: underline;
+
+			@include hover {
+				text-decoration: none;
+			}
+		}
+
+		code {
+			padding: 5px;
+			background-color: $color-gray;
+		}
+	}
+
+	@include desktop {
+		padding: 100px 0;
+	}
+}

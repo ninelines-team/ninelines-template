@@ -1,0 +1,117 @@
+.header {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	z-index: 2100;
+	display: flex;
+	align-items: center;
+	padding: 30px;
+	background-color: $color-white;
+
+	&__logo {
+		display: block;
+		width: 140px;
+		height: 19px;
+		transition: $duration-normal;
+	}
+
+	&__menu {
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 98;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		overflow: hidden;
+		overflow-y: auto;
+		margin: 0;
+		margin-top: 84px;
+		padding: 0 20px;
+		width: 100vw;
+		height: 100vh;
+		// stylelint-disable-next-line
+		height: calc(var(--vh) - 84px);
+		color: $color-black;
+		background-color: rgba($color-black, 0.1);
+		opacity: 0;
+		visibility: hidden;
+		transform: translateX(100%);
+		transition: $duration-normal;
+		-webkit-overflow-scrolling: touch;
+
+		@include active {
+			opacity: 1;
+			visibility: visible;
+			transform: translateX(0);
+		}
+	}
+
+	&__list {
+		width: 100%;
+		text-align: center;
+	}
+
+	&__link {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: left;
+		margin: 0 auto;
+		padding: 10px 30px;
+		min-height: 85px;
+		font-weight: 700;
+		font-size: 16px;
+		line-height: 25px;
+		text-align: left;
+		color: rgba($color-black, 0.7);
+		background-color: $color-white;
+
+		&:not(:last-child) {
+			border-bottom: 1px solid $color-gray;
+		}
+
+		&:first-child {
+			border-top: 1px solid $color-gray;
+		}
+
+		@include hover {
+			color: $color-black;
+		}
+
+		@include active {
+			color: $color-black;
+		}
+	}
+
+	&__burger {
+		z-index: 100;
+		flex-direction: column;
+		margin: (-6.5px / 2) 0;
+		margin-left: auto;
+		width: 39px;
+		color: $color-black;
+
+		span {
+			display: block;
+			margin: 6.5px 0;
+			width: 39px;
+			height: 2px;
+			background-color: currentColor;
+			transition: $duration-normal;
+		}
+
+		@include active {
+			span {
+				&:first-child {
+					transform: translate(0, 8px) rotate(-45deg);
+				}
+
+				&:last-child {
+					transform: translate(0, -6px) rotate(45deg);
+				}
+			}
+		}
+	}
+}

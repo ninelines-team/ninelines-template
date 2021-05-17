@@ -14,7 +14,7 @@
 }
 
 @mixin hover {
-	.has-hover &:hover {
+	.has-hover &:not([disabled]):hover {
 		@content;
 	}
 }
@@ -69,3 +69,22 @@
 		@content;
 	}
 }
+
+/* stylelint-disable */
+@mixin placeholder {
+	&::-webkit-input-placeholder {
+		// WebKit, Blink, Edge
+		@content;
+	}
+
+	&::-moz-placeholder {
+		// Firefox 19+
+		@content;
+	}
+
+	&:-ms-input-placeholder {
+		// Internet Explorer 10-11
+		@content;
+	}
+}
+/* stylelint-enable */

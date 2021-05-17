@@ -1,0 +1,75 @@
+/* stylelint-disable */
+/**
+* Селекторы для таргетинга на конкретные браузеры без влияния на специфику или
+* ограничение использования в медиа-запросах
+*
+* Плюсы:
+* - Работает с медиа-запросами
+*
+* Минусы:
+* - Не может использоваться с @extend, так как это приведет к недействительности других селекторов
+*/
+
+/**
+* Целевой Internet Explorer, но не Edge
+*
+* @demo
+*	div {
+*		@include browser-ie () {
+*			// ...
+*		}
+*	}
+*/
+@mixin browser-ie {
+	.is-browser-ie &,
+	_:-ms-input-placeholder, :root & {
+		@content;
+	}
+}
+
+
+/**
+* Target IE-Edge
+*/
+@mixin browser-ie-edge {
+	.is-browser-ie-edge &,
+	_:-ms-lang(x), _:-webkit-full-screen, & {
+		@content;
+	}
+}
+
+
+/**
+* Target Firefox
+*/
+@mixin browser-firefox {
+	.is-browser-firefox & {
+		@content;
+	}
+
+	@-moz-document url-prefix() {
+		@content;
+	}
+}
+
+
+/**
+* Target Safari
+*/
+@mixin browser-safari {
+	.is-browser-safari &,
+	_::-webkit-full-page-media, _:future, & {
+		@content;
+	}
+}
+
+
+/**
+* Target all WebKit browsers
+*/
+@mixin browser-webkit {
+	.is-engine-webkit &,
+	.selector:not(*:root), & {
+		@content;
+	}
+}
