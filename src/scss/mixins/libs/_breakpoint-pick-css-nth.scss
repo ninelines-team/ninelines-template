@@ -5,15 +5,15 @@
 * 'inherit' value when used with 'margins' or 'paddings' mixin will not produce any output
 *
 * @example
-*   $spacer: (xs: 10px 11px 12px 13px, md: 20px 0);
+*	$spacer: (xs: 10px 11px 12px 13px, md: 20px 0);
 *
-*   $spacer-top-only:    breakpointPickCssNth($spacer, 1);
+*	$spacer-top-only: breakpointPickCssNth($spacer, 1);
 * => (xs: 10px inherit inherit inherit, md: 20px inherit inherit inherit)
-*   @include margins($spacer-top-only);
+*	@include margins($spacer-top-only);
 *
-*   $spacer-bottom-only: breakpointPickCssNth($spacer, 3);
+*	$spacer-bottom-only: breakpointPickCssNth($spacer, 3);
 * => (xs: inherit inherit 12px inherit, md: inherit inherit 20px inherit)
-*   @include paddings($spacer-bottom-only);
+*	@include paddings($spacer-bottom-only);
 */
 
 @function breakpointPickCssNth($list, $index, $default: inherit) {
@@ -30,11 +30,11 @@
 * except for top (first) and bottom (third) properties
 *
 * @example
-*     $spacer: (xs: 10px 11px 12px 13px, md: 20px 0);
+*	$spacer: (xs: 10px 11px 12px 13px, md: 20px 0);
 *
-*     $spacer-top-bottom: breakpoint-pick-top-bottom($spacer);
+*	$spacer-top-bottom: breakpoint-pick-top-bottom($spacer);
 * => (xs: 10px inherit 12px inherit, md: 20px inherit 20px inherit)
-*     @include margins($spacer-top-bottom);
+*	@include margins($spacer-top-bottom);
 */
 
 @function breakpoint-pick-top-bottom($list, $default: inherit) {
@@ -49,11 +49,11 @@
 * except for right (second) and left (fourth) properties
 *
 * @example
-*     $spacer: (xs: 10px 11px 12px 13px, md: 20px 0);
+*	$spacer: (xs: 10px 11px 12px 13px, md: 20px 0);
 *
-*     $spacer-left-right: breakpoint-pick-top-bottom($spacer);
+*	$spacer-left-right: breakpoint-pick-top-bottom($spacer);
 * => (xs: inherit 11px inherit 13px, md: inherit 0 inherit 0)
-*     @include margins($spacer-left-right);
+*	@include margins($spacer-left-right);
 */
 
 @function breakpoint-pick-left-right($list, $default: inherit) {

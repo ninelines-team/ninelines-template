@@ -1,9 +1,8 @@
 main.home
-	picture.home__picture#hello
-		+lazyImage({
-			src: `${baseDir}images/mem.jpg`,
-			alt: 'Мемчик',
-		})
+	+lazyPicture({
+		src: `${baseDir}images/mem.jpg`,
+		alt: 'Мемчик',
+	}).home__picture#hello
 
 	p.home__text#necessarily
 		| Это стартовый шаблон для верстки!

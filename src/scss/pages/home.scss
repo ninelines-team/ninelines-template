@@ -3,8 +3,14 @@
 
 	&__picture {
 		display: block;
-		max-width: 500px;
 		margin: 0 auto 40px;
+		max-width: 500px;
+		opacity: 0;
+		transition: $duration-normal;
+
+		&[data-loaded="true"] {
+			opacity: 1;
+		}
 
 		&--2 {
 			margin-top: 40px;

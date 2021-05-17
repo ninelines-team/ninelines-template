@@ -5,7 +5,7 @@
 * @property {number} $index Item index
 *
 * @example
-*   $list: remove-nth(10px 20px 30px 40px, 3); // 10px 20px 40px
+*	$list: remove-nth(10px 20px 30px 40px, 3); // 10px 20px 40px
 */
 
 @function remove-nth($list, $index) {

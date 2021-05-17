@@ -4,8 +4,8 @@
 * @see https://github.com/bfred-it/object-fit-images
 * @see components/_background.scss
 * @example
-*   @include object-fit(contain);
-*   @include object-fit(cover, top);
+*	@include object-fit(contain);
+*	@include object-fit(cover, top);
 */
 
 @mixin object-fit($fit: fill, $position: null) {
