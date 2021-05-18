@@ -4,7 +4,7 @@
 	"description": "Шаблон для разработки сайтов",
 	"repository": "ninelines-team/ninelines-template",
 	"scripts": {
-		"postinstall": "husky install",
+		"prepare": "husky install",
 		"pre-commit": "lint-staged"
 	},
 	"author": "Ninelines Agency <info@ninelines.agency>",
@@ -48,7 +48,6 @@
 		"gulp-w3c-html-validator": "3.0.0",
 		"gulp-zip": "5.1.0",
 		"gulp.spritesmith": "6.12.1",
-		"husky": "6.0.0",
 		"imagemin-mozjpeg": "9.0.0",
 		"lint-staged": "11.0.0",
 		"merge-stream": "2.0.0",
@@ -71,6 +70,7 @@
 		"@babel/polyfill": "7.10.4",
 		"body-scroll-lock": "3.1.5",
 		"jquery": "3.6.0",
+		"husky": "6.0.0",
 		"lozad": "1.16.0",
 		"ninelines-sharing": "1.5.6",
 		"ninelines-ua-parser": "1.1.6",
