@@ -22,6 +22,7 @@ let argv = yargs.default({
 	port: 3000,
 	spa: false,
 	throwErrors: false,
+	robots: true,
 }).argv;
 
 argv.minify = !!argv.minify;
@@ -458,6 +459,10 @@ gulp.task('share', () => {
 	]);
 });
 
+gulp.task('robots', () => {
+	return !argv.robots ? del(['./build/robots.txt']) : Promise.resolve();
+});
+
 gulp.task('lint', gulp.series(
 	'lint:pug',
 	'lint:scss',
@@ -468,6 +473,7 @@ gulp.task('build', gulp.series(
 	'copy',
 	'pug',
 	'share',
+	'robots',
 	gulp.parallel(
 		'images',
 		'sprites:png',
