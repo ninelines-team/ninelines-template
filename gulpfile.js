@@ -79,7 +79,7 @@ if (argv.throwErrors) {
 
 function svgoConfig(minify = argv.minifySvg) {
 	return (file) => {
-		let filename = path.basename(file.relative, path.extname(file.relative));
+		const filename = path.basename(file.relative, path.extname(file.relative));
 
 		return {
 			js2svg: {
@@ -88,20 +88,18 @@ function svgoConfig(minify = argv.minifySvg) {
 			},
 			plugins: [
 				{
-					cleanupIDs: {
+					name: 'cleanupIDs',
+					params: {
 						minify: true,
 						prefix: `${filename}-`,
 					},
 				},
+				'removeTitle',
 				{
-					removeTitle: true,
+					name: 'removeViewBox',
+					active: false,
 				},
-				{
-					removeViewBox: false,
-				},
-				{
-					sortAttrs: true,
-				},
+				'sortAttrs',
 			],
 		};
 	};
